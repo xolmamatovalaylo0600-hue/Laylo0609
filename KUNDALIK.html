@@ -1,0 +1,3445 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Shaxsiy Kundalik — Jamoldinova Mohinur</title>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Kundalik">
+    <meta name="theme-color" content="#1b3a4b">
+    
+    <style>
+        :root {
+            --primary: #1b3a4b;
+            --header-grad: linear-gradient(135deg, #1b3a4b, #274c5e);
+            --accent: #2e6f40;
+            --pill: #e63946;
+            --param: #6d597a;
+            --book: #8b5cf6;
+            --mood: #f59e0b;
+            --money: #0d9488;
+            --expense: #e11d48;
+            --sleep: #4338ca;
+            --selfcare: #db2777;
+            --ootd: #0284c7;
+            --voice: #7c3aed;
+            --steps: #ea580c;
+            --archive: #4a5568;
+            --danger: #c1121f;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --text: #1e293b;
+            --input-bg: #ffffff;
+            --border-color: #cbd5e1;
+        }
+
+        /* TUN REJIMI (DARK MODE) */
+        body.dark-mode {
+            --bg: #0f172a;
+            --card-bg: #1e293b;
+            --text: #f1f5f9;
+            --header-grad: linear-gradient(135deg, #0f172a, #1e293b);
+            --input-bg: #334155;
+            --border-color: #475569;
+        }
+
+        body.dark-mode input,
+        body.dark-mode textarea,
+        body.dark-mode select {
+            background-color: var(--input-bg) !important;
+            color: #ffffff !important;
+            border-color: var(--border-color) !important;
+        }
+
+        body.dark-mode .step-progress-wrapper {
+            background: linear-gradient(135deg, #2d1810, #3a2216);
+            border-color: #9a3412;
+        }
+
+        body.dark-mode .kopilka-box {
+            background: linear-gradient(135deg, #062822, #0d3830);
+            border-color: #0d9488;
+        }
+
+        body.dark-mode .card {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+
+        body.dark-mode .mood-btn {
+            background: #334155;
+            border-color: #475569;
+        }
+
+        body.dark-mode .water-cup {
+            background: #1e293b;
+            color: #38bdf8;
+            border-color: #38bdf8;
+        }
+
+        body.dark-mode .water-cup.drank {
+            background: #0284c7;
+            color: white;
+        }
+
+        body.theme-rose {
+            --primary: #9d174d;
+            --header-grad: linear-gradient(135deg, #9d174d, #db2777);
+            --accent: #059669;
+            --bg: #fdf2f8;
+        }
+
+        body.theme-lavender {
+            --primary: #5b21b6;
+            --header-grad: linear-gradient(135deg, #5b21b6, #7c3aed);
+            --accent: #0284c7;
+            --bg: #faf5ff;
+        }
+
+        body.theme-emerald {
+            --primary: #065f46;
+            --header-grad: linear-gradient(135deg, #065f46, #059669);
+            --accent: #d97706;
+            --bg: #f0fdf4;
+        }
+
+        * {
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 10px;
+            padding-bottom: 70px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        header {
+            background: var(--header-grad);
+            color: white;
+            padding: 14px;
+            border-radius: 16px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            margin-bottom: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .profile-area {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex: 1;
+            min-width: 0;
+        }
+
+        .profile-pic-box {
+            position: relative;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: 2px solid rgba(255,255,255,0.8);
+            background: rgba(255,255,255,0.2);
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+
+        .profile-pic-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: none;
+        }
+
+        .profile-pic-ph {
+            font-size: 24px;
+        }
+
+        .diary-title-wrap {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+            flex-wrap: wrap;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 16px;
+            line-height: 1.2;
+            word-break: break-word;
+            white-space: normal;
+        }
+
+        .author-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            background: rgba(255, 255, 255, 0.18);
+            border: 1px solid rgba(255, 255, 255, 0.35);
+            padding: 2px 7px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.3px;
+            color: #fef08a;
+            margin-top: 3px;
+            width: fit-content;
+        }
+
+        .header-btn-icon {
+            background: rgba(255,255,255,0.25);
+            border: none;
+            color: white;
+            padding: 6px 9px;
+            border-radius: 8px;
+            font-size: 13px;
+            cursor: pointer;
+            flex-shrink: 0;
+            font-weight: bold;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        header p {
+            margin: 2px 0 0 0;
+            font-size: 11.5px;
+            opacity: 0.9;
+        }
+
+        .clock-display {
+            font-size: 12px;
+            font-weight: bold;
+            background: rgba(255,255,255,0.2);
+            padding: 4px 6px;
+            border-radius: 6px;
+            letter-spacing: 0.5px;
+            white-space: nowrap;
+        }
+
+        .header-actions {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 6px;
+        }
+
+        .btn {
+            background: white;
+            color: var(--primary);
+            border: none;
+            padding: 11px 8px;
+            border-radius: 10px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.15s;
+            font-size: 12px;
+            text-align: center;
+            white-space: nowrap;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+        }
+
+        .btn:active {
+            transform: scale(0.96);
+            opacity: 0.85;
+        }
+
+        .btn-save-archive { background: #2e6f40; color: white; }
+        .btn-print { background: #3b82f6; color: white; }
+        .btn-backup { background: #0f766e; color: white; }
+        .btn-danger { background: #fee2e2; color: var(--danger); border: 1px solid var(--danger); }
+
+        .card {
+            background: var(--card-bg);
+            padding: 14px;
+            border-radius: 14px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            border-top: 4px solid var(--primary);
+            margin-bottom: 12px;
+            transition: background-color 0.3s;
+        }
+
+        .card.pill-card { border-top-color: var(--pill); }
+        .card.book-card { border-top-color: var(--book); }
+        .card.mood-card { border-top-color: var(--mood); }
+        .card.steps-card { border-top-color: var(--steps); }
+        .card.expense-card { border-top-color: var(--expense); }
+        .card.sleep-card { border-top-color: var(--sleep); }
+        .card.selfcare-card { border-top-color: var(--selfcare); }
+        .card.ootd-card { border-top-color: var(--ootd); }
+        .card.voice-card { border-top-color: var(--voice); }
+        .card.diet-card { border-top-color: var(--accent); }
+        .card.param-card { border-top-color: var(--param); }
+        .card.archive-card { border-top-color: var(--archive); }
+
+        .card h2 {
+            margin-top: 0;
+            font-size: 15px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--primary);
+            border-bottom: 1.5px solid #f1f5f9;
+            padding-bottom: 6px;
+            margin-bottom: 10px;
+        }
+
+        body.dark-mode .card h2 {
+            border-bottom-color: #334155;
+            color: #38bdf8;
+        }
+
+        /* Qadamlar */
+        .step-progress-wrapper {
+            background: linear-gradient(135deg, #fff7ed, #ffedd5);
+            border: 1.5px solid #fdba74;
+            padding: 12px;
+            border-radius: 12px;
+            margin-bottom: 10px;
+        }
+
+        .step-numbers-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 6px;
+        }
+
+        .step-count-huge {
+            font-size: 24px;
+            font-weight: 800;
+            color: #c2410c;
+        }
+
+        .step-sub-info {
+            display: flex;
+            gap: 8px;
+            font-size: 11px;
+            color: #9a3412;
+            font-weight: bold;
+        }
+
+        .step-progress-bg {
+            background: rgba(255,255,255,0.8);
+            border-radius: 8px;
+            height: 10px;
+            width: 100%;
+            overflow: hidden;
+            margin-top: 6px;
+            border: 1px solid #fed7aa;
+        }
+
+        .step-progress-fill {
+            background: linear-gradient(90deg, #f97316, #ea580c);
+            height: 100%;
+            width: 0%;
+            transition: width 0.3s;
+        }
+
+        /* Kopilka */
+        .kopilka-box {
+            background: linear-gradient(135deg, #f0fdfa, #ccfbf1);
+            border: 1.5px solid #99f6e4;
+            padding: 12px;
+            border-radius: 12px;
+            margin-bottom: 12px;
+        }
+
+        .kopilka-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 8px;
+            gap: 8px;
+        }
+
+        .kopilka-title {
+            font-size: 13px;
+            font-weight: bold;
+            color: #0f766e;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        body.dark-mode .kopilka-title { color: #2dd4bf; }
+
+        .kopilka-numbers {
+            font-size: 11.5px;
+            font-weight: 700;
+            color: #115e59;
+            text-align: right;
+            line-height: 1.4;
+            flex-shrink: 0;
+        }
+
+        body.dark-mode .kopilka-numbers { color: #a7f3d0; }
+
+        .kopilka-progress-bar-bg {
+            background: rgba(255,255,255,0.7);
+            border-radius: 8px;
+            height: 10px;
+            width: 100%;
+            overflow: hidden;
+            margin: 6px 0;
+            border: 1px solid #a7f3d0;
+        }
+
+        .kopilka-progress-fill {
+            background: linear-gradient(90deg, #14b8a6, #0d9488);
+            height: 100%;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .kopilka-action-row {
+            display: flex;
+            gap: 6px;
+            align-items: center;
+            margin-top: 8px;
+        }
+
+        .kopilka-input {
+            flex: 1;
+            padding: 10px;
+            border: 1.5px solid #5eead4;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: bold;
+            outline: none;
+            background: #fff;
+        }
+
+        .kopilka-add-btn {
+            background: #0d9488;
+            color: white;
+            border: none;
+            padding: 10px 14px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: bold;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+
+        /* Xarajatlar */
+        .expense-row {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            padding: 6px 0;
+            border-bottom: 1px dashed #fecdd3;
+        }
+        .expense-row:last-child { border-bottom: none; }
+
+        .expense-category {
+            padding: 8px 4px;
+            border-radius: 6px;
+            border: 1px solid #cbd5e1;
+            font-size: 11px;
+            font-weight: 600;
+            background: #fff;
+            outline: none;
+            flex-shrink: 0;
+            max-width: 90px;
+        }
+
+        .expense-desc {
+            flex: 1;
+            min-width: 0;
+            border: 1px solid #cbd5e1;
+            padding: 8px;
+            border-radius: 6px;
+            font-size: 13px;
+            outline: none;
+        }
+
+        .expense-amount {
+            width: 80px;
+            border: 1px solid #cbd5e1;
+            padding: 8px 4px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: bold;
+            text-align: right;
+            outline: none;
+            flex-shrink: 0;
+            color: var(--expense);
+        }
+
+        .total-expense-box {
+            background: #fff1f2;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid #fecdd3;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: bold;
+            color: #be123c;
+            margin-top: 8px;
+            font-size: 13px;
+        }
+
+        body.dark-mode .total-expense-box {
+            background: #3a151f;
+            border-color: #881337;
+            color: #fda4af;
+        }
+
+        /* Kayfiyat */
+        .mood-grid {
+            display: flex;
+            justify-content: space-between;
+            gap: 4px;
+            margin-bottom: 10px;
+        }
+
+        .mood-btn {
+            flex: 1;
+            background: #f8fafc;
+            border: 1.5px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 8px 2px;
+            text-align: center;
+            cursor: pointer;
+            transition: 0.15s;
+            font-size: 22px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2px;
+        }
+
+        .mood-btn span {
+            font-size: 10px;
+            font-weight: 600;
+            color: #64748b;
+        }
+
+        .mood-btn.selected {
+            border-color: var(--mood);
+            background: #fffbeb;
+            transform: scale(1.05);
+        }
+        .mood-btn.selected span { color: #b45309; }
+
+        .quote-box {
+            background: linear-gradient(135deg, #fef3c7, #fde68a);
+            border-left: 4px solid #f59e0b;
+            padding: 8px 10px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-style: italic;
+            color: #92400e;
+            margin-bottom: 10px;
+            line-height: 1.4;
+        }
+
+        body.dark-mode .quote-box {
+            background: linear-gradient(135deg, #382405, #4d330c);
+            color: #fde047;
+            border-left-color: #facc15;
+        }
+
+        .gratitude-input {
+            width: 100%;
+            padding: 10px;
+            border: 1px dashed #cbd5e1;
+            border-radius: 8px;
+            font-size: 13px;
+            background: #fdfcf7;
+            outline: none;
+        }
+
+        /* Rejalar */
+        .plan-progress-container {
+            background: #f1f5f9;
+            border-radius: 8px;
+            height: 14px;
+            width: 100%;
+            overflow: hidden;
+            margin-bottom: 10px;
+            display: flex;
+            position: relative;
+        }
+
+        .plan-progress-bar {
+            background: linear-gradient(90deg, #10b981, #059669);
+            height: 100%;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .plan-progress-text {
+            position: absolute;
+            width: 100%;
+            text-align: center;
+            font-size: 10px;
+            font-weight: bold;
+            color: #334155;
+            line-height: 14px;
+        }
+
+        .pill-row {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            padding: 6px 0;
+            border-bottom: 1px dashed #e2e8f0;
+        }
+        .pill-row:last-child { border-bottom: none; }
+
+        .pill-row.completed-row .pill-name {
+            text-decoration: line-through;
+            opacity: 0.6;
+            background: #f8fafc;
+        }
+
+        .pill-row input[type="checkbox"] {
+            width: 22px;
+            height: 22px;
+            accent-color: var(--pill);
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+
+        .pill-priority {
+            padding: 7px 3px;
+            border-radius: 6px;
+            border: 1px solid #cbd5e1;
+            font-size: 11px;
+            font-weight: 600;
+            background: #ffffff;
+            outline: none;
+            flex-shrink: 0;
+        }
+
+        .pill-name {
+            flex: 1;
+            min-width: 0;
+            border: 1px solid #cbd5e1;
+            padding: 8px;
+            border-radius: 6px;
+            font-size: 13px;
+        }
+
+        .pill-time {
+            border: 1px solid #cbd5e1;
+            padding: 7px 4px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: bold;
+            background: #f8fafc;
+            width: 72px;
+            flex-shrink: 0;
+        }
+
+        .btn-remove-row {
+            background: #fee2e2;
+            color: var(--danger);
+            border: 1px solid #fca5a5;
+            padding: 7px 9px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 13px;
+            flex-shrink: 0;
+        }
+
+        .btn-add-row {
+            background: #f1f5f9;
+            color: var(--primary);
+            border: 1.5px dashed #94a3b8;
+            padding: 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+            font-weight: bold;
+            font-size: 13px;
+            margin-top: 8px;
+            text-align: center;
+        }
+
+        body.dark-mode .btn-add-row {
+            background: #334155;
+            color: #f8fafc;
+            border-color: #64748b;
+        }
+
+        /* Kitoblar */
+        .book-item-card {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 8px;
+            margin-bottom: 6px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        body.dark-mode .book-item-card {
+            background: #334155;
+            border-color: #475569;
+        }
+
+        .book-item-header {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .book-type-select {
+            padding: 6px 8px;
+            border-radius: 6px;
+            border: 1px solid #cbd5e1;
+            font-size: 11px;
+            font-weight: bold;
+            color: #475569;
+            background: white;
+            outline: none;
+        }
+
+        .book-item-body {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .book-inputs {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .book-inputs input {
+            width: 100%;
+            padding: 7px 8px;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            font-size: 13px;
+        }
+
+        .book-thumb-box {
+            position: relative;
+            width: 54px;
+            height: 68px;
+            border: 1.5px dashed #8b5cf6;
+            border-radius: 6px;
+            background: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            cursor: pointer;
+            overflow: hidden;
+        }
+
+        .book-thumb-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            cursor: pointer;
+        }
+
+        .book-thumb-placeholder {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 2px;
+            text-align: center;
+            color: #7c3aed;
+            user-select: none;
+        }
+
+        .book-del-img-btn {
+            position: absolute;
+            top: 2px;
+            right: 2px;
+            background: rgba(193, 18, 31, 0.85);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            font-size: 10px;
+            font-weight: bold;
+            cursor: pointer;
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* OOTD & Media */
+        .ootd-box {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            background: #f0f9ff;
+            padding: 8px;
+            border-radius: 8px;
+            border: 1px solid #bae6fd;
+        }
+
+        body.dark-mode .ootd-box {
+            background: #082f49;
+            border-color: #0369a1;
+        }
+
+        .media-controls-wrap {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            background: #f5f3ff;
+            padding: 10px;
+            border-radius: 10px;
+            border: 1px solid #ddd6fe;
+        }
+
+        body.dark-mode .media-controls-wrap {
+            background: #2e1065;
+            border-color: #5b21b6;
+        }
+
+        .media-buttons-row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 6px;
+        }
+
+        .voice-btn, .video-btn, .camera-open-btn {
+            border: none;
+            padding: 10px 4px;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 11px;
+            cursor: pointer;
+            text-align: center;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .voice-btn { background: #7c3aed; }
+        .video-btn { background: #0284c7; }
+        .camera-open-btn { background: linear-gradient(135deg, #ec4899, #db2777); }
+
+        .diary-video-preview {
+            width: 100%;
+            max-height: 200px;
+            border-radius: 8px;
+            background: #000;
+            display: none;
+            outline: none;
+        }
+
+        /* Dieta */
+        .diet-group {
+            margin-bottom: 10px;
+            background: #f8fafc;
+            padding: 8px;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+        }
+
+        body.dark-mode .diet-group {
+            background: #334155;
+            border-color: #475569;
+        }
+
+        .diet-group-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 4px;
+        }
+
+        .diet-group label {
+            font-size: 12px;
+            font-weight: bold;
+            color: #475569;
+        }
+
+        body.dark-mode .diet-group label { color: #cbd5e1; }
+
+        .cal-input-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 11px;
+            font-weight: bold;
+            color: #2e6f40;
+        }
+
+        body.dark-mode .cal-input-wrapper { color: #4ade80; }
+
+        .cal-input {
+            width: 60px;
+            padding: 5px;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: bold;
+            text-align: right;
+        }
+
+        .diet-group textarea {
+            width: 100%;
+            height: 48px;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            padding: 6px;
+            font-family: inherit;
+            font-size: 13px;
+            resize: none;
+        }
+
+        .meal-photo-area {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 6px;
+            flex-wrap: wrap;
+        }
+
+        .meal-img-preview {
+            width: 44px;
+            height: 44px;
+            border-radius: 6px;
+            object-fit: cover;
+            border: 1px solid #cbd5e1;
+            display: none;
+            cursor: pointer;
+        }
+
+        .photo-btn {
+            font-size: 11px;
+            padding: 7px 10px;
+            cursor: pointer;
+            border: 1px dashed #4a5568;
+            border-radius: 6px;
+            background: white;
+            color: #334155;
+            display: inline-block;
+            font-weight: 600;
+        }
+
+        body.dark-mode .photo-btn {
+            background: #1e293b;
+            color: #cbd5e1;
+            border-color: #64748b;
+        }
+
+        .cam-btn-inline {
+            font-size: 11px;
+            padding: 7px 10px;
+            cursor: pointer;
+            border: 1px solid #ec4899;
+            border-radius: 6px;
+            background: #fdf2f8;
+            color: #be185d;
+            font-weight: 600;
+        }
+
+        body.dark-mode .cam-btn-inline {
+            background: #831843;
+            color: #fbcfe8;
+            border-color: #be185d;
+        }
+
+        .total-cal-box {
+            background: #ecfdf5;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid #a7f3d0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: bold;
+            color: #065f46;
+            margin-top: 8px;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+
+        body.dark-mode .total-cal-box {
+            background: #064e3b;
+            color: #6ee7b7;
+            border-color: #047857;
+        }
+
+        /* O'lchamlar */
+        .measure-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 6px;
+            margin-bottom: 10px;
+        }
+
+        .measure-item {
+            background: #f8fafc;
+            padding: 6px;
+            border-radius: 6px;
+            border: 1px solid #e2e8f0;
+        }
+
+        body.dark-mode .measure-item {
+            background: #334155;
+            border-color: #475569;
+        }
+
+        .measure-item label {
+            display: block;
+            font-size: 10px;
+            font-weight: bold;
+            color: #64748b;
+            margin-bottom: 2px;
+        }
+
+        body.dark-mode .measure-item label { color: #cbd5e1; }
+
+        .measure-item input {
+            width: 100%;
+            padding: 6px;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: bold;
+            color: #1e293b;
+        }
+
+        .diff-tag {
+            font-size: 10px;
+            font-weight: bold;
+            margin-left: 2px;
+            padding: 2px 4px;
+            border-radius: 4px;
+        }
+        .diff-minus { background: #dcfce7; color: #15803d; }
+        .diff-plus { background: #fee2e2; color: #b91c1c; }
+
+        /* 4 Litrlik Suv */
+        .water-header-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 6px;
+        }
+
+        .water-tracker {
+            display: grid;
+            grid-template-columns: repeat(8, 1fr);
+            gap: 4px;
+            margin-top: 4px;
+        }
+
+        .water-cup {
+            height: 38px;
+            border: 1.5px solid #0284c7;
+            border-radius: 0 0 8px 8px;
+            cursor: pointer;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            font-weight: bold;
+            color: #0284c7;
+            user-select: none;
+            transition: 0.15s;
+        }
+
+        .water-cup.drank {
+            background: #0284c7;
+            color: white;
+        }
+
+        /* Arxiv */
+        .calendar-archive-controls {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            margin-top: 8px;
+        }
+
+        .archive-date-picker {
+            width: 100%;
+            padding: 8px;
+            border-radius: 6px;
+            border: 1px solid #cbd5e1;
+            font-size: 13px;
+            font-weight: bold;
+            color: var(--primary);
+            background: #f8fafc;
+            outline: none;
+        }
+
+        .saved-dates-list {
+            display: flex;
+            gap: 4px;
+            overflow-x: auto;
+            padding-bottom: 4px;
+            margin-top: 6px;
+        }
+
+        .saved-date-tag {
+            background: #ecfdf5;
+            color: #065f46;
+            border: 1px solid #a7f3d0;
+            padding: 6px 10px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: bold;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+
+        .saved-date-tag.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .archive-view-box {
+            margin-top: 10px;
+            padding: 10px;
+            background: #f8fafc;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            display: none;
+        }
+
+        body.dark-mode .archive-view-box {
+            background: #334155;
+            border-color: #475569;
+        }
+
+        .archive-meal-row {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 6px;
+        }
+
+        .archive-meal-img {
+            width: 40px;
+            height: 40px;
+            border-radius: 6px;
+            object-fit: cover;
+            border: 1px solid #cbd5e1;
+            cursor: pointer;
+        }
+
+        .author-footer-card {
+            text-align: center;
+            padding: 14px 10px;
+            margin-top: 15px;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 12px;
+            border: 1px dashed var(--border-color);
+            font-size: 12px;
+            color: var(--text);
+            opacity: 0.85;
+            line-height: 1.5;
+        }
+
+        body.dark-mode .author-footer-card {
+            background: rgba(30, 41, 59, 0.5);
+        }
+
+        .author-footer-card strong {
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        body.dark-mode .author-footer-card strong {
+            color: #38bdf8;
+        }
+
+        .alarm-modal, .save-modal, .theme-modal, .capsule-modal, .image-viewer-modal, .goal-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            z-index: 99999;
+            justify-content: center;
+            align-items: center;
+            padding: 15px;
+        }
+
+        .alarm-box, .save-modal-box, .theme-modal-box, .capsule-modal-box, .goal-modal-box {
+            background: white;
+            padding: 20px;
+            border-radius: 14px;
+            text-align: center;
+            width: 100%;
+            max-width: 320px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        body.dark-mode .alarm-box,
+        body.dark-mode .save-modal-box,
+        body.dark-mode .theme-modal-box,
+        body.dark-mode .capsule-modal-box,
+        body.dark-mode .goal-modal-box {
+            background: #1e293b;
+            color: white;
+        }
+
+        .stop-alarm-btn {
+            background: var(--pill);
+            color: white;
+            border: none;
+            padding: 10px;
+            width: 100%;
+            font-size: 14px;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .theme-options-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+            margin: 12px 0;
+        }
+
+        .theme-btn-choice {
+            padding: 10px 6px;
+            border-radius: 8px;
+            border: 2px solid #cbd5e1;
+            cursor: pointer;
+            font-size: 11px;
+            font-weight: bold;
+            color: white;
+        }
+
+        .image-viewer-modal img {
+            max-width: 95%;
+            max-height: 85vh;
+            border-radius: 10px;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.5);
+            object-fit: contain;
+        }
+
+        .image-viewer-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Mobil kamera va galereya inputlari -->
+<input type="file" id="sysCam_profile" accept="image/*" capture="user" style="display:none;" onchange="handleSystemCamera(this, 'profile')">
+<input type="file" id="sysCam_ootd" accept="image/*" capture="environment" style="display:none;" onchange="handleSystemCamera(this, 'ootd')">
+<input type="file" id="sysCam_morn" accept="image/*" capture="environment" style="display:none;" onchange="handleSystemCamera(this, 'img_morn')">
+<input type="file" id="sysCam_lunch" accept="image/*" capture="environment" style="display:none;" onchange="handleSystemCamera(this, 'img_lunch')">
+<input type="file" id="sysCam_dinner" accept="image/*" capture="environment" style="display:none;" onchange="handleSystemCamera(this, 'img_dinner')">
+<input type="file" id="sysCam_snack" accept="image/*" capture="environment" style="display:none;" onchange="handleSystemCamera(this, 'img_snack')">
+<input type="file" id="sysCam_review" accept="image/*" capture="environment" style="display:none;" onchange="handleSystemCamera(this, 'img_review')">
+<input type="file" id="sysCam_video" accept="video/*" capture="environment" style="display:none;" onchange="handleVideoUpload(this)">
+<input type="file" id="activeBookFileInput" accept="image/*" capture="environment" style="display:none;" onchange="handleActiveBookCamera(this)">
+
+<div class="container">
+    <header>
+        <div class="header-top">
+            <div class="profile-area">
+                <input type="file" accept="image/*" id="profileFileInput" style="display: none;" onchange="handleProfileUpload(this)">
+                <div class="profile-pic-box" onclick="chooseProfilePhotoMethod()" title="Surat yuklash yoki olish">
+                    <span class="profile-pic-ph" id="profilePicPh">👤</span>
+                    <img id="profilePicImg" class="profile-pic-img" alt="Profil">
+                </div>
+                <div style="min-width: 0; flex: 1;">
+                    <div class="diary-title-wrap" onclick="editDiaryTitle()" title="Nomni o'zgartirish">
+                        <h1 id="userDiaryTitle">Leyla Selim Kundaligi</h1>
+                        <span style="font-size:12px; opacity:0.8;">✏️</span>
+                    </div>
+                    <div class="author-badge">✨ Dasturchi: Jamoldinova Mohinur</div>
+                    <p id="currentDateDisplay">Sana yuklanmoqda...</p>
+                </div>
+            </div>
+            <div style="display: flex; align-items: center; gap: 4px; flex-shrink: 0;">
+                <button type="button" class="header-btn-icon" id="darkModeBtn" onclick="toggleDarkMode()" title="Kun / Tun rejimi">🌓</button>
+                <button type="button" class="header-btn-icon" id="relaxSoundBtn" onclick="toggleRelaxSound()" title="Sokin yomg'ir">🎵</button>
+                <button type="button" class="header-btn-icon" onclick="openThemeModal()" title="Mavzu ranglari">🎨</button>
+                <button type="button" class="header-btn-icon" onclick="openCapsuleModal()" title="Kelajakka maktub">💌</button>
+                <div class="clock-display" id="liveClock">00:00:00</div>
+            </div>
+        </div>
+        <div class="header-actions">
+            <button type="button" class="btn btn-save-archive" onclick="openSaveDateModal()">💾 Sanaga saqlash</button>
+            <button type="button" class="btn btn-backup" onclick="exportDataBackup()">📥 Zaxira olish</button>
+            <button type="button" class="btn" style="border: 1px solid #cbd5e1;" onclick="document.getElementById('restoreFileInput').click()">📤 Tiklash</button>
+            <input type="file" id="restoreFileInput" accept=".json" style="display: none;" onchange="importDataBackup(this)">
+            <button type="button" class="btn btn-print" onclick="window.print()">🖨️ Chop etish</button>
+            <button type="button" class="btn" style="grid-column: span 2; background: #e2e8f0; color: #334155;" onclick="resetDay()">🌅 Yangi kunni boshlash</button>
+        </div>
+    </header>
+
+    <!-- 1. HAFTALIK MINI STATISTIKA XULOSASI -->
+    <div class="card" style="padding: 10px; margin-bottom: 10px;">
+        <div class="stats-summary-grid" style="display:grid; grid-template-columns: repeat(3, 1fr); gap:6px; text-align:center; margin-bottom:8px;">
+            <div class="stat-mini-card" style="background:rgba(241,245,249,0.7); padding:6px; border-radius:8px;">
+                <small style="display:block; font-size:10px; opacity:0.8;">💧 Suv (hafta)</small>
+                <strong id="statWeeklyWater" style="font-size:12px;">0 L</strong>
+            </div>
+            <div class="stat-mini-card" style="background:rgba(241,245,249,0.7); padding:6px; border-radius:8px;">
+                <small style="display:block; font-size:10px; opacity:0.8;">🪙 Jamg'arma</small>
+                <strong id="statKopilkaTotal" style="color:#0d9488; font-size:12px;">0</strong>
+            </div>
+            <div class="stat-mini-card" style="background:rgba(241,245,249,0.7); padding:6px; border-radius:8px;">
+                <small style="display:block; font-size:10px; opacity:0.8;">💸 Xarajat</small>
+                <strong id="statWeeklyExpense" style="color:#e11d48; font-size:12px;">0</strong>
+            </div>
+        </div>
+        <div class="period-tracker-box" style="display:flex; justify-content:space-between; align-items:center; background:#fdf2f8; padding:6px 8px; border-radius:8px;">
+            <div>
+                <span style="font-size: 12px; font-weight: bold; color: #db2777;">🌸 Sikl taqvimi:</span>
+                <span id="periodCountdownText" style="font-size: 11px; color: #9d174d; font-weight: 600; margin-left: 4px;">Belgilanmagan</span>
+            </div>
+            <button type="button" class="btn" style="padding: 4px 8px; font-size: 10px; flex: none; background: white; border: 1px solid #fbcfe8; color: #db2777;" onclick="setPeriodDatePrompt()">Kiritish</button>
+        </div>
+    </div>
+
+    <!-- 2. QADAMLAR VA HARAKAT HISOBCHISI -->
+    <div class="card steps-card">
+        <div style="display:flex; justify-content:space-between; align-items:center; border-bottom: 1.5px solid #f1f5f9; padding-bottom: 6px; margin-bottom: 8px;">
+            <h2 style="margin: 0; padding: 0; border: none;">👟 Bugungi Qadamlarim</h2>
+            <button type="button" class="btn" style="padding: 5px 10px; font-size: 11px; flex: none; border: 1px solid #ea580c; color: #ea580c;" onclick="toggleMotionSensor()">
+                <span id="pedometerStatusText">▶ Datchikni yoqish</span>
+            </button>
+        </div>
+
+        <div class="step-progress-wrapper">
+            <div class="step-numbers-row">
+                <div class="step-count-huge" id="dailyStepsText">0</div>
+                <div class="step-sub-info">
+                    <span id="stepKmText">📍 0.00 km</span>
+                    <span id="stepCalText">🔥 0 kkal</span>
+                </div>
+            </div>
+            <div style="font-size: 10px; color: #9a3412; font-weight: bold;">Maqsad: 10,000 qadam</div>
+            <div class="step-progress-bg">
+                <div class="step-progress-fill" id="stepProgressFill"></div>
+            </div>
+        </div>
+
+        <div style="display:flex; gap:6px;">
+            <button type="button" class="btn" style="padding: 10px; font-size: 12px; border: 1px solid #cbd5e1; flex: 1;" onclick="addManualSteps(500)">+500</button>
+            <button type="button" class="btn" style="padding: 10px; font-size: 12px; border: 1px solid #cbd5e1; flex: 1;" onclick="addManualSteps(1000)">+1,000</button>
+            <button type="button" class="btn btn-danger" style="padding: 10px 14px; font-size: 12px; flex: none;" onclick="resetSteps()">Nollash</button>
+        </div>
+    </div>
+
+    <!-- 3. JAMG'ARMA QUTISI (KOPILKA) -->
+    <div class="card mood-card">
+        <div class="kopilka-box">
+            <div class="kopilka-header">
+                <div class="kopilka-title">
+                    <div style="display:flex; align-items:center; gap:4px;">
+                        <span>🪙</span> <span id="kopilkaGoalName">Orzudagi maqsad uchun</span>
+                    </div>
+                    <button type="button" onclick="openGoalModal()" style="background:#0d9488; color:white; border:none; border-radius:6px; padding:3px 8px; font-size:10px; font-weight:bold; cursor:pointer; width:fit-content; margin-top:2px;">
+                        🎯 Maqsadni o'zgartirish
+                    </button>
+                </div>
+                <div class="kopilka-numbers" id="kopilkaNumbersText">
+                    <div>Maqsad: 5,000,000 so'm</div>
+                    <div style="color: #0d9488;">Yig'ildi: 0 so'm</div>
+                    <div style="color: #e11d48; font-weight: bold;">Qoldi: 5,000,000 so'm</div>
+                </div>
+            </div>
+            <div class="kopilka-progress-bar-bg">
+                <div class="kopilka-progress-fill" id="kopilkaProgressFill"></div>
+            </div>
+            <div class="kopilka-action-row">
+                <input type="number" id="kopilkaAddInput" class="kopilka-input" placeholder="Summa (so'm)..." inputmode="numeric">
+                <button type="button" class="kopilka-add-btn" onclick="addMoneyToKopilka()">+ Pul qo'shish</button>
+                <button type="button" style="background:#fee2e2; color:#b91c1c; border:none; padding:10px 12px; border-radius:8px; font-size:12px; font-weight:bold; cursor:pointer;" onclick="resetKopilka()">0</button>
+            </div>
+        </div>
+
+        <div style="font-size: 11px; font-weight: bold; color: #64748b; margin-bottom: 4px;">Bugungi kayfiyatim:</div>
+        <div class="mood-grid">
+            <div class="mood-btn" onclick="selectMood('super', this)">😍<span>A'lo</span></div>
+            <div class="mood-btn" onclick="selectMood('happy', this)">😊<span>Yaxshi</span></div>
+            <div class="mood-btn" onclick="selectMood('neutral', this)">😐<span>Oddiy</span></div>
+            <div class="mood-btn" onclick="selectMood('tired', this)">😴<span>Charchoq</span></div>
+            <div class="mood-btn" onclick="selectMood('sad', this)">😔<span>Xafaman</span></div>
+        </div>
+
+        <div class="quote-box" id="dailyQuoteText">
+            "Har bir yangi tong — hayotingizni go'zalroq qilish uchun yangi imkoniyatdir."
+        </div>
+
+        <input type="text" id="gratitudeInput" class="gratitude-input" placeholder="🌸 Bugun nima uchun shukr qilasiz?..." oninput="saveData()">
+    </div>
+
+    <!-- 4. OVOZ VA VIDEO XOTIRA -->
+    <div class="card voice-card">
+        <h2>🎬 Ovoz va Video Xotira</h2>
+        <div class="media-controls-wrap">
+            <div class="media-buttons-row">
+                <button type="button" class="voice-btn" id="voiceRecordBtn" onclick="toggleVoiceRecording()">🎙 Ovoz yozish</button>
+                <button type="button" class="camera-open-btn" onclick="triggerMobileCam('sysCam_video')">✨ Kamera / Video</button>
+                <button type="button" class="video-btn" onclick="document.getElementById('videoFileGeneral').click()">📁 Video fayl</button>
+                <input type="file" accept="video/*" id="videoFileGeneral" style="display:none;" onchange="handleVideoUpload(this)">
+            </div>
+            
+            <div id="audioPlayerRow" style="display: none; align-items: center; gap: 6px;">
+                <audio id="voicePlayer" controls style="height: 36px; flex: 1;"></audio>
+                <button type="button" class="btn btn-danger" style="padding: 6px 10px; font-size: 11px; flex: none;" onclick="deleteVoiceNote()">O'chirish</button>
+            </div>
+
+            <div id="videoPlayerRow" style="display: none; flex-direction: column; gap: 4px;">
+                <video id="videoPlayer" class="diary-video-preview" controls playsinline></video>
+                <button type="button" class="btn btn-danger" style="padding: 6px 10px; font-size: 11px; align-self: flex-start;" onclick="deleteVideoNote()">Videoni o'chirish</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 5. BUGUN NIMA KIYDIM? (OOTD) -->
+    <div class="card ootd-card">
+        <h2>👗 Bugun Nima Kiydim? (Obraz)</h2>
+        <div class="ootd-box">
+            <div class="book-thumb-box" style="border-color:#0284c7; width:60px; height:75px;" onclick="chooseOotdMethod()">
+                <div id="ootdPh" class="book-thumb-placeholder" style="color:#0284c7;">
+                    <span style="font-size: 20px;">👗</span>
+                    <span style="font-size: 9px; font-weight: bold;">Surat</span>
+                </div>
+                <img id="ootdImg" class="book-thumb-img" alt="Obraz" onclick="event.stopPropagation(); openImageViewer(this.src)">
+            </div>
+            <div style="flex: 1; display:flex; flex-direction:column; gap:6px;">
+                <input type="text" id="ootdDesc" placeholder="Kiyim uslubi / tavsifi..." style="width:100%; padding:8px; border-radius:6px; border:1px solid #cbd5e1; font-size:12px;" oninput="saveData()">
+                <div style="display: flex; gap: 6px;">
+                    <button type="button" class="cam-btn-inline" onclick="triggerMobileCam('sysCam_ootd')">📸 Kamerada olish</button>
+                    <label class="photo-btn" style="margin:0;">📁 Fayl <input type="file" accept="image/*" style="display:none;" onchange="handleSystemCamera(this, 'ootd')"></label>
+                    <button type="button" id="ootdDelBtn" class="btn btn-danger" style="display:none; padding:3px 6px; font-size:10px; flex:none;" onclick="deleteOotdImage()">O'chirish</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 6. UYQU TARTIBI VA SIFATI -->
+    <div class="card sleep-card">
+        <h2>🌙 Uyqu Tartibi va Sifati</h2>
+        <div class="sleep-row" style="display:flex; justify-content:space-between; margin-bottom:8px;">
+            <div class="sleep-time-box">
+                <label style="font-size:10px; font-weight:bold; display:block;">😴 Yotdim:</label>
+                <input type="time" id="sleep_start" value="23:30" onchange="calculateSleepDuration()" style="border:1px solid #cbd5e1; padding:6px; border-radius:6px; font-size:13px;">
+            </div>
+            <div class="sleep-time-box">
+                <label style="font-size:10px; font-weight:bold; display:block;">⏰ Uyg'ondim:</label>
+                <input type="time" id="sleep_end" value="07:30" onchange="calculateSleepDuration()" style="border:1px solid #cbd5e1; padding:6px; border-radius:6px; font-size:13px;">
+            </div>
+            <div class="sleep-time-box" style="text-align: center;">
+                <label style="font-size:10px; font-weight:bold; display:block;">Jami uyqu:</label>
+                <span id="sleepDurationText" style="font-weight: bold; color: var(--sleep); font-size: 13px; margin-top: 4px; display:inline-block;">8.0 soat</span>
+            </div>
+        </div>
+        <div style="display: flex; justify-content: space-between; align-items: center; padding: 4px 0;">
+            <span style="font-size: 12px; font-weight: bold; color: #64748b;">Uyqu sifati:</span>
+            <div class="stars-row" id="sleepStarsBox" style="font-size:22px; color:#cbd5e1; cursor:pointer;">
+                <span class="star active" style="color:#f59e0b;" onclick="setSleepRating(1)">★</span>
+                <span class="star active" style="color:#f59e0b;" onclick="setSleepRating(2)">★</span>
+                <span class="star active" style="color:#f59e0b;" onclick="setSleepRating(3)">★</span>
+                <span class="star active" style="color:#f59e0b;" onclick="setSleepRating(4)">★</span>
+                <span class="star active" style="color:#f59e0b;" onclick="setSleepRating(5)">★</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- 7. O'ZIGA PARVARISH CHEK-LISTI -->
+    <div class="card selfcare-card">
+        <h2>🧖‍♀️ O'ziga Parvarish Chek-listi</h2>
+        <div class="selfcare-grid" style="display:grid; grid-template-columns: repeat(2, 1fr); gap:6px;">
+            <label class="selfcare-item" style="display:flex; align-items:center; gap:6px; font-size:12px; padding:8px; background:#fdf2f8; border-radius:8px;">
+                <input type="checkbox" id="sc_skin" onchange="saveData()" style="width:20px; height:20px;">
+                <span style="color:#1e293b;">💆‍♀️ Yuz parvarishi</span>
+            </label>
+            <label class="selfcare-item" style="display:flex; align-items:center; gap:6px; font-size:12px; padding:8px; background:#fdf2f8; border-radius:8px;">
+                <input type="checkbox" id="sc_walk" onchange="saveData()" style="width:20px; height:20px;">
+                <span style="color:#1e293b;">🏃‍♀️ 15 daqiqa badantarbiya</span>
+            </label>
+        </div>
+    </div>
+
+    <!-- 8. KUNLIK XARAJATLAR VA BYUDJET -->
+    <div class="card expense-card">
+        <h2>💸 Bugungi Xarajatlarim</h2>
+        <div id="expensesContainer"></div>
+        <button type="button" class="btn-add-row" onclick="addExpenseRow()" style="color: var(--expense); border-color: var(--expense); background: #fff1f2;">
+            ➕ Yangi xarajat qo'shish
+        </button>
+        <div class="total-expense-box">
+            <span>💳 Jami sarflandi:</span>
+            <span id="totalExpenseDisplay">0 so'm</span>
+        </div>
+    </div>
+
+    <!-- 9. KUNLIK REJALARIM -->
+    <div class="card pill-card">
+        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1.5px solid #f1f5f9; padding-bottom: 6px; margin-bottom: 8px;">
+            <h2 style="margin: 0; padding: 0; border: none;">📋 Kunlik rejalarim</h2>
+            <span id="planStatsText" style="font-size: 11px; font-weight: bold; color: var(--accent);">0/0 bajarildi</span>
+        </div>
+
+        <div class="plan-progress-container">
+            <div class="plan-progress-bar" id="planProgressBar"></div>
+            <div class="plan-progress-text" id="planProgressPercent">0%</div>
+        </div>
+
+        <div id="plansContainer"></div>
+
+        <button type="button" class="btn-add-row" onclick="addPlanRow()">➕ Yangi reja qo'shish</button>
+        <button type="button" class="btn" style="margin-top: 8px; border: 1px solid #cbd5e1; width: 100%; padding:11px;" onclick="testAudio()">
+            🔔 Ovozni sinab ko'rish
+        </button>
+    </div>
+
+    <!-- 10. KITOB REJALARI -->
+    <div class="card book-card">
+        <h2>📚 Kitoblar Rejasi</h2>
+        <div id="booksContainer"></div>
+        <button type="button" class="btn-add-row" onclick="addBookRow()" style="color: var(--book); border-color: var(--book); background: #f5f3ff;">
+            ➕ Yangi kitob qo'shish
+        </button>
+    </div>
+
+    <!-- 11. VAZN VA O'LCHAMLAR DINAMIKASI -->
+    <div class="card param-card">
+        <h2>⚖️ Vazn va Obyomlar Dinamikasi</h2>
+        <div style="background: rgba(238,242,246,0.6); padding: 8px; border-radius: 8px; margin-bottom: 8px; display: flex; align-items: center; justify-content: space-between;">
+            <label style="font-size: 12px; font-weight: bold; color: var(--primary);">
+                ⚖️ Bugungi vazn: <span id="weightDiffTag" class="diff-tag" style="display:none;"></span>
+            </label>
+            <div style="display: flex; align-items: center; gap: 4px;">
+                <input type="number" step="0.1" id="daily_weight" placeholder="62.5" inputmode="decimal" oninput="handleWeightInput()" style="padding: 6px; border-radius: 6px; border: 1px solid #cbd5e1; font-size: 14px; font-weight: bold; width: 75px; text-align: center;">
+                <span style="font-weight: bold; font-size: 12px;">KG</span>
+            </div>
+        </div>
+
+        <div style="font-size: 11px; font-weight: bold; color: var(--param); margin-bottom: 6px;">
+            📏 Obyom o'lchamlari (3 kunda bir marta):
+        </div>
+        
+        <div class="measure-grid">
+            <div class="measure-item">
+                <label>Bo'yin (sm): <span id="diff_neck" class="diff-tag" style="display:none;"></span></label>
+                <input type="number" id="m_neck" placeholder="sm" inputmode="decimal" oninput="saveData()">
+            </div>
+            <div class="measure-item">
+                <label>Bel (sm): <span id="diff_waist" class="diff-tag" style="display:none;"></span></label>
+                <input type="number" id="m_waist" placeholder="sm" inputmode="decimal" oninput="handleMeasurementInput()">
+            </div>
+            <div class="measure-item">
+                <label>Qo'l (sm):</label>
+                <input type="number" id="m_arm" placeholder="sm" inputmode="decimal" oninput="saveData()">
+            </div>
+            <div class="measure-item">
+                <label>Son (sm):</label>
+                <input type="number" id="m_thigh" placeholder="sm" inputmode="decimal" oninput="saveData()">
+            </div>
+            <div class="measure-item">
+                <label>Boldir (sm):</label>
+                <input type="number" id="m_calf" placeholder="sm" inputmode="decimal" oninput="saveData()">
+            </div>
+            <div class="measure-item">
+                <label>Qorin (sm):</label>
+                <input type="number" id="m_belly" placeholder="sm" inputmode="decimal" oninput="saveData()">
+            </div>
+            <div class="measure-item" style="grid-column: span 2;">
+                <label>Bo'ksa (sm):</label>
+                <input type="number" id="m_hips" placeholder="sm" inputmode="decimal" oninput="saveData()">
+            </div>
+        </div>
+        <div style="font-size: 10px; color: #64748b; font-style: italic;" id="lastMeasureDate">
+            Oxirgi o'lchangan sana: Belgilanmagan
+        </div>
+    </div>
+
+    <!-- 12. DIETA VA 4 LITRLIK SUV BALANSI -->
+    <div class="card diet-card">
+        <h2>🥗 Bugun Nimalar Yedim?</h2>
+
+        <div class="diet-group">
+            <div class="diet-group-header">
+                <label>🍳 Ertalabki nonushta:</label>
+                <div class="cal-input-wrapper">
+                    <span>Kaloriya:</span>
+                    <input type="number" id="cal_morn" class="cal-input" placeholder="0" inputmode="numeric" oninput="calculateCalories()">
+                </div>
+            </div>
+            <textarea id="diet_morn" oninput="saveData()" placeholder="Nonushtani yozing..."></textarea>
+            <div class="meal-photo-area">
+                <button type="button" class="cam-btn-inline" onclick="triggerMobileCam('sysCam_morn')">📸 Kamera</button>
+                <label class="photo-btn">📁 Fayl <input type="file" accept="image/*" style="display:none;" onchange="handleSystemCamera(this, 'img_morn')"></label>
+                <img id="img_morn" class="meal-img-preview" alt="Nonushta" onclick="openImageViewer(this.src)">
+                <button type="button" class="btn btn-danger" style="padding: 4px 6px; font-size: 11px; display: none;" id="del_img_morn" onclick="removeImage('img_morn')">O'chirish</button>
+            </div>
+        </div>
+
+        <div class="diet-group">
+            <div class="diet-group-header">
+                <label>🍲 Tushlik:</label>
+                <div class="cal-input-wrapper">
+                    <span>Kaloriya:</span>
+                    <input type="number" id="cal_lunch" class="cal-input" placeholder="0" inputmode="numeric" oninput="calculateCalories()">
+                </div>
+            </div>
+            <textarea id="diet_lunch" oninput="saveData()" placeholder="Tushlikni yozing..."></textarea>
+            <div class="meal-photo-area">
+                <button type="button" class="cam-btn-inline" onclick="triggerMobileCam('sysCam_lunch')">📸 Kamera</button>
+                <label class="photo-btn">📁 Fayl <input type="file" accept="image/*" style="display:none;" onchange="handleSystemCamera(this, 'img_lunch')"></label>
+                <img id="img_lunch" class="meal-img-preview" alt="Tushlik" onclick="openImageViewer(this.src)">
+                <button type="button" class="btn btn-danger" style="padding: 4px 6px; font-size: 11px; display: none;" id="del_img_lunch" onclick="removeImage('img_lunch')">O'chirish</button>
+            </div>
+        </div>
+
+        <div class="diet-group">
+            <div class="diet-group-header">
+                <label>🥗 Kechki ovqat:</label>
+                <div class="cal-input-wrapper">
+                    <span>Kaloriya:</span>
+                    <input type="number" id="cal_dinner" class="cal-input" placeholder="0" inputmode="numeric" oninput="calculateCalories()">
+                </div>
+            </div>
+            <textarea id="diet_dinner" oninput="saveData()" placeholder="Kechki ovqatni yozing..."></textarea>
+            <div class="meal-photo-area">
+                <button type="button" class="cam-btn-inline" onclick="triggerMobileCam('sysCam_dinner')">📸 Kamera</button>
+                <label class="photo-btn">📁 Fayl <input type="file" accept="image/*" style="display:none;" onchange="handleSystemCamera(this, 'img_dinner')"></label>
+                <img id="img_dinner" class="meal-img-preview" alt="Kechki ovqat" onclick="openImageViewer(this.src)">
+                <button type="button" class="btn btn-danger" style="padding: 4px 6px; font-size: 11px; display: none;" id="del_img_dinner" onclick="removeImage('img_dinner')">O'chirish</button>
+            </div>
+        </div>
+
+        <div class="diet-group">
+            <div class="diet-group-header">
+                <label>🍏 Oraliq yeguliklar:</label>
+                <div class="cal-input-wrapper">
+                    <span>Kaloriya:</span>
+                    <input type="number" id="cal_snack" class="cal-input" placeholder="0" inputmode="numeric" oninput="calculateCalories()">
+                </div>
+            </div>
+            <textarea id="diet_snack" oninput="saveData()" placeholder="Meva, choy..."></textarea>
+            <div class="meal-photo-area">
+                <button type="button" class="cam-btn-inline" onclick="triggerMobileCam('sysCam_snack')">📸 Kamera</button>
+                <label class="photo-btn">📁 Fayl <input type="file" accept="image/*" style="display:none;" onchange="handleSystemCamera(this, 'img_snack')"></label>
+                <img id="img_snack" class="meal-img-preview" alt="Perekus" onclick="openImageViewer(this.src)">
+                <button type="button" class="btn btn-danger" style="padding: 4px 6px; font-size: 11px; display: none;" id="del_img_snack" onclick="removeImage('img_snack')">O'chirish</button>
+            </div>
+        </div>
+
+        <div class="total-cal-box">
+            <span>🔥 Jami kaloriya:</span>
+            <span id="totalCaloriesDisplay">0 kkal</span>
+        </div>
+
+        <div class="water-header-info">
+            <span style="font-size: 12px; font-weight: bold; color: #0284c7;">💧 Suv balansi (4 Litr = 16 stakan):</span>
+            <span id="waterTotalText" style="font-size: 11px; font-weight: bold; color: #0369a1;">0 L / 4.0 L</span>
+        </div>
+        <div class="water-tracker" id="waterTrackerBox"></div>
+    </div>
+
+    <!-- 13. KUN XULOSASI -->
+    <div class="card">
+        <h2>✨ Kunim Qanday O'tdi?</h2>
+        <textarea id="day_review" oninput="saveData()" style="width: 100%; height: 95px; border: 1px solid #cbd5e1; border-radius: 8px; padding: 8px; font-family: inherit; font-size: 13px;" placeholder="Bugungi his-tuyg'ular, o'zingizni his qilishingiz..."></textarea>
+        <div class="meal-photo-area" style="margin-top: 8px;">
+            <button type="button" class="cam-btn-inline" onclick="triggerMobileCam('sysCam_review')">📸 Kamera</button>
+            <label class="photo-btn">📁 Surat yuklash <input type="file" accept="image/*" style="display:none;" onchange="handleSystemCamera(this, 'img_review')"></label>
+            <img id="img_review" class="meal-img-preview" alt="Kun xulosasi rasmi" onclick="openImageViewer(this.src)">
+            <button type="button" class="btn btn-danger" style="padding: 4px 6px; font-size: 11px; display: none;" id="del_img_review" onclick="removeImage('img_review')">O'chirish</button>
+        </div>
+    </div>
+
+    <!-- 14. CHEKSIZ YILLIK ARXIV -->
+    <div class="card archive-card">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <h2>📅 Yillik Kundalik Arxiv</h2>
+            <button type="button" class="btn btn-danger" style="font-size: 10px; padding: 5px 8px; flex: none;" onclick="clearAllArchive()">Tozalash</button>
+        </div>
+
+        <div class="calendar-archive-controls">
+            <label style="font-size: 11px; font-weight: bold; color: #64748b;">Sanani tanlang va ko'ring:</label>
+            <input type="date" id="archiveDateSelector" class="archive-date-picker" onchange="viewSelectedDateArchive(this.value)">
+        </div>
+
+        <div style="margin-top: 8px; font-size: 11px; font-weight: bold; color: var(--primary);">
+            📁 Saqlangan kunlar tarixi:
+        </div>
+        <div class="saved-dates-list" id="savedDatesContainer"></div>
+
+        <div class="archive-view-box" id="archiveViewBox">
+            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #cbd5e1; padding-bottom: 6px; margin-bottom: 6px;">
+                <h3 id="archiveTitle" style="margin: 0; font-size: 13px; color: var(--primary);">Kun ma'lumotlari</h3>
+                <div style="display: flex; gap: 4px;">
+                    <button type="button" class="btn btn-danger" id="deleteCurrentDayBtn" style="padding: 4px 8px; font-size: 11px; flex: none;">O'chirish</button>
+                    <button type="button" class="btn" style="padding: 4px 8px; font-size: 11px; flex: none;" onclick="closeArchiveView()">✕</button>
+                </div>
+            </div>
+            <div id="archiveContent" style="font-size: 12px; line-height: 1.4;"></div>
+        </div>
+    </div>
+
+    <!-- 15. DASTURCHI HAQIDA NAFIS MUHR -->
+    <div class="author-footer-card">
+        💻 <strong>Jamoldinova Mohinur</strong> tomonidan ishlab chiqilgan shaxsiy tizim.<br>
+        Barcha huquqlar himoyalangan © 2026
+    </div>
+</div>
+
+<!-- KOPILKA MAQSADINI O'ZINGIZ BELGILASH MODALI -->
+<div class="goal-modal" id="goalModal">
+    <div class="goal-modal-box">
+        <h3 style="margin: 0 0 10px 0; font-size: 16px; color: #0d9488;">🎯 Jamg'arma maqsadi</h3>
+        <label style="display:block; text-align:left; font-size:11px; font-weight:bold; margin-bottom:4px;">Maqsad nomi:</label>
+        <input type="text" id="goalNameInput" style="width:100%; padding:9px; border-radius:8px; border:1px solid #cbd5e1; font-size:13px; margin-bottom:10px;" placeholder="Masalan: Yangi telefon, Sayohat...">
+        <label style="display:block; text-align:left; font-size:11px; font-weight:bold; margin-bottom:4px;">Yig'moqchi bo'lgan sumangiz (so'm):</label>
+        <input type="number" id="goalAmountInput" inputmode="numeric" style="width:100%; padding:9px; border-radius:8px; border:1px solid #cbd5e1; font-size:15px; font-weight:bold; margin-bottom:14px;" placeholder="Masalan: 5000000">
+        <div style="display: flex; gap: 6px;">
+            <button type="button" class="btn btn-save-archive" onclick="saveNewKopilkaGoal()" style="background:#0d9488;">Saqlash</button>
+            <button type="button" class="btn" onclick="closeGoalModal()">Bekor qilish</button>
+        </div>
+    </div>
+</div>
+
+<!-- Mavzu tanlash modali -->
+<div class="theme-modal" id="themeModal">
+    <div class="theme-modal-box">
+        <h3 style="margin: 0 0 10px 0; font-size: 15px;">🎨 Rangni tanlang</h3>
+        <div class="theme-options-grid">
+            <div class="theme-btn-choice" style="background:#1b3a4b;" onclick="applyTheme('default')">🌊 Zangori</div>
+            <div class="theme-btn-choice" style="background:#9d174d;" onclick="applyTheme('rose')">🌸 Pushti</div>
+            <div class="theme-btn-choice" style="background:#5b21b6;" onclick="applyTheme('lavender')">💜 Nilufar</div>
+            <div class="theme-btn-choice" style="background:#065f46;" onclick="applyTheme('emerald')">🌿 Zumrad</div>
+        </div>
+        <button type="button" class="btn" style="width:100%; padding:10px;" onclick="closeThemeModal()">Yopish</button>
+    </div>
+</div>
+
+<!-- Kelajakka maktub modali -->
+<div class="capsule-modal" id="capsuleModal">
+    <div class="capsule-modal-box">
+        <h3 style="margin: 0 0 6px 0; color: #4338ca; font-size: 15px;">💌 Kelajakka Maktub</h3>
+        <p style="font-size: 11px; opacity: 0.8; margin-bottom: 8px;">U faqat belgilangan sanada ochiladi!</p>
+        <label style="font-size: 11px; font-weight: bold; display: block; text-align: left; margin-bottom: 4px;">Qachon ochilsin?</label>
+        <input type="date" id="capsuleUnlockDate" style="width: 100%; padding: 8px; border-radius: 6px; border: 1px solid #cbd5e1; margin-bottom: 6px; font-weight: bold; font-size: 13px;">
+        <textarea id="capsuleLetterText" style="width: 100%; height: 80px; border-radius: 6px; border: 1px solid #cbd5e1; padding: 6px; font-size: 13px; resize: none; margin-bottom: 8px;" placeholder="Kelajakdagi o'zimga xat..."></textarea>
+        <div style="display: flex; gap: 6px;">
+            <button type="button" class="btn btn-save-archive" onclick="saveCapsuleLetter()">Qulflash</button>
+            <button type="button" class="btn" onclick="closeCapsuleModal()">Yopish</button>
+        </div>
+        <div id="capsuleStatusBox" style="margin-top: 8px; font-size: 11px; font-style: italic; color: #059669;"></div>
+    </div>
+</div>
+
+<!-- Sanaga saqlash modali -->
+<div class="save-modal" id="saveDateModal">
+    <div class="save-modal-box">
+        <h3 style="margin: 0 0 10px 0; font-size: 15px;">📅 Saqlash sanasini tanlang</h3>
+        <input type="date" id="modalDatePicker" style="width: 100%; padding: 10px; border: 1.5px solid #cbd5e1; border-radius: 8px; font-size: 14px; font-weight: bold; margin-bottom: 12px;">
+        <div style="display: flex; gap: 6px;">
+            <button type="button" class="btn btn-save-archive" onclick="confirmSaveDateModal()">Saqlash</button>
+            <button type="button" class="btn" onclick="closeSaveDateModal()">Bekor qilish</button>
+        </div>
+    </div>
+</div>
+
+<!-- Budilnik modal -->
+<div class="alarm-modal" id="alarmModal">
+    <div class="alarm-box">
+        <h3 style="color: var(--pill); font-size: 18px; margin: 0 0 6px 0;">⏰ REJA VAQTI!</h3>
+        <p id="alarmMedicineName" style="font-size: 14px; font-weight: bold; margin: 0 0 12px 0;">Rejangizni bajarish vaqti bo'ldi!</p>
+        <button type="button" class="stop-alarm-btn" onclick="stopAlarm()">Bajardim (O'chirish)</button>
+    </div>
+</div>
+
+<!-- Rasmni to'liq ochib ko'rish modali -->
+<div class="image-viewer-modal" id="imageViewerModal" onclick="closeImageViewer()">
+    <button type="button" class="image-viewer-close" onclick="closeImageViewer()">✕</button>
+    <img id="imageViewerImg" src="" alt="To'liq rasm" onclick="event.stopPropagation()">
+</div>
+
+<script>
+    const today = new Date();
+    const formattedTodayStr = today.toISOString().split('T')[0];
+
+    let audioCtx = null;
+    let alarmInterval = null;
+    let alarmTimeout = null;
+
+    /* KUN / TUN REJIMI */
+    function toggleDarkMode() {
+        document.body.classList.toggle('dark-mode');
+        const isDark = document.body.classList.contains('dark-mode');
+        localStorage.setItem('myCustomDarkMode', isDark ? 'enabled' : 'disabled');
+        const btn = document.getElementById('darkModeBtn');
+        if (btn) btn.innerText = isDark ? '☀️' : '🌓';
+    }
+
+    function loadDarkMode() {
+        const savedDark = localStorage.getItem('myCustomDarkMode');
+        if (savedDark === 'enabled') {
+            document.body.classList.add('dark-mode');
+            const btn = document.getElementById('darkModeBtn');
+            if (btn) btn.innerText = '☀️';
+        }
+    }
+
+    function initAudioContext() {
+        if (!audioCtx) {
+            audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        }
+        if (audioCtx.state === 'suspended') {
+            audioCtx.resume();
+        }
+    }
+    window.addEventListener('touchstart', initAudioContext, { once: true, passive: true });
+    window.addEventListener('click', initAudioContext, { once: true });
+
+    /* MOBIL KAMERA VA GALEREYA */
+    function triggerMobileCam(inputId) {
+        const inp = document.getElementById(inputId);
+        if (inp) {
+            inp.value = '';
+            inp.click();
+        }
+    }
+
+    function handleSystemCamera(input, target) {
+        if (!input.files || !input.files[0]) return;
+        const file = input.files[0];
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const img = new Image();
+            img.onload = function() {
+                const canvas = document.createElement('canvas');
+                const maxDim = 800;
+                let scale = 1;
+                if (img.width > maxDim || img.height > maxDim) {
+                    scale = maxDim / Math.max(img.width, img.height);
+                }
+                canvas.width = img.width * scale;
+                canvas.height = img.height * scale;
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                const dataUrl = canvas.toDataURL('image/jpeg', 0.7);
+
+                if (target === 'profile') {
+                    const pImg = document.getElementById('profilePicImg');
+                    if (pImg) { pImg.src = dataUrl; pImg.style.display = 'block'; }
+                    const pPh = document.getElementById('profilePicPh');
+                    if (pPh) pPh.style.display = 'none';
+                    localStorage.setItem('myCustomUserProfilePic', dataUrl);
+                } else if (target === 'ootd') {
+                    currentOotdImg = dataUrl;
+                    renderOotd(dataUrl);
+                } else {
+                    const el = document.getElementById(target);
+                    if (el) {
+                        el.src = dataUrl;
+                        el.style.display = 'block';
+                    }
+                    const del = document.getElementById('del_' + target);
+                    if (del) del.style.display = 'inline-block';
+                }
+                saveData();
+                alert("Surat muvaffaqiyatli saqlandi! ✨");
+            };
+            img.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+    }
+
+    /* 1. QADAMLARNI HISOBLASH (PEDOMETER) */
+    let currentSteps = 0;
+    let isMotionActive = false;
+    let lastMagnitude = 0;
+
+    function initPedometer() {
+        const savedSteps = localStorage.getItem('dailyPedometerSteps');
+        if (savedSteps) currentSteps = parseInt(savedSteps) || 0;
+        updatePedometerUI();
+    }
+
+    async function toggleMotionSensor() {
+        if (!isMotionActive) {
+            if (typeof DeviceMotionEvent !== 'undefined' && typeof DeviceMotionEvent.requestPermission === 'function') {
+                try {
+                    const state = await DeviceMotionEvent.requestPermission();
+                    if (state === 'granted') {
+                        startMotionTracking();
+                    } else {
+                        alert("Datchik ruxsati berilmadi.");
+                    }
+                } catch(e) {
+                    alert("Ruxsat xatosi: " + e);
+                }
+            } else if (window.DeviceMotionEvent) {
+                startMotionTracking();
+            } else {
+                alert("Harakat datchigi topilmadi. Qadamlarni +500 va +1000 tugmalari orqali qo'shishingiz mumkin.");
+            }
+        } else {
+            stopMotionTracking();
+        }
+    }
+
+    function startMotionTracking() {
+        window.addEventListener('devicemotion', handleMotionStep, true);
+        isMotionActive = true;
+        const txt = document.getElementById('pedometerStatusText');
+        if (txt) txt.innerText = "⏹ To'xtatish";
+        alert("Datchik yoqildi! Telefon yoningizda bo'lganda qadamlar sanaladi.");
+    }
+
+    function stopMotionTracking() {
+        window.removeEventListener('devicemotion', handleMotionStep, true);
+        isMotionActive = false;
+        const txt = document.getElementById('pedometerStatusText');
+        if (txt) txt.innerText = "▶ Datchikni yoqish";
+    }
+
+    function handleMotionStep(event) {
+        const acc = event.accelerationIncludingGravity;
+        if (!acc) return;
+        const mag = Math.sqrt(acc.x * acc.x + acc.y * acc.y + acc.z * acc.z);
+        const delta = Math.abs(mag - lastMagnitude);
+        if (delta > 3.0) {
+            currentSteps++;
+            updatePedometerUI();
+            saveData();
+        }
+        lastMagnitude = mag;
+    }
+
+    function addManualSteps(n) {
+        currentSteps += n;
+        updatePedometerUI();
+        saveData();
+    }
+
+    function resetSteps() {
+        currentSteps = 0;
+        updatePedometerUI();
+        saveData();
+        alert("Qadamlar 0 qilindi!");
+    }
+
+    function updatePedometerUI() {
+        const stepEl = document.getElementById('dailyStepsText');
+        if (stepEl) stepEl.innerText = currentSteps.toLocaleString();
+        const km = (currentSteps * 0.00075).toFixed(2);
+        const kcal = Math.round(currentSteps * 0.04);
+        const kmEl = document.getElementById('stepKmText');
+        if (kmEl) kmEl.innerText = `📍 ${km} km`;
+        const calEl = document.getElementById('stepCalText');
+        if (calEl) calEl.innerText = `🔥 ${kcal} kkal`;
+
+        const percent = Math.min(100, Math.round((currentSteps / 10000) * 100));
+        const fillEl = document.getElementById('stepProgressFill');
+        if (fillEl) fillEl.style.width = percent + '%';
+        localStorage.setItem('dailyPedometerSteps', currentSteps);
+    }
+
+    /* 2. PROFIL VA SURAT */
+    function chooseProfilePhotoMethod() {
+        triggerMobileCam('sysCam_profile');
+    }
+
+    function chooseOotdMethod() {
+        const img = document.getElementById('ootdImg');
+        if (img && img.style.display !== 'none' && img.src.startsWith('data:image')) {
+            openImageViewer(img.src);
+        } else {
+            triggerMobileCam('sysCam_ootd');
+        }
+    }
+
+    let activeBookRowId = null;
+    function chooseBookMethod(fileId, imgId, phId, delBtnId, rowId) {
+        const img = document.getElementById(imgId);
+        if (img && img.style.display !== 'none' && img.src.startsWith('data:image')) {
+            openImageViewer(img.src);
+            return;
+        }
+        activeBookRowId = rowId;
+        triggerMobileCam('activeBookFileInput');
+    }
+
+    function handleActiveBookCamera(input) {
+        if (!input.files || !input.files[0] || !activeBookRowId) return;
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const img = new Image();
+            img.onload = function() {
+                const canvas = document.createElement('canvas');
+                const scale = 500 / img.width;
+                canvas.width = 500;
+                canvas.height = img.height * scale;
+                canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
+                const dataUrl = canvas.toDataURL('image/jpeg', 0.65);
+                
+                const tImg = document.getElementById(`img_${activeBookRowId}`);
+                const tPh = document.getElementById(`ph_${activeBookRowId}`);
+                const tDel = document.getElementById(`del_${activeBookRowId}`);
+                if (tImg && tPh && tDel) {
+                    tImg.src = dataUrl;
+                    tImg.style.display = 'block';
+                    tPh.style.display = 'none';
+                    tDel.style.display = 'flex';
+                }
+                saveData();
+            };
+            img.src = e.target.result;
+        };
+        reader.readAsDataURL(input.files[0]);
+    }
+
+    /* 3. RELAX MUSIQA */
+    let relaxNoiseNode = null;
+    let isRelaxPlaying = false;
+
+    function toggleRelaxSound() {
+        initAudioContext();
+        const btn = document.getElementById('relaxSoundBtn');
+
+        if (!isRelaxPlaying) {
+            const bufferSize = audioCtx.sampleRate * 2;
+            const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+            const data = buffer.getChannelData(0);
+            let lastOut = 0.0;
+            for (let i = 0; i < bufferSize; i++) {
+                const white = Math.random() * 2 - 1;
+                data[i] = (lastOut + (0.02 * white)) / 1.02;
+                lastOut = data[i];
+                data[i] *= 0.15;
+            }
+
+            relaxNoiseNode = audioCtx.createBufferSource();
+            relaxNoiseNode.buffer = buffer;
+            relaxNoiseNode.loop = true;
+
+            const filter = audioCtx.createBiquadFilter();
+            filter.type = 'lowpass';
+            filter.frequency.setValueAtTime(800, audioCtx.currentTime);
+
+            relaxNoiseNode.connect(filter);
+            filter.connect(audioCtx.destination);
+            relaxNoiseNode.start();
+
+            isRelaxPlaying = true;
+            if (btn) { btn.style.background = '#10b981'; btn.title = "Musiqani to'xtatish"; }
+        } else {
+            if (relaxNoiseNode) {
+                try { relaxNoiseNode.stop(); } catch(e){}
+                relaxNoiseNode.disconnect();
+            }
+            isRelaxPlaying = false;
+            if (btn) { btn.style.background = 'rgba(255,255,255,0.25)'; btn.title = "Sokin musiqa"; }
+        }
+    }
+
+    /* 4. OVOZ VA VIDEO */
+    let mediaRecorder = null;
+    let audioChunks = [];
+    let isRecording = false;
+    let currentVoiceDataUrl = "";
+    let currentVideoDataUrl = "";
+
+    async function toggleVoiceRecording() {
+        const btn = document.getElementById('voiceRecordBtn');
+        if (!isRecording) {
+            if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+                alert("Mikrofondan foydalanish qo'llab-quvvatlanmaydi.");
+                return;
+            }
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                mediaRecorder = new MediaRecorder(stream);
+                audioChunks = [];
+                mediaRecorder.ondataavailable = e => audioChunks.push(e.data);
+                mediaRecorder.onstop = () => {
+                    const blob = new Blob(audioChunks, { type: 'audio/webm' });
+                    const reader = new FileReader();
+                    reader.onloadend = () => {
+                        currentVoiceDataUrl = reader.result;
+                        setVoicePlayer(currentVoiceDataUrl);
+                        saveData();
+                    };
+                    reader.readAsDataURL(blob);
+                };
+                mediaRecorder.start();
+                isRecording = true;
+                if (btn) { btn.innerText = "⏹ To'xtatish"; btn.style.background = '#dc2626'; }
+            } catch (err) {
+                alert("Mikrofon ruxsati berilmadi: " + err.message);
+            }
+        } else {
+            if (mediaRecorder) mediaRecorder.stop();
+            isRecording = false;
+            if (btn) { btn.innerText = "🎙 Ovoz yozish"; btn.style.background = '#7c3aed'; }
+        }
+    }
+
+    function setVoicePlayer(dataUrl) {
+        const row = document.getElementById('audioPlayerRow');
+        const player = document.getElementById('voicePlayer');
+        if (!row || !player) return;
+        if (dataUrl) {
+            player.src = dataUrl;
+            row.style.display = 'flex';
+        } else {
+            player.src = '';
+            row.style.display = 'none';
+        }
+    }
+
+    function deleteVoiceNote() {
+        currentVoiceDataUrl = "";
+        setVoicePlayer("");
+        saveData();
+    }
+
+    function handleVideoUpload(input) {
+        if (input.files && input.files[0]) {
+            const file = input.files[0];
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                currentVideoDataUrl = e.target.result;
+                setVideoPlayer(currentVideoDataUrl);
+                saveData();
+            };
+            reader.readAsDataURL(file);
+        }
+    }
+
+    function setVideoPlayer(dataUrl) {
+        const row = document.getElementById('videoPlayerRow');
+        const player = document.getElementById('videoPlayer');
+        if (!row || !player) return;
+        if (dataUrl) {
+            player.src = dataUrl;
+            row.style.display = 'flex';
+            player.style.display = 'block';
+        } else {
+            player.src = '';
+            player.style.display = 'none';
+            row.style.display = 'none';
+        }
+    }
+
+    function deleteVideoNote() {
+        currentVideoDataUrl = "";
+        setVideoPlayer("");
+        saveData();
+    }
+
+    /* 5. BUGUN NIMA KIYDIM */
+    let currentOotdImg = "";
+
+    function renderOotd(imgUrl) {
+        const img = document.getElementById('ootdImg');
+        const ph = document.getElementById('ootdPh');
+        const del = document.getElementById('ootdDelBtn');
+        if (!img || !ph || !del) return;
+        if (imgUrl) {
+            img.src = imgUrl;
+            img.style.display = 'block';
+            ph.style.display = 'none';
+            del.style.display = 'inline-block';
+        } else {
+            img.src = '';
+            img.style.display = 'none';
+            ph.style.display = 'flex';
+            del.style.display = 'none';
+        }
+    }
+
+    function deleteOotdImage() {
+        currentOotdImg = "";
+        renderOotd("");
+        saveData();
+    }
+
+    /* 6. VAZN VA BEL O'LCHAMI */
+    function handleWeightInput() {
+        const wEl = document.getElementById('daily_weight');
+        const cur = parseFloat(wEl ? wEl.value : 0);
+        const tag = document.getElementById('weightDiffTag');
+        const prev = parseFloat(localStorage.getItem('prevDailyWeightVal'));
+
+        if (tag && !isNaN(cur) && !isNaN(prev)) {
+            const diff = (cur - prev).toFixed(1);
+            tag.style.display = 'inline-block';
+            if (diff < 0) {
+                tag.className = 'diff-tag diff-minus';
+                tag.innerText = `${diff} kg 🎉`;
+            } else if (diff > 0) {
+                tag.className = 'diff-tag diff-plus';
+                tag.innerText = `+${diff} kg`;
+            } else {
+                tag.className = 'diff-tag';
+                tag.innerText = `0.0 kg`;
+            }
+        } else if (tag) {
+            tag.style.display = 'none';
+        }
+        saveData();
+    }
+
+    function handleMeasurementInput() {
+        const mEl = document.getElementById('m_waist');
+        const cur = parseFloat(mEl ? mEl.value : 0);
+        const tag = document.getElementById('diff_waist');
+        const prev = parseFloat(localStorage.getItem('prevWaistMeasureVal'));
+
+        if (tag && !isNaN(cur) && !isNaN(prev)) {
+            const diff = (cur - prev).toFixed(1);
+            tag.style.display = 'inline-block';
+            if (diff < 0) {
+                tag.className = 'diff-tag diff-minus';
+                tag.innerText = `${diff} sm`;
+            } else if (diff > 0) {
+                tag.className = 'diff-tag diff-plus';
+                tag.innerText = `+${diff} sm`;
+            } else {
+                tag.className = 'diff-tag';
+                tag.innerText = `0 sm`;
+            }
+        } else if (tag) {
+            tag.style.display = 'none';
+        }
+        saveData();
+    }
+
+    /* 7. ZAXIRA VA TIKLASH */
+    function exportDataBackup() {
+        const backupData = {};
+        for (let i = 0; i < localStorage.length; i++) {
+            const key = localStorage.key(i);
+            backupData[key] = localStorage.getItem(key);
+        }
+        const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(backupData, null, 2));
+        const a = document.createElement('a');
+        a.setAttribute("href", dataStr);
+        a.setAttribute("download", `kundalik_zaxira_${formattedTodayStr}.json`);
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        alert("Barcha ma'lumotlaringiz xavfsiz fayl qilib yuklandi!");
+    }
+
+    function importDataBackup(input) {
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const data = JSON.parse(e.target.result);
+                    for (let k in data) {
+                        localStorage.setItem(k, data[k]);
+                    }
+                    alert("Ma'lumotlar muvaffaqiyatli tiklandi!");
+                    location.reload();
+                } catch(err) {
+                    alert("Fayl noto'g'ri!");
+                }
+            };
+            reader.readAsText(input.files[0]);
+        }
+    }
+
+    /* 8. UYQU */
+    let currentSleepStars = 5;
+    function setSleepRating(rating) {
+        currentSleepStars = rating;
+        const stars = document.querySelectorAll('#sleepStarsBox .star');
+        stars.forEach((s, idx) => {
+            if (idx < rating) {
+                s.classList.add('active');
+                s.style.color = '#f59e0b';
+            } else {
+                s.classList.remove('active');
+                s.style.color = '#cbd5e1';
+            }
+        });
+        saveData();
+    }
+
+    function calculateSleepDuration() {
+        const sEl = document.getElementById('sleep_start');
+        const eEl = document.getElementById('sleep_end');
+        if (!sEl || !eEl) return;
+        const start = sEl.value;
+        const end = eEl.value;
+        if (!start || !end) return;
+        const [sH, sM] = start.split(':').map(Number);
+        const [eH, eM] = end.split(':').map(Number);
+        let sMin = sH * 60 + sM;
+        let eMin = eH * 60 + eM;
+        if (eMin < sMin) eMin += 24 * 60;
+        const diffHours = ((eMin - sMin) / 60).toFixed(1);
+        const dText = document.getElementById('sleepDurationText');
+        if (dText) dText.innerText = `${diffHours} soat`;
+        saveData();
+    }
+
+    /* 9. SIKL */
+    function setPeriodDatePrompt() {
+        const current = localStorage.getItem('lastPeriodDateVal') || formattedTodayStr;
+        const inputDate = prompt("Oxirgi sikl boshlangan sana (YYYY-MM-DD):", current);
+        if (inputDate && !isNaN(new Date(inputDate).getTime())) {
+            localStorage.setItem('lastPeriodDateVal', inputDate);
+            updatePeriodDisplay();
+        }
+    }
+
+    function updatePeriodDisplay() {
+        const lastDateStr = localStorage.getItem('lastPeriodDateVal');
+        const pText = document.getElementById('periodCountdownText');
+        if (!lastDateStr || !pText) return;
+        const last = new Date(lastDateStr);
+        const now = new Date();
+        const cycleDays = 28;
+        const nextDate = new Date(last.getTime() + cycleDays * 24 * 60 * 60 * 1000);
+        const diffDays = Math.ceil((nextDate - now) / (1000 * 60 * 60 * 24));
+        if (diffDays > 0) {
+            pText.innerText = `Keyingi siklgacha ~${diffDays} kun`;
+        } else if (diffDays === 0) {
+            pText.innerText = `Bugun kutilmoqda! 🌸`;
+        } else {
+            pText.innerText = `Sikl yetib keldi (${Math.abs(diffDays)} kun o'tdi)`;
+        }
+    }
+
+    /* 10. KELAJAKKA MAKTUB */
+    function openCapsuleModal() { document.getElementById('capsuleModal').style.display = 'flex'; checkCapsuleLetter(); }
+    function closeCapsuleModal() { document.getElementById('capsuleModal').style.display = 'none'; }
+    function saveCapsuleLetter() {
+        const uDate = document.getElementById('capsuleUnlockDate').value;
+        const text = document.getElementById('capsuleLetterText').value;
+        if (!uDate || !text.trim()) { alert("Sanani va xatni to'liq yozing!"); return; }
+        localStorage.setItem('myTimeCapsuleLetter', JSON.stringify({ unlockDate: uDate, text: text.trim() }));
+        alert(`💌 Xat qulflandi! ${uDate} sanasida ochiladi.`);
+        checkCapsuleLetter();
+    }
+    function checkCapsuleLetter() {
+        const saved = localStorage.getItem('myTimeCapsuleLetter');
+        const statusBox = document.getElementById('capsuleStatusBox');
+        if (!statusBox) return;
+        if (!saved) { statusBox.innerText = "Saqlangan xat yo'q."; return; }
+        const data = JSON.parse(saved);
+        if (formattedTodayStr >= data.unlockDate) {
+            statusBox.innerHTML = `🎉 <strong>Xatingiz ochildi:</strong><br><div style="background:#eff6ff; padding:8px; border-radius:6px; margin-top:5px; color:#1e3a8a;">"${data.text}"</div>`;
+        } else {
+            statusBox.innerHTML = `🔒 <em>Xat qulflangan. Ochilish sanasi: ${data.unlockDate}</em>`;
+        }
+    }
+
+    /* 11. KOPILKA - MAQSADNI O'ZINGIZ BELGILASH */
+    let kopilkaData = { name: "Orzudagi maqsad uchun", saved: 0, goal: 5000000 };
+
+    function loadKopilka() {
+        const saved = localStorage.getItem('myKopilkaData');
+        if (saved) {
+            try {
+                kopilkaData = JSON.parse(saved);
+            } catch(e) {}
+            if (!kopilkaData.goal) kopilkaData.goal = 5000000;
+        }
+        updateKopilkaUI();
+    }
+    function saveKopilka() {
+        localStorage.setItem('myKopilkaData', JSON.stringify(kopilkaData));
+        updateKopilkaUI();
+        updateWeeklyMiniStats();
+    }
+    function updateKopilkaUI() {
+        const gName = document.getElementById('kopilkaGoalName');
+        if (gName) gName.innerText = kopilkaData.name;
+        
+        const nText = document.getElementById('kopilkaNumbersText');
+        const goalVal = kopilkaData.goal || 5000000;
+        const savedVal = kopilkaData.saved || 0;
+        const remainingVal = Math.max(0, goalVal - savedVal);
+
+        if (nText) {
+            nText.innerHTML = `
+                <div>Maqsad: ${goalVal.toLocaleString()} so'm</div>
+                <div style="color: #0d9488;">Yig'ildi: ${savedVal.toLocaleString()} so'm</div>
+                <div style="color: ${remainingVal === 0 ? '#10b981' : '#e11d48'}; font-weight: bold;">
+                    ${remainingVal === 0 ? "🎉 Maqsad bajarildi!" : "Qoldi: " + remainingVal.toLocaleString() + " so'm"}
+                </div>
+            `;
+        }
+        let percent = goalVal > 0 ? Math.min(100, Math.round((savedVal / goalVal) * 100)) : 0;
+        const pFill = document.getElementById('kopilkaProgressFill');
+        if (pFill) pFill.style.width = percent + '%';
+    }
+
+    function openGoalModal() {
+        document.getElementById('goalNameInput').value = kopilkaData.name;
+        document.getElementById('goalAmountInput').value = kopilkaData.goal || 5000000;
+        document.getElementById('goalModal').style.display = 'flex';
+    }
+
+    function closeGoalModal() {
+        document.getElementById('goalModal').style.display = 'none';
+    }
+
+    function saveNewKopilkaGoal() {
+        const n = document.getElementById('goalNameInput').value.trim();
+        const a = parseFloat(document.getElementById('goalAmountInput').value);
+        if (n) kopilkaData.name = n;
+        if (!isNaN(a) && a > 0) {
+            kopilkaData.goal = a;
+        } else {
+            alert("Iltimos, maqsad summasini to'g'ri kiriting!");
+            return;
+        }
+        saveKopilka();
+        closeGoalModal();
+        alert(`🎯 Maqsad muvaffaqiyatli belgilandi: ${kopilkaData.goal.toLocaleString()} so'm!`);
+    }
+
+    function addMoneyToKopilka() {
+        const inp = document.getElementById('kopilkaAddInput');
+        const val = parseFloat(inp ? inp.value : 0);
+        if (!isNaN(val) && val > 0) {
+            kopilkaData.saved = (kopilkaData.saved || 0) + val;
+            if (inp) inp.value = '';
+            saveKopilka();
+            const qolgan = Math.max(0, (kopilkaData.goal || 5000000) - kopilkaData.saved);
+            alert(`🪙 Qutiga +${val.toLocaleString()} so'm qo'shildi!\nMaqsadga erishish uchun yana ${qolgan.toLocaleString()} so'm qoldi.`);
+        } else {
+            alert("Summani to'g'ri kiriting!");
+        }
+    }
+    function resetKopilka() {
+        kopilkaData.saved = 0;
+        saveKopilka();
+        alert("Kopilka 0 qilindi.");
+    }
+
+    /* 12. HAFTALIK STATISTIKA */
+    function updateWeeklyMiniStats() {
+        let archive = {};
+        try {
+            archive = JSON.parse(localStorage.getItem('unlimitedYearArchive') || '{}');
+        } catch(e) {}
+        let totalWater = 0;
+        let totalExpense = 0;
+        const dates = Object.keys(archive).sort().slice(-7);
+        dates.forEach(d => {
+            const item = archive[d];
+            if (item && item.waterLiters) totalWater += parseFloat(item.waterLiters) || 0;
+            if (item && item.totalExpense) totalExpense += parseFloat(item.totalExpense) || 0;
+        });
+        const todayWater = (document.querySelectorAll('.water-cup.drank').length * 0.25);
+        totalWater += todayWater;
+        const wEl = document.getElementById('statWeeklyWater');
+        if (wEl) wEl.innerText = `${totalWater.toFixed(1)} L`;
+        const kEl = document.getElementById('statKopilkaTotal');
+        if (kEl) kEl.innerText = `${(kopilkaData.saved || 0).toLocaleString()} so'm`;
+        const eEl = document.getElementById('statWeeklyExpense');
+        if (eEl) eEl.innerText = `${totalExpense.toLocaleString()} so'm`;
+    }
+
+    /* 13. XARAJATLAR */
+    function addExpenseRow(desc = '', amount = '', category = 'bozorlik') {
+        const container = document.getElementById('expensesContainer');
+        if (!container) return;
+        const row = document.createElement('div');
+        row.className = 'expense-row';
+        row.innerHTML = `
+            <select class="expense-category" onchange="saveData()">
+                <option value="bozorlik" ${category === 'bozorlik' ? 'selected' : ''}>🛒 Bozor</option>
+                <option value="gozallik" ${category === 'gozallik' ? 'selected' : ''}>💅 Go'zallik</option>
+                <option value="kiyim" ${category === 'kiyim' ? 'selected' : ''}>👗 Kiyim</option>
+                <option value="yolkira" ${category === 'yolkira' ? 'selected' : ''}>🚕 Yo'lkira</option>
+                <option value="kafe" ${category === 'kafe' ? 'selected' : ''}>☕ Kafe</option>
+                <option value="boshqa" ${category === 'boshqa' ? 'selected' : ''}>📦 Boshqa</option>
+            </select>
+            <input type="text" class="expense-desc" placeholder="Nima oldingiz?..." value="${desc}" oninput="saveData()">
+            <input type="number" class="expense-amount" placeholder="So'm..." inputmode="numeric" value="${amount}" oninput="calculateTotalExpenses(true)">
+            <button type="button" class="btn-remove-row" onclick="removeExpenseRow(this)">✕</button>
+        `;
+        container.appendChild(row);
+        calculateTotalExpenses(false);
+        saveData();
+    }
+
+    function removeExpenseRow(btn) { 
+        if (btn && btn.parentElement) btn.parentElement.remove(); 
+        calculateTotalExpenses(false); 
+        saveData(); 
+    }
+
+    function calculateTotalExpenses(triggerSave = false) {
+        let total = 0;
+        document.querySelectorAll('.expense-amount').forEach(inp => {
+            total += (parseFloat(inp.value) || 0);
+        });
+        const disp = document.getElementById('totalExpenseDisplay');
+        if (disp) disp.innerText = total.toLocaleString() + " so'm";
+        if (triggerSave) saveData();
+        return total;
+    }
+
+    /* 14. SUV BALANSI */
+    function initWaterCups() {
+        const box = document.getElementById('waterTrackerBox');
+        if (!box) return;
+        box.innerHTML = '';
+        for (let i = 1; i <= 16; i++) {
+            const cup = document.createElement('div');
+            cup.className = 'water-cup';
+            cup.innerText = i;
+            cup.onclick = () => toggleWater(cup);
+            box.appendChild(cup);
+        }
+    }
+
+    function toggleWater(el) {
+        if (!el) return;
+        el.classList.toggle('drank');
+        updateWaterTotal();
+        updateWeeklyMiniStats();
+        saveData();
+    }
+
+    function updateWaterTotal() {
+        const drankCups = document.querySelectorAll('.water-cup.drank').length;
+        const liters = (drankCups * 0.25).toFixed(2);
+        const wText = document.getElementById('waterTotalText');
+        if (wText) wText.innerText = `${liters} L / 4.0 L`;
+    }
+
+    /* 15. MAVZU */
+    function openThemeModal() { document.getElementById('themeModal').style.display = 'flex'; }
+    function closeThemeModal() { document.getElementById('themeModal').style.display = 'none'; }
+    function applyTheme(themeName) {
+        document.body.className = '';
+        if (localStorage.getItem('myCustomDarkMode') === 'enabled') {
+            document.body.classList.add('dark-mode');
+        }
+        if (themeName !== 'default') document.body.classList.add('theme-' + themeName);
+        localStorage.setItem('myCustomDiaryTheme', themeName);
+        closeThemeModal();
+    }
+    function loadSavedTheme() {
+        const saved = localStorage.getItem('myCustomDiaryTheme');
+        if (saved && saved !== 'default') document.body.classList.add('theme-' + saved);
+    }
+
+    /* 16. MOTIVATSIYA */
+    const inspirationalQuotes = [
+        "Har bir yangi tong — hayotingizni go'zalroq qilish uchun yangi imkoniyatdir.",
+        "Kichik qadamlar har kuni katta natijalarga olib keladi.",
+        "O'zingizga mehr bering, siz dunyodagi eng qadrli insonsiz.",
+        "Bugungi kuningizni tabassum va minnatdorchilik bilan o'tkazing.",
+        "Siz o'ylaganingizdan ham kuchliroq va go'zalroqsiz.",
+        "Bugun o'z orzularingiz sari yana bir dadil qadam tashlang!"
+    ];
+
+    function setDailyInspiration() {
+        const todayDay = new Date().getDate();
+        const qEl = document.getElementById('dailyQuoteText');
+        if (qEl) qEl.innerText = `"${inspirationalQuotes[todayDay % inspirationalQuotes.length]}"`;
+    }
+
+    let selectedMoodVal = 'happy';
+    function selectMood(mood, el) {
+        selectedMoodVal = mood;
+        document.querySelectorAll('.mood-btn').forEach(b => b.classList.remove('selected'));
+        if (el) el.classList.add('selected');
+        saveData();
+    }
+
+    function playBeepTone() {
+        initAudioContext();
+        const now = audioCtx.currentTime;
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.frequency.setValueAtTime(650, now);
+        gain.gain.setValueAtTime(0.3, now);
+        gain.exponentialRampToValueAtTime(0.01, now + 0.4);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start(now);
+        osc.stop(now + 0.4);
+    }
+
+    function startAlarmSound(planName) {
+        document.getElementById('alarmMedicineName').innerText = planName;
+        document.getElementById('alarmModal').style.display = 'flex';
+        playBeepTone();
+        alarmInterval = setInterval(playBeepTone, 1000);
+        alarmTimeout = setTimeout(stopAlarm, 10000);
+    }
+
+    function stopAlarm() {
+        if (alarmInterval) clearInterval(alarmInterval);
+        if (alarmTimeout) clearTimeout(alarmTimeout);
+        document.getElementById('alarmModal').style.display = 'none';
+    }
+
+    function testAudio() { 
+        initAudioContext();
+        startAlarmSound("Sinov eslatmasi"); 
+    }
+
+    function editDiaryTitle() {
+        const currentTitle = document.getElementById('userDiaryTitle').innerText;
+        const newTitle = prompt("Kundalik nomi:", currentTitle);
+        if (newTitle && newTitle.trim() !== "") {
+            document.getElementById('userDiaryTitle').innerText = newTitle.trim();
+            document.title = newTitle.trim() + " — Jamoldinova Mohinur";
+            localStorage.setItem('myCustomDiaryTitle', newTitle.trim());
+        }
+    }
+
+    function loadDiaryTitle() {
+        const savedTitle = localStorage.getItem('myCustomDiaryTitle');
+        if (savedTitle) {
+            document.getElementById('userDiaryTitle').innerText = savedTitle;
+            document.title = savedTitle + " — Jamoldinova Mohinur";
+        }
+    }
+
+    function handleProfileUpload(input) {
+        if (input.files && input.files[0]) {
+            handleSystemCamera(input, 'profile');
+        }
+    }
+
+    function loadProfilePic() {
+        const savedPic = localStorage.getItem('myCustomUserProfilePic');
+        if (savedPic) {
+            document.getElementById('profilePicImg').src = savedPic;
+            document.getElementById('profilePicImg').style.display = 'block';
+            document.getElementById('profilePicPh').style.display = 'none';
+        }
+    }
+
+    function openImageViewer(src) {
+        if (!src || !src.startsWith('data:image')) return;
+        document.getElementById('imageViewerImg').src = src;
+        document.getElementById('imageViewerModal').style.display = 'flex';
+    }
+    function closeImageViewer() { document.getElementById('imageViewerModal').style.display = 'none'; }
+
+    /* 17. REJALAR */
+    function updatePlanProgress() {
+        const rows = document.querySelectorAll('#plansContainer .pill-row');
+        let completed = 0;
+        rows.forEach(row => {
+            const chk = row.querySelector('input[type="checkbox"]');
+            if (chk && chk.checked) { completed++; row.classList.add('completed-row'); }
+            else { row.classList.remove('completed-row'); }
+        });
+        const percent = rows.length === 0 ? 0 : Math.round((completed / rows.length) * 100);
+        const pBar = document.getElementById('planProgressBar');
+        if (pBar) pBar.style.width = percent + '%';
+        const pPerc = document.getElementById('planProgressPercent');
+        if (pPerc) pPerc.innerText = percent + '%';
+        const pStats = document.getElementById('planStatsText');
+        if (pStats) pStats.innerText = `${completed}/${rows.length} bajarildi`;
+    }
+
+    function addPlanRow(name = '', time = '08:00', chk = false, priority = 'normal') {
+        const container = document.getElementById('plansContainer');
+        if (!container) return;
+        const row = document.createElement('div');
+        row.className = `pill-row ${chk ? 'completed-row' : ''}`;
+        row.innerHTML = `
+            <input type="checkbox" ${chk ? 'checked' : ''} onchange="handlePlanCheck()">
+            <select class="pill-priority" onchange="saveData()">
+                <option value="high" ${priority === 'high' ? 'selected' : ''}>🔴 Muhim</option>
+                <option value="normal" ${priority === 'normal' ? 'selected' : ''}>🟡 O'rtacha</option>
+                <option value="low" ${priority === 'low' ? 'selected' : ''}>🟢 Oddiy</option>
+            </select>
+            <input type="text" class="pill-name" placeholder="Reja nomi..." value="${name}" oninput="saveData()">
+            <input type="time" class="pill-time" value="${time}" onchange="saveData()">
+            <button type="button" class="btn-remove-row" onclick="removePlanRow(this)">✕</button>
+        `;
+        container.appendChild(row);
+        updatePlanProgress();
+        saveData();
+    }
+
+    function handlePlanCheck() { updatePlanProgress(); saveData(); }
+    function removePlanRow(btn) { 
+        if (btn && btn.parentElement) btn.parentElement.remove(); 
+        updatePlanProgress(); 
+        saveData(); 
+    }
+
+    /* 18. KITOBLAR */
+    function addBookRow(title = '', author = '', type = 'read', imgSrc = '') {
+        const container = document.getElementById('booksContainer');
+        if (!container) return;
+        const row = document.createElement('div');
+        row.className = 'book-item-card';
+        const rowId = 'book_' + Date.now() + '_' + Math.random().toString(36).substr(2, 4);
+        const hasImg = imgSrc && imgSrc.startsWith('data:image');
+
+        row.innerHTML = `
+            <div class="book-item-header">
+                <select class="book-type-select" onchange="saveData()">
+                    <option value="read" ${type === 'read' ? 'selected' : ''}>📖 O'qimoqchiman</option>
+                    <option value="buy" ${type === 'buy' ? 'selected' : ''}>🛒 Sotib olmoqchiman</option>
+                    <option value="reading" ${type === 'reading' ? 'selected' : ''}>⏳ O'qiyapman</option>
+                    <option value="done" ${type === 'done' ? 'selected' : ''}>✅ O'qib bo'ldim</option>
+                </select>
+                <div style="flex:1;"></div>
+                <button type="button" class="btn-remove-row" onclick="removeBookRow(this)">✕</button>
+            </div>
+            <div class="book-item-body">
+                <div class="book-thumb-box" onclick="chooseBookMethod('file_${rowId}', 'img_${rowId}', 'ph_${rowId}', 'del_${rowId}', '${rowId}')">
+                    <input type="file" accept="image/*" style="display:none;" id="file_${rowId}" onchange="handleBookImage(this, 'img_${rowId}', 'ph_${rowId}', 'del_${rowId}')">
+                    <div class="book-thumb-placeholder" id="ph_${rowId}" style="${hasImg ? 'display:none;' : 'display:flex;'}">
+                        <span style="font-size: 18px;">📷</span>
+                        <span style="font-size: 8px; font-weight: bold;">Rasm</span>
+                    </div>
+                    <img id="img_${rowId}" class="book-thumb-img" ${hasImg ? `src="${imgSrc}" style="display:block;"` : 'style="display:none;"'}>
+                    <button type="button" id="del_${rowId}" class="book-del-img-btn" style="${hasImg ? 'display:flex;' : 'display:none;'}" onclick="removeBookImg(event, 'img_${rowId}', 'ph_${rowId}', 'del_${rowId}', 'file_${rowId}')">✕</button>
+                </div>
+                <div class="book-inputs">
+                    <input type="text" class="book-title" placeholder="Kitob nomi..." value="${title}" oninput="saveData()">
+                    <input type="text" class="book-author" placeholder="Muallifi / Izoh..." value="${author}" oninput="saveData()">
+                </div>
+            </div>
+        `;
+        container.appendChild(row);
+        saveData();
+    }
+
+    function removeBookImg(event, imgId, phId, delBtnId, fileInputId) {
+        event.stopPropagation();
+        document.getElementById(imgId).src = '';
+        document.getElementById(imgId).style.display = 'none';
+        document.getElementById(phId).style.display = 'flex';
+        document.getElementById(delBtnId).style.display = 'none';
+        const f = document.getElementById(fileInputId);
+        if (f) f.value = '';
+        saveData();
+    }
+
+    function removeBookRow(btn) { 
+        if (btn && btn.closest('.book-item-card')) btn.closest('.book-item-card').remove(); 
+        saveData(); 
+    }
+
+    function handleBookImage(input, imgId, phId, delBtnId) {
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const img = new Image();
+                img.onload = function() {
+                    const canvas = document.createElement('canvas');
+                    const scale = 450 / img.width;
+                    canvas.width = 450;
+                    canvas.height = img.height * scale;
+                    canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
+                    const dataUrl = canvas.toDataURL('image/jpeg', 0.65);
+                    document.getElementById(imgId).src = dataUrl;
+                    document.getElementById(imgId).style.display = 'block';
+                    document.getElementById(phId).style.display = 'none';
+                    document.getElementById(delBtnId).style.display = 'flex';
+                    saveData();
+                };
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    /* 19. SOAT */
+    let triggeredAlarms = {};
+    function updateClock() {
+        const now = new Date();
+        const h = String(now.getHours()).padStart(2, '0');
+        const m = String(now.getMinutes()).padStart(2, '0');
+        const s = String(now.getSeconds()).padStart(2, '0');
+        const currentTime = `${h}:${m}`;
+        const clockEl = document.getElementById('liveClock');
+        if (clockEl) clockEl.innerText = `${h}:${m}:${s}`;
+
+        if (s === "00") {
+            const rows = document.querySelectorAll('#plansContainer .pill-row');
+            rows.forEach((row, idx) => {
+                const chk = row.querySelector('input[type="checkbox"]');
+                const tInp = row.querySelector('.pill-time');
+                const nInp = row.querySelector('.pill-name');
+                if (chk && tInp) {
+                    const isChecked = chk.checked;
+                    const setTime = tInp.value;
+                    const planName = (nInp && nInp.value) ? nInp.value : "Reja";
+                    const alarmKey = `plan_${idx}_${setTime}_${currentTime}`;
+                    if (!isChecked && setTime === currentTime && !triggeredAlarms[alarmKey]) {
+                        triggeredAlarms[alarmKey] = true;
+                        startAlarmSound(planName);
+                    }
+                }
+            });
+        }
+    }
+
+    function removeImage(imgId) {
+        const target = document.getElementById(imgId);
+        if (target) {
+            target.src = '';
+            target.style.display = 'none';
+        }
+        const delBtn = document.getElementById('del_' + imgId);
+        if (delBtn) delBtn.style.display = 'none';
+        saveData();
+    }
+
+    function calculateCalories() {
+        const m = parseFloat(document.getElementById('cal_morn').value) || 0;
+        const l = parseFloat(document.getElementById('cal_lunch').value) || 0;
+        const d = parseFloat(document.getElementById('cal_dinner').value) || 0;
+        const s = parseFloat(document.getElementById('cal_snack').value) || 0;
+        const total = m + l + d + s;
+        const disp = document.getElementById('totalCaloriesDisplay');
+        if (disp) disp.innerText = total + " kkal";
+        return total;
+    }
+
+    function getCurrentDataSnapshot() {
+        const booksData = [];
+        document.querySelectorAll('#booksContainer .book-item-card').forEach(card => {
+            const imgEl = card.querySelector('.book-thumb-img');
+            booksData.push({
+                type: card.querySelector('.book-type-select').value,
+                title: card.querySelector('.book-title').value,
+                author: card.querySelector('.book-author').value,
+                img: (imgEl && imgEl.style.display !== 'none' && imgEl.src.startsWith('data:image')) ? imgEl.src : ''
+            });
+        });
+
+        const plansData = [];
+        document.querySelectorAll('#plansContainer .pill-row').forEach(row => {
+            plansData.push({
+                chk: row.querySelector('input[type="checkbox"]').checked,
+                priority: row.querySelector('.pill-priority').value,
+                name: row.querySelector('.pill-name').value,
+                time: row.querySelector('.pill-time').value
+            });
+        });
+
+        const expensesData = [];
+        document.querySelectorAll('#expensesContainer .expense-row').forEach(row => {
+            expensesData.push({
+                cat: row.querySelector('.expense-category').value,
+                desc: row.querySelector('.expense-desc').value,
+                amount: row.querySelector('.expense-amount').value || '0'
+            });
+        });
+
+        const waterDrankCount = document.querySelectorAll('.water-cup.drank').length;
+
+        return {
+            date: today.toLocaleDateString('uz-UZ', { year: 'numeric', month: '2-digit', day: '2-digit' }),
+            isoDate: formattedTodayStr,
+            mood: selectedMoodVal,
+            gratitude: document.getElementById('gratitudeInput')?.value || '',
+            weight: document.getElementById('daily_weight')?.value || '-',
+            steps: currentSteps,
+            waterLiters: (waterDrankCount * 0.25).toFixed(2),
+            totalExpense: calculateTotalExpenses(false),
+            expenses: expensesData,
+            ootdDesc: document.getElementById('ootdDesc')?.value || '',
+            ootdImg: currentOotdImg || '',
+            voiceDataUrl: currentVoiceDataUrl || '',
+            videoDataUrl: currentVideoDataUrl || '',
+            sleepStart: document.getElementById('sleep_start')?.value || '',
+            sleepEnd: document.getElementById('sleep_end')?.value || '',
+            sleepDuration: document.getElementById('sleepDurationText')?.innerText || '',
+            sleepRating: currentSleepStars,
+            selfCare: {
+                skin: document.getElementById('sc_skin')?.checked || false,
+                walk: document.getElementById('sc_walk')?.checked || false
+            },
+            neck: document.getElementById('m_neck')?.value || '-',
+            waist: document.getElementById('m_waist')?.value || '-',
+            arm: document.getElementById('m_arm')?.value || '-',
+            thigh: document.getElementById('m_thigh')?.value || '-',
+            calf: document.getElementById('m_calf')?.value || '-',
+            belly: document.getElementById('m_belly')?.value || '-',
+            hips: document.getElementById('m_hips')?.value || '-',
+            morn: document.getElementById('diet_morn')?.value || '-',
+            lunch: document.getElementById('diet_lunch')?.value || '-',
+            dinner: document.getElementById('diet_dinner')?.value || '-',
+            snack: document.getElementById('diet_snack')?.value || '-',
+            cal_morn: document.getElementById('cal_morn')?.value || '0',
+            cal_lunch: document.getElementById('cal_lunch')?.value || '0',
+            cal_dinner: document.getElementById('cal_dinner')?.value || '0',
+            cal_snack: document.getElementById('cal_snack')?.value || '0',
+            total_cal: calculateCalories(),
+            img_morn: document.getElementById('img_morn')?.src || '',
+            img_lunch: document.getElementById('img_lunch')?.src || '',
+            img_dinner: document.getElementById('img_dinner')?.src || '',
+            img_snack: document.getElementById('img_snack')?.src || '',
+            review: document.getElementById('day_review')?.value || '-',
+            img_review: document.getElementById('img_review')?.src || '',
+            books: booksData,
+            plans: plansData
+        };
+    }
+
+    function saveData() {
+        const neckVal = document.getElementById('m_neck')?.value;
+        const waistVal = document.getElementById('m_waist')?.value;
+        if (neckVal || waistVal) {
+            localStorage.setItem('savedMeasureDateMob', today.toLocaleDateString('uz-UZ'));
+            const lm = document.getElementById('lastMeasureDate');
+            if (lm) lm.innerText = "Oxirgi o'lchangan sana: " + today.toLocaleDateString('uz-UZ');
+        }
+
+        const data = {
+            plans: [],
+            books: [],
+            expenses: [],
+            mood: selectedMoodVal,
+            gratitude: document.getElementById('gratitudeInput')?.value || '',
+            weight: document.getElementById('daily_weight')?.value || '',
+            steps: currentSteps,
+            ootdDesc: document.getElementById('ootdDesc')?.value || '',
+            ootdImg: currentOotdImg,
+            voiceDataUrl: currentVoiceDataUrl,
+            videoDataUrl: currentVideoDataUrl,
+            sleep: {
+                start: document.getElementById('sleep_start')?.value || '',
+                end: document.getElementById('sleep_end')?.value || '',
+                stars: currentSleepStars
+            },
+            selfCare: {
+                skin: document.getElementById('sc_skin')?.checked || false,
+                walk: document.getElementById('sc_walk')?.checked || false
+            },
+            measures: {
+                neck: document.getElementById('m_neck')?.value || '',
+                waist: document.getElementById('m_waist')?.value || '',
+                arm: document.getElementById('m_arm')?.value || '',
+                thigh: document.getElementById('m_thigh')?.value || '',
+                calf: document.getElementById('m_calf')?.value || '',
+                belly: document.getElementById('m_belly')?.value || '',
+                hips: document.getElementById('m_hips')?.value || '',
+                date: localStorage.getItem('savedMeasureDateMob') || ''
+            },
+            diets: {
+                morn: document.getElementById('diet_morn')?.value || '',
+                lunch: document.getElementById('diet_lunch')?.value || '',
+                dinner: document.getElementById('diet_dinner')?.value || '',
+                snack: document.getElementById('diet_snack')?.value || '',
+                cal_morn: document.getElementById('cal_morn')?.value || '',
+                cal_lunch: document.getElementById('cal_lunch')?.value || '',
+                cal_dinner: document.getElementById('cal_dinner')?.value || '',
+                cal_snack: document.getElementById('cal_snack')?.value || '',
+                img_morn: document.getElementById('img_morn')?.src || '',
+                img_lunch: document.getElementById('img_lunch')?.src || '',
+                img_dinner: document.getElementById('img_dinner')?.src || '',
+                img_snack: document.getElementById('img_snack')?.src || ''
+            },
+            review: document.getElementById('day_review')?.value || '',
+            img_review: document.getElementById('img_review')?.src || '',
+            water: []
+        };
+
+        document.querySelectorAll('#plansContainer .pill-row').forEach(row => {
+            data.plans.push({
+                chk: row.querySelector('input[type="checkbox"]').checked,
+                priority: row.querySelector('.pill-priority').value,
+                name: row.querySelector('.pill-name').value,
+                time: row.querySelector('.pill-time').value
+            });
+        });
+
+        document.querySelectorAll('#booksContainer .book-item-card').forEach(card => {
+            const imgEl = card.querySelector('.book-thumb-img');
+            data.books.push({
+                type: card.querySelector('.book-type-select').value,
+                title: card.querySelector('.book-title').value,
+                author: card.querySelector('.book-author').value,
+                img: (imgEl && imgEl.style.display !== 'none' && imgEl.src.startsWith('data:image')) ? imgEl.src : ''
+            });
+        });
+
+        document.querySelectorAll('#expensesContainer .expense-row').forEach(row => {
+            data.expenses.push({
+                cat: row.querySelector('.expense-category').value,
+                desc: row.querySelector('.expense-desc').value,
+                amount: row.querySelector('.expense-amount').value || '0'
+            });
+        });
+
+        document.querySelectorAll('.water-cup').forEach((cup, idx) => {
+            if (cup.classList.contains('drank')) data.water.push(idx);
+        });
+
+        localStorage.setItem('healthPlanMobileApp', JSON.stringify(data));
+    }
+
+    function loadData() {
+        const saved = localStorage.getItem('healthPlanMobileApp');
+        document.getElementById('plansContainer').innerHTML = '';
+        document.getElementById('booksContainer').innerHTML = '';
+        document.getElementById('expensesContainer').innerHTML = '';
+
+        if (!saved) {
+            addPlanRow("Ertalabki reja", "08:00", false, "high");
+            addPlanRow("Tushlikdagi reja", "13:00", false, "normal");
+            addPlanRow("Kechki reja", "19:00", false, "normal");
+            addBookRow("Atom Odatlar", "Jeyms Klir", "read");
+            addExpenseRow("Bozorlik (meva, sabzavot)", "65000", "bozorlik");
+            return;
+        }
+
+        let data = {};
+        try {
+            data = JSON.parse(saved);
+        } catch(e) {
+            addPlanRow("Ertalabki reja", "08:00", false, "high");
+            return;
+        }
+
+        if (data.mood) {
+            selectedMoodVal = data.mood;
+            const moodMap = { 'super': 0, 'happy': 1, 'neutral': 2, 'tired': 3, 'sad': 4 };
+            const btns = document.querySelectorAll('.mood-btn');
+            if (btns[moodMap[data.mood]]) {
+                btns.forEach(b => b.classList.remove('selected'));
+                btns[moodMap[data.mood]].classList.add('selected');
+            }
+        }
+
+        if (data.gratitude) document.getElementById('gratitudeInput').value = data.gratitude;
+
+        if (data.steps) {
+            currentSteps = data.steps;
+            updatePedometerUI();
+        }
+
+        if (data.ootdDesc) document.getElementById('ootdDesc').value = data.ootdDesc;
+        if (data.ootdImg) { currentOotdImg = data.ootdImg; renderOotd(currentOotdImg); }
+        if (data.voiceDataUrl) { currentVoiceDataUrl = data.voiceDataUrl; setVoicePlayer(currentVoiceDataUrl); }
+        if (data.videoDataUrl) { currentVideoDataUrl = data.videoDataUrl; setVideoPlayer(currentVideoDataUrl); }
+
+        if (data.sleep) {
+            if (data.sleep.start) document.getElementById('sleep_start').value = data.sleep.start;
+            if (data.sleep.end) document.getElementById('sleep_end').value = data.sleep.end;
+            if (data.sleep.stars) setSleepRating(data.sleep.stars);
+            calculateSleepDuration();
+        }
+
+        if (data.selfCare) {
+            document.getElementById('sc_skin').checked = !!data.selfCare.skin;
+            document.getElementById('sc_walk').checked = !!data.selfCare.walk;
+        }
+
+        const plansToLoad = data.plans || data.pills;
+        if (plansToLoad && plansToLoad.length > 0) {
+            plansToLoad.forEach(p => addPlanRow(p.name, p.time, p.chk, p.priority || 'normal'));
+        } else {
+            addPlanRow("Ertalabki reja", "08:00", false, "high");
+        }
+
+        if (data.books && data.books.length > 0) {
+            data.books.forEach(b => addBookRow(b.title, b.author, b.type, b.img || ''));
+        } else {
+            addBookRow("Atom Odatlar", "Jeyms Klir", "read");
+        }
+
+        if (data.expenses && data.expenses.length > 0) {
+            data.expenses.forEach(e => addExpenseRow(e.desc, e.amount, e.cat));
+        } else {
+            addExpenseRow("Bozorlik", "", "bozorlik");
+        }
+
+        if (data.weight) {
+            document.getElementById('daily_weight').value = data.weight;
+            handleWeightInput();
+        }
+
+        if (data.measures) {
+            ['neck','waist','arm','thigh','calf','belly','hips'].forEach(k => {
+                const el = document.getElementById('m_' + k);
+                if (el && data.measures[k]) el.value = data.measures[k];
+            });
+            handleMeasurementInput();
+            if (data.measures.date) {
+                const lDate = document.getElementById('lastMeasureDate');
+                if (lDate) lDate.innerText = "Oxirgi o'lchangan sana: " + data.measures.date;
+            }
+        }
+
+        if (data.diets) {
+            ['morn','lunch','dinner','snack'].forEach(t => {
+                const dEl = document.getElementById('diet_' + t);
+                const cEl = document.getElementById('cal_' + t);
+                if (dEl) dEl.value = data.diets[t] || '';
+                if (cEl) cEl.value = data.diets['cal_' + t] || '';
+                if (data.diets['img_' + t] && data.diets['img_' + t].startsWith('data:image')) {
+                    const img = document.getElementById('img_' + t);
+                    if (img) {
+                        img.src = data.diets['img_' + t];
+                        img.style.display = 'block';
+                        const delBtn = document.getElementById('del_img_' + t);
+                        if (delBtn) delBtn.style.display = 'inline-block';
+                    }
+                }
+            });
+            calculateCalories();
+        }
+
+        if (data.review) document.getElementById('day_review').value = data.review;
+
+        if (data.img_review && data.img_review.startsWith('data:image')) {
+            const revImg = document.getElementById('img_review');
+            if (revImg) {
+                revImg.src = data.img_review;
+                revImg.style.display = 'block';
+                const dRev = document.getElementById('del_img_review');
+                if (dRev) dRev.style.display = 'inline-block';
+            }
+        }
+
+        if (data.water) {
+            const cups = document.querySelectorAll('.water-cup');
+            data.water.forEach(idx => {
+                if (cups[idx]) cups[idx].classList.add('drank');
+            });
+            updateWaterTotal();
+        }
+
+        updatePlanProgress();
+        calculateTotalExpenses(false);
+    }
+
+    /* 20. ARXIV */
+    function loadSavedDatesTags() {
+        const container = document.getElementById('savedDatesContainer');
+        if (!container) return;
+        container.innerHTML = '';
+        let archive = {};
+        try {
+            archive = JSON.parse(localStorage.getItem('unlimitedYearArchive') || '{}');
+        } catch(e) {}
+        const dates = Object.keys(archive).sort().reverse();
+
+        if (dates.length === 0) {
+            container.innerHTML = '<span style="font-size:11px; opacity:0.7; font-style:italic;">Hozircha saqlangan kunlar yo\'q.</span>';
+            return;
+        }
+
+        dates.forEach(dateKey => {
+            const tag = document.createElement('div');
+            tag.className = 'saved-date-tag';
+            tag.id = `tag_${dateKey}`;
+            tag.innerText = `📅 ${dateKey}`;
+            tag.onclick = () => {
+                document.getElementById('archiveDateSelector').value = dateKey;
+                viewSelectedDateArchive(dateKey);
+            };
+            container.appendChild(tag);
+        });
+    }
+
+    function openSaveDateModal() {
+        document.getElementById('modalDatePicker').value = formattedTodayStr;
+        document.getElementById('saveDateModal').style.display = 'flex';
+    }
+
+    function closeSaveDateModal() { document.getElementById('saveDateModal').style.display = 'none'; }
+
+    function confirmSaveDateModal() {
+        const targetDate = document.getElementById('modalDatePicker').value;
+        if (!targetDate) { alert("Sanani tanlang!"); return; }
+
+        let archive = {};
+        try {
+            archive = JSON.parse(localStorage.getItem('unlimitedYearArchive') || '{}');
+        } catch(e) {}
+        const snapshot = getCurrentDataSnapshot();
+        snapshot.savedAtDate = targetDate;
+        archive[targetDate] = snapshot;
+
+        if (snapshot.weight && snapshot.weight !== '-') localStorage.setItem('prevDailyWeightVal', snapshot.weight);
+        if (snapshot.waist && snapshot.waist !== '-') localStorage.setItem('prevWaistMeasureVal', snapshot.waist);
+
+        localStorage.setItem('unlimitedYearArchive', JSON.stringify(archive));
+        loadSavedDatesTags();
+        updateWeeklyMiniStats();
+        document.getElementById('archiveDateSelector').value = targetDate;
+        viewSelectedDateArchive(targetDate);
+        closeSaveDateModal();
+        alert(`Ma'lumotlar ${targetDate} sanasiga saqlandi!`);
+    }
+
+    function viewSelectedDateArchive(dateKey) {
+        if (!dateKey) return;
+        document.querySelectorAll('.saved-date-tag').forEach(t => t.classList.remove('active'));
+        const activeTag = document.getElementById(`tag_${dateKey}`);
+        if (activeTag) activeTag.classList.add('active');
+
+        let archive = {};
+        try {
+            archive = JSON.parse(localStorage.getItem('unlimitedYearArchive') || '{}');
+        } catch(e) {}
+        const data = archive[dateKey];
+        const viewBox = document.getElementById('archiveViewBox');
+        const content = document.getElementById('archiveContent');
+        const delBtn = document.getElementById('deleteCurrentDayBtn');
+
+        viewBox.style.display = 'block';
+        document.getElementById('archiveTitle').innerText = `📅 ${dateKey} kungi qaydlar`;
+
+        if (!data) {
+            content.innerHTML = `<p style="opacity: 0.7; font-style: italic; margin: 0;">Bu sanada ma'lumot yo'q.</p>`;
+            delBtn.style.display = 'none';
+            return;
+        }
+
+        delBtn.style.display = 'inline-block';
+        delBtn.onclick = () => deleteSpecificDateArchive(dateKey);
+
+        const moodEmojis = { 'super': '😍 A\'lo', 'happy': '😊 Yaxshi', 'neutral': '😐 Oddiy', 'tired': '😴 Charchagan', 'sad': '😔 Xafa' };
+        const moodText = data.mood ? moodEmojis[data.mood] || data.mood : 'Belgilanmagan';
+
+        const renderMeal = (label, text, cal, img) => {
+            const imgTag = (img && img.startsWith('data:image')) ? `<img src="${img}" class="archive-meal-img" onclick="openImageViewer('${img}')">` : '';
+            return `<div class="archive-meal-row">${imgTag}<div><strong>${label}:</strong> ${text} <span style="color:#2e6f40;">(${cal||0} kkal)</span></div></div>`;
+        };
+
+        const reviewImgTag = (data.img_review && data.img_review.startsWith('data:image')) 
+            ? `<div style="margin-top: 4px;"><img src="${data.img_review}" class="archive-meal-img" style="width: 50px; height: 50px; border-radius: 6px;" onclick="openImageViewer('${data.img_review}')"></div>` : '';
+
+        let ootdHTML = '';
+        if (data.ootdImg || data.ootdDesc) {
+            const oImg = data.ootdImg ? `<img src="${data.ootdImg}" class="archive-meal-img" style="width:45px; height:55px;" onclick="openImageViewer('${data.ootdImg}')">` : '';
+            ootdHTML = `<div style="margin-top:6px; padding:6px; background:rgba(2,132,199,0.1); border-radius:6px; font-size:11px; display:flex; gap:6px; align-items:center;">${oImg}<div><strong>👗 Obraz:</strong> ${data.ootdDesc || 'Kiyim surati'}</div></div>`;
+        }
+
+        let voiceHTML = '';
+        if (data.voiceDataUrl) {
+            voiceHTML = `<div style="margin-top:6px; padding:6px; background:rgba(124,58,237,0.1); border-radius:6px; font-size:11px;"><strong>🎙 Ovoz:</strong><br><audio controls src="${data.voiceDataUrl}" style="height:28px; width:100%; margin-top:2px;"></audio></div>`;
+        }
+
+        let videoHTML = '';
+        if (data.videoDataUrl) {
+            videoHTML = `<div style="margin-top:6px; padding:6px; background:rgba(13,148,136,0.1); border-radius:6px; font-size:11px;"><strong>🎬 Video:</strong><br><video controls src="${data.videoDataUrl}" style="max-height:140px; width:100%; border-radius:6px; margin-top:2px; background:#000;"></video></div>`;
+        }
+
+        let expensesHTML = '';
+        if (data.expenses && data.expenses.length > 0) {
+            expensesHTML = `<div style="margin-top:6px; padding:6px; background:rgba(225,29,72,0.1); border-radius:6px; border:1px solid rgba(225,29,72,0.2); font-size:11px;"><strong>💸 Xarajatlar (Jami: ${data.totalExpense||0} so'm):</strong><ul style="margin:2px 0; padding-left:16px;">`;
+            data.expenses.forEach(e => {
+                if (e.desc || parseFloat(e.amount) > 0) {
+                    expensesHTML += `<li>[${e.cat}] <strong>${e.desc}</strong>: <span style="color:#e11d48; font-weight:bold;">${parseFloat(e.amount||0).toLocaleString()} so'm</span></li>`;
+                }
+            });
+            expensesHTML += `</ul></div>`;
+        }
+
+        let sleepHTML = '';
+        if (data.sleepDuration) {
+            sleepHTML = `<div style="margin-top:6px; padding:6px; background:rgba(67,56,202,0.1); border-radius:6px; font-size:11px; color:#4338ca;"><strong>🌙 Uyqu:</strong> ${data.sleepStart || '-'} dan ${data.sleepEnd || '-'} gacha (${data.sleepDuration}) | Baho: ${data.sleepRating || 5}★</div>`;
+        }
+
+        let scHTML = '';
+        if (data.selfCare) {
+            const scList = [];
+            if (data.selfCare.skin) scList.push("Yuz");
+            if (data.selfCare.walk) scList.push("Badantarbiya");
+            if (scList.length > 0) {
+                scHTML = `<div style="margin-top:6px; padding:6px; background:rgba(219,39,119,0.1); border-radius:6px; font-size:11px; color:#db2777;"><strong>🧖‍♀️ Parvarish:</strong> ${scList.join(', ')}</div>`;
+            }
+        }
+
+        let plansHTML = '';
+        if (data.plans && data.plans.length > 0) {
+            plansHTML = `<div style="margin-top:6px; padding:6px; background:rgba(37,99,235,0.1); border-radius:6px; border:1px solid rgba(37,99,235,0.2); font-size:11px;"><strong>📋 Bajarilgan rejalar:</strong><ul style="margin:2px 0; padding-left:16px;">`;
+            data.plans.forEach(p => plansHTML += `<li>${p.chk ? '✅' : '⬜'} [${p.time}] <strong>${p.name}</strong></li>`);
+            plansHTML += `</ul></div>`;
+        }
+
+        let booksHTML = '';
+        if (data.books && data.books.length > 0) {
+            booksHTML = `<div style="margin-top:6px; padding:6px; background:rgba(139,92,246,0.1); border-radius:6px; border:1px solid rgba(139,92,246,0.2); font-size:11px;"><strong>📚 Kitob rejalari:</strong><ul style="margin:2px 0; padding-left:16px;">`;
+            data.books.forEach(b => {
+                let badge = b.type === 'read' ? '📖 O\'qish' : (b.type === 'buy' ? '🛒 Sotib olish' : (b.type === 'reading' ? '⏳ O\'qilmoqda' : '✅ O\'qildi'));
+                const bImg = (b.img && b.img.startsWith('data:image')) ? `<img src="${b.img}" style="width:20px; height:26px; object-fit:cover; border-radius:2px; vertical-align:middle; margin-right:4px;" onclick="openImageViewer('${b.img}')">` : '';
+                booksHTML += `<li style="margin-bottom:2px;">${bImg}[${badge}] <strong>${b.title}</strong> ${b.author ? '— ' + b.author : ''}</li>`;
+            });
+            booksHTML += `</ul></div>`;
+        }
+
+        content.innerHTML = `
+            <div><strong>Sana:</strong> ${data.savedAtDate || data.date}</div>
+            <div style="margin: 4px 0; font-size: 12px;"><strong>Kayfiyat:</strong> <span style="color:#b45309; font-weight:bold;">${moodText}</span> | <strong>Qadamlar:</strong> <span style="color:#ea580c; font-weight:bold;">${(data.steps||0).toLocaleString()} ta</span> | <strong>Suv:</strong> <span style="color:#0284c7; font-weight:bold;">${data.waterLiters || 0} L</span></div>
+            ${data.gratitude ? `<div style="background:#fef3c7; color:#92400e; padding:4px 6px; border-radius:6px; margin:4px 0; font-size:11px;"><strong>🌸 Shukronalik:</strong> ${data.gratitude}</div>` : ''}
+            ${sleepHTML}
+            ${scHTML}
+            ${ootdHTML}
+            ${voiceHTML}
+            ${videoHTML}
+            ${expensesHTML}
+            <div style="margin-top:4px;"><strong>Vazn:</strong> <span style="color:var(--pill); font-weight:bold;">${data.weight} kg</span> | <strong>Kaloriya:</strong> <span style="color:var(--accent); font-weight:bold;">${data.total_cal||0} kkal</span></div>
+            <div style="background:rgba(0,0,0,0.03); padding:4px; border-radius:6px; border:1px solid #cbd5e1; margin:4px 0; font-size:11px;">
+                Bo'yin:${data.neck} | Bel:${data.waist} | Qo'l:${data.arm} | Son:${data.thigh} | Boldir:${data.calf} | Qorin:${data.belly} | Bo'ksa:${data.hips}
+            </div>
+            ${plansHTML}
+            ${renderMeal('Nonushta', data.morn, data.cal_morn, data.img_morn)}
+            ${renderMeal('Tushlik', data.lunch, data.cal_lunch, data.img_lunch)}
+            ${renderMeal('Kechki', data.dinner, data.cal_dinner, data.img_dinner)}
+            ${renderMeal('Perekus', data.snack, data.cal_snack, data.img_snack)}
+            ${booksHTML}
+            <div style="margin-top:4px; padding:4px; background:rgba(0,0,0,0.05); border-radius:6px; font-size:11px;">
+                <strong>Kun xulosasi:</strong> ${data.review}
+                ${reviewImgTag}
+            </div>
+        `;
+    }
+
+    function deleteSpecificDateArchive(dateKey) {
+        let archive = {};
+        try {
+            archive = JSON.parse(localStorage.getItem('unlimitedYearArchive') || '{}');
+        } catch(e) {}
+        delete archive[dateKey];
+        localStorage.setItem('unlimitedYearArchive', JSON.stringify(archive));
+        loadSavedDatesTags();
+        updateWeeklyMiniStats();
+        viewSelectedDateArchive(dateKey);
+    }
+
+    function clearAllArchive() {
+        localStorage.removeItem('unlimitedYearArchive');
+        loadSavedDatesTags();
+        updateWeeklyMiniStats();
+        closeArchiveView();
+    }
+
+    function closeArchiveView() {
+        document.getElementById('archiveViewBox').style.display = 'none';
+        document.querySelectorAll('.saved-date-tag').forEach(b => b.classList.remove('active'));
+    }
+
+    function resetDay() {
+        document.querySelectorAll('#plansContainer input[type="checkbox"]').forEach(chk => chk.checked = false);
+        updatePlanProgress();
+        document.querySelectorAll('.water-cup').forEach(cup => cup.classList.remove('drank'));
+        updateWaterTotal();
+        document.getElementById('expensesContainer').innerHTML = '';
+        addExpenseRow("Bozorlik", "", "bozorlik");
+        document.getElementById('daily_weight').value = '';
+        const wt = document.getElementById('weightDiffTag');
+        if (wt) wt.style.display = 'none';
+        const dw = document.getElementById('diff_waist');
+        if (dw) dw.style.display = 'none';
+        document.getElementById('gratitudeInput').value = '';
+        currentSteps = 0;
+        updatePedometerUI();
+        document.getElementById('ootdDesc').value = '';
+        deleteOotdImage();
+        currentVoiceDataUrl = "";
+        setVoicePlayer("");
+        currentVideoDataUrl = "";
+        setVideoPlayer("");
+        document.getElementById('sc_skin').checked = false;
+        document.getElementById('sc_walk').checked = false;
+        setSleepRating(5);
+        selectMood('happy', document.querySelectorAll('.mood-btn')[1]);
+        ['morn','lunch','dinner','snack'].forEach(t => {
+            document.getElementById('diet_' + t).value = '';
+            document.getElementById('cal_' + t).value = '';
+            removeImage('img_' + t);
+        });
+        calculateCalories();
+        removeImage('img_review');
+        document.getElementById('day_review').value = '';
+        triggeredAlarms = {};
+        saveData();
+        updateWeeklyMiniStats();
+        alert("Yangi kun boshlandi! ✨");
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+        const curDateEl = document.getElementById('currentDateDisplay');
+        if (curDateEl) {
+            curDateEl.innerText = today.toLocaleDateString('uz-UZ', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' });
+        }
+        const archDate = document.getElementById('archiveDateSelector');
+        if (archDate) archDate.value = formattedTodayStr;
+
+        loadDarkMode();
+        initWaterCups();
+        initPedometer();
+        loadSavedTheme();
+        setDailyInspiration();
+        loadProfilePic();
+        loadDiaryTitle();
+        loadKopilka();
+        loadData();
+        loadSavedDatesTags();
+        updatePeriodDisplay();
+        updateWeeklyMiniStats();
+        updateClock();
+        setInterval(updateClock, 1000);
+    });
+</script>
+
+</body>
+</html>

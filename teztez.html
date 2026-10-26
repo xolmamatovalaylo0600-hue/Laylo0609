@@ -1,0 +1,2335 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Kargo & Buyurtmalar Nazorati</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #2563eb;
+      --primary-dark: #1d4ed8;
+      --success: #10b981;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+      --purple: #8b5cf6;
+      --bg: #f8fafc;
+      --card-bg: #ffffff;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --border: #e2e8f0;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text-main);
+      padding-bottom: 90px;
+    }
+
+    /* Header */
+    header {
+      background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+      color: white;
+      padding: 16px 20px 22px;
+      border-radius: 0 0 24px 24px;
+      box-shadow: 0 4px 20px rgba(37, 99, 235, 0.2);
+    }
+
+    .header-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .brand-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      letter-spacing: -0.3px;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .alarm-btn {
+      background: rgba(255, 255, 255, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      color: white;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.95rem;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .alarm-badge {
+      position: absolute;
+      top: -3px;
+      right: -3px;
+      background: var(--danger);
+      color: white;
+      font-size: 0.65rem;
+      font-weight: 700;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      border: 2px solid white;
+    }
+
+    .rate-badge {
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(8px);
+      padding: 6px 14px;
+      border-radius: 30px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+    }
+
+    /* Stat Cards */
+    .stats-container {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      margin-top: 6px;
+    }
+
+    .stat-card {
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 14px;
+      padding: 10px 12px;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .stat-card.cargo-card {
+      background: rgba(139, 92, 246, 0.25);
+      border-color: rgba(139, 92, 246, 0.4);
+    }
+
+    .stat-card.profit-card {
+      background: rgba(16, 185, 129, 0.25);
+      border-color: rgba(16, 185, 129, 0.4);
+    }
+
+    .stat-card.debt-card {
+      background: rgba(239, 68, 68, 0.25);
+      border-color: rgba(239, 68, 68, 0.4);
+    }
+
+    .stat-label {
+      font-size: 0.72rem;
+      opacity: 0.9;
+      margin-bottom: 3px;
+    }
+
+    .stat-value {
+      font-size: 1.05rem;
+      font-weight: 700;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* Container & Toolbar */
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 16px;
+    }
+
+    .toolbar {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    .search-box {
+      flex: 1;
+      position: relative;
+    }
+
+    .search-box i {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-muted);
+      font-size: 0.85rem;
+    }
+
+    .search-box input {
+      width: 100%;
+      padding: 10px 12px 10px 34px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: var(--card-bg);
+      font-size: 0.9rem;
+      outline: none;
+    }
+
+    .filter-select {
+      padding: 10px 12px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: var(--card-bg);
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-main);
+      outline: none;
+    }
+
+    /* Order Card */
+    .order-card {
+      background: var(--card-bg);
+      border-radius: 18px;
+      padding: 16px;
+      margin-bottom: 14px;
+      border: 1px solid var(--border);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+      position: relative;
+    }
+
+    .card-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 8px;
+      padding-bottom: 8px;
+      border-bottom: 1px dashed var(--border);
+    }
+
+    .card-head-left {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      flex: 1;
+    }
+
+    .item-thumb {
+      width: 52px;
+      height: 52px;
+      border-radius: 10px;
+      object-fit: cover;
+      border: 1px solid var(--border);
+      cursor: pointer;
+    }
+
+    .item-thumb-placeholder {
+      width: 52px;
+      height: 52px;
+      border-radius: 10px;
+      background: #f1f5f9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-muted);
+      font-size: 1.2rem;
+      border: 1px dashed var(--border);
+      cursor: pointer;
+    }
+
+    .client-title-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .client-title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .client-total-cargo-badge {
+      background: #f5f3ff;
+      border: 1px solid #ddd6fe;
+      color: #6d28d9;
+      padding: 2px 7px;
+      border-radius: 6px;
+      font-size: 0.7rem;
+      font-weight: 700;
+    }
+
+    .add-more-btn {
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      color: var(--primary);
+      padding: 3px 8px;
+      border-radius: 6px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: all 0.2s;
+    }
+
+    .add-more-btn:hover {
+      background: var(--primary);
+      color: white;
+    }
+
+    .client-contact {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.8rem;
+      color: var(--primary);
+      text-decoration: none;
+      margin-top: 2px;
+      font-weight: 500;
+    }
+
+    .item-badge {
+      display: block;
+      font-size: 0.85rem;
+      color: #334155;
+      font-weight: 600;
+      margin-top: 2px;
+    }
+
+    .status-tag {
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 20px;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .status-zakaz { background: #e0e7ff; color: #4338ca; }
+    .status-yolda { background: #fef3c7; color: #b45309; }
+    .status-keldi { background: #dcfce7; color: #15803d; }
+    .status-topshirildi { background: #f1f5f9; color: #475569; }
+
+    /* Muddat Bannari (7-10 kun) */
+    .delivery-alarm-bar {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 10px;
+      border-radius: 8px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .delivery-alarm-7 {
+      background: #fef3c7;
+      color: #b45309;
+      border: 1px solid #fde68a;
+    }
+
+    .delivery-alarm-10 {
+      background: #fee2e2;
+      color: #b91c1c;
+      border: 1px solid #fecaca;
+      animation: pulseAlert 1.5s infinite;
+    }
+
+    .delivery-success-bar {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: #ecfdf5;
+      border: 1px solid #a7f3d0;
+      color: #047857;
+      padding: 6px 10px;
+      border-radius: 8px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    @keyframes pulseAlert {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.75; }
+    }
+
+    .track-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #f1f5f9;
+      padding: 7px 12px;
+      border-radius: 10px;
+      margin-bottom: 10px;
+      font-size: 0.85rem;
+    }
+
+    .track-code {
+      font-family: monospace;
+      font-weight: 600;
+      color: #334155;
+    }
+
+    .copy-btn {
+      color: var(--primary);
+      cursor: pointer;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+
+    /* Grids */
+    .finance-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 6px;
+      background: #f8fafc;
+      padding: 8px 10px;
+      border-radius: 10px;
+      margin-bottom: 8px;
+      text-align: center;
+    }
+
+    .fin-item span {
+      display: block;
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      margin-bottom: 2px;
+    }
+
+    .fin-item strong {
+      font-size: 0.82rem;
+      font-weight: 600;
+    }
+
+    .cargo-item strong {
+      color: var(--purple);
+    }
+
+    /* Rangli tahrirlash chiplari */
+    .quick-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      color: #1d4ed8;
+      padding: 3px 8px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-weight: 600;
+      user-select: none;
+    }
+
+    .quick-chip:hover {
+      background: #dbeafe;
+      border-color: #93c5fd;
+      transform: translateY(-1px);
+    }
+
+    .quick-chip:active {
+      transform: translateY(0);
+      background: #bfdbfe;
+    }
+
+    .quick-chip i {
+      font-size: 0.65rem;
+      color: #3b82f6;
+    }
+
+    .quick-chip.purple-chip {
+      background: #f5f3ff;
+      border-color: #ddd6fe;
+      color: #6d28d9;
+    }
+    .quick-chip.purple-chip:hover { background: #ede9fe; }
+
+    .quick-chip.green-chip {
+      background: #ecfdf5;
+      border-color: #a7f3d0;
+      color: #047857;
+    }
+    .quick-chip.green-chip:hover { background: #d1fae5; }
+
+    .quick-chip.amber-chip {
+      background: #fffbeb;
+      border-color: #fde68a;
+      color: #b45309;
+    }
+    .quick-chip.amber-chip:hover { background: #fef3c7; }
+
+    .cargo-paid-toggle {
+      display: inline-block;
+      font-size: 0.62rem;
+      padding: 2px 6px;
+      border-radius: 6px;
+      margin-top: 3px;
+      font-weight: 700;
+      cursor: pointer;
+      user-select: none;
+      transition: opacity 0.2s;
+    }
+
+    .cargo-paid-true { background: #dcfce7; color: #15803d; border: 1px solid #86efac; }
+    .cargo-paid-false { background: #fee2e2; color: #b91c1c; border: 1px solid #fca5a5; }
+
+    .cargo-badge {
+      display: inline-block;
+      font-size: 0.62rem;
+      padding: 2px 6px;
+      border-radius: 6px;
+      margin-top: 3px;
+      font-weight: 700;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .badge-kargoli { background: #dbeafe; color: #1e40af; border: 1px solid #bfdbfe; }
+    .badge-kargosiz { background: #fef3c7; color: #92400e; border: 1px solid #fde68a; }
+
+    .profit-item strong {
+      color: var(--success);
+      font-weight: 700;
+    }
+
+    .payment-status-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px;
+      padding: 8px 10px;
+      border-radius: 10px;
+      margin-bottom: 10px;
+      background: #fafafa;
+      border: 1px solid #f1f5f9;
+    }
+
+    .pay-box {
+      font-size: 0.75rem;
+    }
+
+    .pay-box span {
+      display: block;
+      color: var(--text-muted);
+      margin-bottom: 2px;
+    }
+
+    .pay-box strong {
+      font-size: 0.85rem;
+    }
+
+    .text-received { color: #0284c7; }
+    .text-debt { color: var(--danger); }
+    .text-cleared { color: var(--success); }
+
+    .card-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    .actions {
+      display: flex;
+      gap: 12px;
+    }
+
+    .action-icon {
+      font-size: 0.95rem;
+      cursor: pointer;
+    }
+
+    .action-icon.delete { color: var(--danger); }
+    .action-icon.status-change { color: var(--primary); }
+
+    /* --- TOVAR QO'SHISH FORMASI (ASOSIY KARTOCHKA BILAN BIR XIL TUZILISHDA) --- */
+    .inline-add-box {
+      display: none;
+      background: #ffffff;
+      border: 2px solid #22c55e;
+      border-radius: 16px;
+      padding: 14px;
+      margin-top: 12px;
+      animation: fadeIn 0.2s ease-in;
+      box-shadow: 0 4px 14px rgba(34, 197, 94, 0.12);
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-5px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .inline-add-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: #15803d;
+      margin-bottom: 10px;
+      border-bottom: 1px dashed #bbf7d0;
+      padding-bottom: 6px;
+    }
+
+    .inline-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+
+    .inline-field label {
+      display: block;
+      font-size: 0.68rem;
+      font-weight: 600;
+      color: #475569;
+      margin-bottom: 3px;
+    }
+
+    .inline-input {
+      width: 100%;
+      padding: 7px 10px;
+      border-radius: 8px;
+      border: 1px solid #cbd5e1;
+      font-size: 0.82rem;
+      outline: none;
+      background: #f8fafc;
+    }
+
+    .inline-input:focus {
+      border-color: var(--success);
+      background: #fff;
+    }
+
+    /* Qatorda jonli hisob-kitob (Tepadagi kartochka kabi) */
+    .inline-live-finance {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 6px;
+      background: #f1f5f9;
+      padding: 8px 10px;
+      border-radius: 10px;
+      margin: 8px 0;
+      text-align: center;
+    }
+
+    .inline-live-payments {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px;
+      background: #fafafa;
+      padding: 8px 10px;
+      border-radius: 10px;
+      margin-bottom: 10px;
+      border: 1px solid #f1f5f9;
+      font-size: 0.75rem;
+    }
+
+    .inline-actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    .inline-save-btn {
+      flex: 1;
+      background: var(--success);
+      color: white;
+      border: none;
+      padding: 9px;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .inline-cancel-btn {
+      background: #e2e8f0;
+      color: #475569;
+      border: none;
+      padding: 9px 14px;
+      border-radius: 8px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    /* Floating Add Button */
+    .fab-btn {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      width: 58px;
+      height: 58px;
+      background: var(--primary);
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4);
+      cursor: pointer;
+      border: none;
+      z-index: 90;
+      transition: transform 0.2s;
+    }
+
+    .fab-btn:active {
+      transform: scale(0.92);
+    }
+
+    /* Bottom Navigation */
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 64px;
+      background: white;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      z-index: 80;
+    }
+
+    .nav-tab {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      color: var(--text-muted);
+      font-size: 0.72rem;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .nav-tab i {
+      font-size: 1.2rem;
+      margin-bottom: 3px;
+    }
+
+    .nav-tab.active {
+      color: var(--primary);
+      font-weight: 600;
+    }
+
+    /* Modal Sheet */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 100;
+      display: none;
+      align-items: flex-end;
+      justify-content: center;
+    }
+
+    .modal-sheet {
+      background: white;
+      width: 100%;
+      max-width: 550px;
+      max-height: 90vh;
+      border-radius: 24px 24px 0 0;
+      padding: 20px;
+      overflow-y: auto;
+      box-shadow: 0 -4px 24px rgba(0,0,0,0.15);
+      animation: slideUp 0.25s ease-out;
+    }
+
+    @keyframes slideUp {
+      from { transform: translateY(100%); }
+      to { transform: translateY(0); }
+    }
+
+    .sheet-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .sheet-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+    }
+
+    .close-btn {
+      font-size: 1.4rem;
+      color: var(--text-muted);
+      cursor: pointer;
+    }
+
+    .form-group {
+      margin-bottom: 12px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #334155;
+      margin-bottom: 5px;
+    }
+
+    .form-group input, .form-group select {
+      width: 100%;
+      padding: 10px 12px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      font-size: 0.9rem;
+      outline: none;
+    }
+
+    .form-group input:focus, .form-group select:focus {
+      border-color: var(--primary);
+    }
+
+    .row-inputs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .locked-rate-tip {
+      font-size: 0.72rem;
+      color: #64748b;
+      margin-top: 4px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .submit-btn {
+      width: 100%;
+      padding: 13px;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 8px;
+    }
+
+    /* References & Dictionaries */
+    .ref-section {
+      background: white;
+      padding: 16px;
+      border-radius: 16px;
+      margin-bottom: 16px;
+      border: 1px solid var(--border);
+    }
+
+    .ref-title {
+      font-size: 0.95rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.8rem;
+    }
+
+    .data-table th, .data-table td {
+      padding: 8px 10px;
+      border-bottom: 1px solid var(--border);
+      text-align: left;
+    }
+
+    .data-table th {
+      background: #f8fafc;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    /* Dictionary List Styles */
+    .dict-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 12px;
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      margin-bottom: 8px;
+    }
+
+    .dict-uz {
+      font-weight: 600;
+      font-size: 0.85rem;
+      color: var(--text-main);
+    }
+
+    .dict-cn {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #b91c1c;
+      letter-spacing: 0.5px;
+    }
+
+    .dict-copy-btn {
+      background: white;
+      border: 1px solid var(--border);
+      padding: 6px 12px;
+      border-radius: 8px;
+      color: var(--primary);
+      font-size: 0.78rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .dict-copy-btn:active {
+      background: #e2e8f0;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--text-muted);
+    }
+
+    .empty-state i {
+      font-size: 3rem;
+      margin-bottom: 10px;
+      opacity: 0.4;
+    }
+
+    /* Image Preview Modal */
+    #imageModal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.85);
+      z-index: 200;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    #imageModal img {
+      max-width: 100%;
+      max-height: 85vh;
+      border-radius: 12px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <div class="header-top">
+      <div class="brand-title"><i class="fa-solid fa-cube"></i> Kargo & Buyurtmalar</div>
+      <div class="header-actions">
+        <div class="alarm-btn" onclick="testOrShowAlarms()" title="Muddati kelgan tovarlar (7-10 kun)">
+          <i class="fa-solid fa-bell"></i>
+          <span class="alarm-badge" id="alarmBadge">0</span>
+        </div>
+        <div class="rate-badge" onclick="promptRateChange()">
+          <i class="fa-solid fa-yen-sign"></i> <span id="currentRateBadge">1¥ = 1,820 so'm</span>
+          <i class="fa-solid fa-pen" style="font-size: 0.7rem; opacity: 0.8;"></i>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Statistika -->
+    <div class="stats-container">
+      <div class="stat-card">
+        <div class="stat-label">Jami buyurtmalar</div>
+        <div class="stat-value" id="totalOrdersCount">0</div>
+      </div>
+      <div class="stat-card cargo-card">
+        <div class="stat-label">To'lanmagan kargo (Qoldiq)</div>
+        <div class="stat-value" id="pendingCargoSum">0 so'm</div>
+      </div>
+      <div class="stat-card profit-card">
+        <div class="stat-label">Sof foyda</div>
+        <div class="stat-value" id="totalProfitSum">0 so'm</div>
+      </div>
+      <div class="stat-card debt-card">
+        <div class="stat-label">Kutilayotgan qarz (Olinadigan)</div>
+        <div class="stat-value" id="totalDebtSum">0 so'm</div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Orders View (Tab 1) -->
+  <main class="container" id="ordersTab">
+    <div class="toolbar">
+      <div class="search-box">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <input type="text" id="searchInput" placeholder="Mijoz, telefon, trek qidirish..." oninput="renderOrders()">
+      </div>
+      <select class="filter-select" id="statusFilter" onchange="renderOrders()">
+        <option value="all">Barchasi</option>
+        <option value="urgent">🔔 7-10 kun bo'lganlar</option>
+        <option value="zakaz">Urildi</option>
+        <option value="yolda">Yo'lda</option>
+        <option value="keldi">Keldi</option>
+        <option value="topshirildi">Topshirildi</option>
+      </select>
+    </div>
+
+    <div id="ordersList"></div>
+  </main>
+
+  <!-- References View (Tab 2) -->
+  <main class="container" id="refTab" style="display: none;">
+    <div class="ref-section">
+      <div class="ref-title"><i class="fa-solid fa-child text-primary"></i> Bolalar kiyimi o'lchamlari (PDF jadvali)[cite: 5]</div>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Bolaning yoshi[cite: 5]</th>
+            <th>Bo'yi (Rost, cm)[cite: 5]</th>
+            <th>Xitoy o'lchami (Tag)[cite: 5]</th>
+            <th>O'zbekiston/EU[cite: 5]</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>0-3 oy[cite: 5]</td><td>52 - 59 cm[cite: 5]</td><td><strong>52 / 59</strong>[cite: 5]</td><td>56/56 (Malomerka)[cite: 5]</td></tr>
+          <tr><td>3-6 oy[cite: 5]</td><td>59 - 66 cm[cite: 5]</td><td><strong>66 / 66</strong>[cite: 5]</td><td>62/62[cite: 5]</td></tr>
+          <tr><td>6-12 oy[cite: 5]</td><td>66 - 73 cm[cite: 5]</td><td><strong>73 / 73</strong>[cite: 5]</td><td>68/74[cite: 5]</td></tr>
+          <tr><td>1-2 yosh[cite: 5]</td><td>80 - 90 cm[cite: 5]</td><td><strong>80 / 90</strong>[cite: 5]</td><td>68/74 (1 razmer farq)[cite: 5]</td></tr>
+          <tr><td>2-3 yosh[cite: 5]</td><td>90 - 100 cm[cite: 5]</td><td><strong>100 / 100</strong>[cite: 5]</td><td>68/74[cite: 5]</td></tr>
+          <tr><td>3-4 yosh[cite: 5]</td><td>100 - 110 cm[cite: 5]</td><td><strong>110 / 110</strong>[cite: 5]</td><td>68/74[cite: 5]</td></tr>
+          <tr><td>5-6 yosh[cite: 5]</td><td>110 - 120 cm[cite: 5]</td><td><strong>120 / 120</strong>[cite: 5]</td><td>68/74[cite: 5]</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="ref-section">
+      <div class="ref-title"><i class="fa-solid fa-weight-scale text-primary"></i> Kiyim va poyabzal o'rtacha vaznlari[cite: 6]</div>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Tovar turi[cite: 6]</th>
+            <th>Vazni (gramm)[cite: 6]</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Ichki kiyimlar[cite: 6]</td><td>15 - 30 g[cite: 6]</td></tr>
+          <tr><td>Futbolka, mayka[cite: 6]</td><td>100 - 140 g[cite: 6]</td></tr>
+          <tr><td>Kofta, bluzka[cite: 6]</td><td>100 - 250 g[cite: 6]</td></tr>
+          <tr><td>Jinsi shimlar[cite: 6]</td><td>400 - 500 g[cite: 6]</td></tr>
+          <tr><td>Tolstovka (Xudi)[cite: 6]</td><td>400 - 500 g[cite: 6]</td></tr>
+          <tr><td>Kuzgi kurtka[cite: 6]</td><td>600 - 800 g[cite: 6]</td></tr>
+          <tr><td>Qishki kurtka (Puxovik)[cite: 6]</td><td>800 - 1000 g[cite: 6]</td></tr>
+          <tr><td>Krossovka[cite: 6]</td><td>600 - 700 g[cite: 6]</td></tr>
+          <tr><td>Etiklar (Qishki)[cite: 6]</td><td>800 - 1300 g[cite: 6]</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="ref-section">
+      <div class="ref-title"><i class="fa-solid fa-ruler"></i> Kattalar kiyimi va poyabzal o'lchamlari[cite: 5]</div>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Turkum[cite: 5]</th>
+            <th>Xitoy (CN)[cite: 5]</th>
+            <th>O'zbekiston / RU[cite: 5]</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Ayollar kiyimi[cite: 5]</td><td>S / M / L / XL[cite: 5]</td><td>42 / 44 / 46 / 48[cite: 5]</td></tr>
+          <tr><td>Erkaklar kiyimi[cite: 5]</td><td>M / L / XL / 2XL[cite: 5]</td><td>46 / 48 / 50 / 52[cite: 5]</td></tr>
+          <tr><td>Poyabzal[cite: 5]</td><td>37 / 38 / 39 / 40[cite: 5]</td><td>36 / 37 / 38 / 39 (sm bo'yicha)[cite: 5]</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </main>
+
+  <!-- Pinduoduo Lug'at & Qidiruv Tab (Tab 3) -->
+  <main class="container" id="dictTab" style="display: none;">
+    <div class="ref-section">
+      <div class="ref-title"><i class="fa-solid fa-language text-primary"></i> Pinduoduo Qidiruv Lug'ati</div>
+      <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 12px;">
+        Xitoycha nomni nusxalash tugmasini bosing va to'g'ridan-to'g'ri Pinduoduo qidiruviga tashlang.
+      </p>
+
+      <div class="search-box" style="margin-bottom: 14px;">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <input type="text" id="dictSearchInput" placeholder="Lug'atdan qidirish..." oninput="renderDictionary()">
+      </div>
+
+      <div style="background: #f1f5f9; padding: 12px; border-radius: 12px; margin-bottom: 14px;">
+        <div style="font-size: 0.82rem; font-weight: 700; margin-bottom: 8px;">Yangi so'z qo'shish (Avto-Tarjima):</div>
+        
+        <div style="margin-bottom: 8px;">
+          <input type="text" id="newUzWord" placeholder="O'zbekcha nomini yozing (masalan: Ayollar sumkasi)" style="width: 100%; padding: 8px 10px; border-radius: 8px; border: 1px solid var(--border); font-size: 0.85rem; outline: none;">
+        </div>
+
+        <button type="button" id="translateBtn" onclick="autoTranslateToChinese()" style="width: 100%; padding: 8px; background: #0284c7; color: white; border: none; border-radius: 8px; font-size: 0.8rem; font-weight: 600; cursor: pointer; margin-bottom: 8px; display: flex; align-items: center; justify-content: center; gap: 6px;">
+          <i class="fa-solid fa-wand-magic-sparkles"></i> Xitoychaga tarjima qilish
+        </button>
+
+        <div style="margin-bottom: 8px;">
+          <input type="text" id="newCnWord" placeholder="Xitoycha nomi (Avtomatik chiqadi yoki o'zingiz yozing)" style="width: 100%; padding: 8px 10px; border-radius: 8px; border: 1px solid var(--border); font-size: 0.9rem; font-weight: 700; color: #b91c1c; outline: none; background: #fff;">
+        </div>
+
+        <button onclick="addNewWord()" style="width: 100%; padding: 9px; background: var(--primary); color: white; border: none; border-radius: 8px; font-size: 0.85rem; font-weight: 600; cursor: pointer;">
+          <i class="fa-solid fa-plus"></i> Lug'atga saqlash
+        </button>
+      </div>
+
+      <div id="dictionaryList"></div>
+    </div>
+  </main>
+
+  <!-- FAB: Yangi mijoz zakazi qo'shish -->
+  <button class="fab-btn" onclick="openOrderModal()"><i class="fa-solid fa-plus"></i></button>
+
+  <!-- Bottom Navigation -->
+  <nav class="bottom-nav">
+    <div class="nav-tab active" id="tabNavOrders" onclick="switchTab('orders')">
+      <i class="fa-solid fa-table-list"></i>
+      <span>Buyurtmalar</span>
+    </div>
+    <div class="nav-tab" id="tabNavRef" onclick="switchTab('ref')">
+      <i class="fa-solid fa-book-bookmark"></i>
+      <span>Ma'lumotlar</span>
+    </div>
+    <div class="nav-tab" id="tabNavDict" onclick="switchTab('dict')">
+      <i class="fa-solid fa-magnifying-glass-arrow-right" style="color: #ea580c;"></i>
+      <span>Pinduoduo Qidiruv</span>
+    </div>
+    <div class="nav-tab" onclick="exportToCSV()">
+      <i class="fa-solid fa-file-excel" style="color: var(--success);"></i>
+      <span>Excel</span>
+    </div>
+  </nav>
+
+  <!-- Asosiy Modal Sheet -->
+  <div class="modal-overlay" id="orderModal">
+    <div class="modal-sheet">
+      <div class="sheet-head">
+        <div class="sheet-title" id="modalHeading">Yangi buyurtma qo'shish</div>
+        <div class="close-btn" onclick="closeOrderModal()">&times;</div>
+      </div>
+      <form id="orderForm" onsubmit="saveOrder(event)">
+        <input type="hidden" id="editOrderId">
+        <input type="hidden" id="itemImageData">
+
+        <div class="row-inputs">
+          <div class="form-group">
+            <label>Mijoz ismi * (O'zgartirmaguncha qoladi)</label>
+            <input type="text" id="clientName" placeholder="Nilufar Karimova" required>
+          </div>
+          <div class="form-group">
+            <label>Telefon / Telegram</label>
+            <input type="text" id="clientContact" placeholder="+99890... yoki @username">
+          </div>
+        </div>
+
+        <div class="row-inputs">
+          <div class="form-group">
+            <label>Tovar nomi *</label>
+            <input type="text" id="itemName" placeholder="Krossovka Nike" required>
+          </div>
+          <div class="form-group">
+            <label>Trek-kodi</label>
+            <input type="text" id="trackCode" placeholder="YT8273648293">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label><i class="fa-solid fa-camera"></i> Tovar rasmi (Tanlash yoki suratga olish)</label>
+          <input type="file" id="imageInput" accept="image/*" onchange="handleImageUpload(event)" style="font-size: 0.8rem;">
+          <div id="imagePreviewContainer" style="margin-top: 6px; display: none;">
+            <img id="formImagePreview" src="" alt="Tovar rasmi" style="width: 70px; height: 70px; border-radius: 8px; object-fit: cover; border: 1px solid var(--border);">
+            <span style="font-size: 0.75rem; color: var(--danger); cursor: pointer; margin-left: 10px;" onclick="removeImage()"><i class="fa-solid fa-trash"></i> Rasmni o'chirish</span>
+          </div>
+        </div>
+
+        <div class="row-inputs">
+          <div class="form-group">
+            <label>Asl narxi (¥ Yuanda) *</label>
+            <input type="number" step="0.01" id="costYuan" placeholder="45" required oninput="calcProfitPreview()">
+          </div>
+          <div class="form-group">
+            <label>Urilgan kungi kurs *</label>
+            <input type="number" id="orderRate" required oninput="calcProfitPreview()">
+            <div class="locked-rate-tip"><i class="fa-solid fa-lock"></i> Zakazga qulflanadi</div>
+          </div>
+        </div>
+
+        <div class="row-inputs">
+          <div class="form-group">
+            <label>Kargo puli (so'mda)</label>
+            <input type="number" id="cargoCost" placeholder="42000" oninput="calcProfitPreview()">
+          </div>
+          <div class="form-group">
+            <label>Kargo kimdan? *</label>
+            <select id="cargoType" onchange="calcProfitPreview()">
+              <option value="kargoli">Kargoli (Mijoz to'laydi / Foydadan ayirilmaydi)</option>
+              <option value="kargosiz">Kargosiz (O'zim to'layman / Foydadan ayirilsin)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Kargo to'lov holati:</label>
+          <select id="cargoPaid">
+            <option value="false">Kutilmoqda (Hali to'lanmadi)</option>
+            <option value="true">To'landi (Kargo hisobidan ayirilsin)</option>
+          </select>
+        </div>
+
+        <div class="row-inputs">
+          <div class="form-group">
+            <label>Sotilgan narxi (so'mda) *</label>
+            <input type="number" id="sellPrice" placeholder="180000" required oninput="calcProfitPreview()">
+          </div>
+          <div class="form-group">
+            <label>Olib bo'lingan pul (Avans)</label>
+            <input type="number" id="paidAmount" placeholder="100000" oninput="calcProfitPreview()">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Olinadigan pul (Qoldiq)</label>
+          <input type="text" id="remainingPreview" readonly style="background: #f1f5f9; font-weight: 600; color: var(--danger);" value="0 so'm">
+        </div>
+
+        <div class="row-inputs">
+          <div class="form-group">
+            <label>Zakaz urilgan sana *</label>
+            <input type="date" id="orderDate" required onchange="calcDeliveryDaysPreview()">
+          </div>
+          <div class="form-group">
+            <label>Holati (Status)</label>
+            <select id="orderStatus" onchange="handleStatusChangeInForm()">
+              <option value="zakaz">Urildi</option>
+              <option value="yolda">Yo'lda</option>
+              <option value="keldi">Keldi</option>
+              <option value="topshirildi">Topshirildi</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Kelgan sana</label>
+          <input type="date" id="arrivalDate" onchange="calcDeliveryDaysPreview()">
+          <div id="arrivalDaysInfo" style="font-size: 0.75rem; color: #047857; font-weight: 600; margin-top: 4px; display: none;"></div>
+        </div>
+
+        <div style="background: #f1f5f9; padding: 10px 14px; border-radius: 10px; margin-bottom: 12px; font-size: 0.85rem;">
+          Kutilayotgan sof foyda: <strong id="previewProfit" style="color: var(--success);">0 so'm</strong>
+          <div id="profitFormulaTip" style="font-size: 0.72rem; color: #64748b; margin-top: 2px;"></div>
+        </div>
+
+        <button type="submit" class="submit-btn">Saqlash</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Big Image Modal -->
+  <div id="imageModal" onclick="this.style.display='none'">
+    <img id="modalBigImage" src="" alt="Katta rasm">
+  </div>
+
+  <script>
+    // State management
+    let orders = JSON.parse(localStorage.getItem('kargo_orders') || '[]');
+    let currentYuanRate = parseFloat(localStorage.getItem('kargo_yuan_rate') || '1820');
+
+    let lastClientName = localStorage.getItem('kargo_last_client_name') || '';
+    let lastClientContact = localStorage.getItem('kargo_last_client_contact') || '';
+
+    const defaultDict = [
+      { uz: "Bolalar kiyimi", cn: "童装" },
+      { uz: "Bolalar krossovkasi", cn: "儿童运动鞋" },
+      { uz: "Qizlar ko'ylagi", cn: "女童连衣裙" },
+      { uz: "O'g'il bolalar to'plami (Kostyum)", cn: "男童套装" },
+      { uz: "Puxovik (Qishki kurtka)", cn: "羽绒服" },
+      { uz: "Tolstovka (Xudi)", cn: "卫衣" },
+      { uz: "Jinsi shim", cn: "牛仔裤" },
+      { uz: "Ayollar sumkasi", cn: "女士包包" },
+      { uz: "Krossovka (Erkaklar/Ayollar)", cn: "运动鞋" },
+      { uz: "Futbolka", cn: "T恤" },
+      { uz: "Pijama (Uy kiyimi)", cn: "睡衣" },
+      { uz: "Paypoqlar to'plami", cn: "袜子批" }
+    ];
+
+    let dictionary = JSON.parse(localStorage.getItem('pdd_dictionary') || JSON.stringify(defaultDict));
+
+    document.addEventListener('DOMContentLoaded', () => {
+      updateRateBadge();
+      renderOrders();
+      renderDictionary();
+      checkArrivalReminders(true);
+    });
+
+    function updateRateBadge() {
+      document.getElementById('currentRateBadge').innerText = `1¥ = ${formatMoney(currentYuanRate)} so'm`;
+    }
+
+    function promptRateChange() {
+      const newRate = prompt("Yangi kunlik Yuan kursini kiriting (so'mda):\n(Eski buyurtmalar narxi o'zgarmaydi, faqat yangilari uchun amal qiladi)", currentYuanRate);
+      if (newRate && !isNaN(newRate) && parseFloat(newRate) > 0) {
+        currentYuanRate = parseFloat(newRate);
+        localStorage.setItem('kargo_yuan_rate', currentYuanRate);
+        updateRateBadge();
+      }
+    }
+
+    function formatMoney(num) {
+      return Number(num || 0).toLocaleString('uz-UZ');
+    }
+
+    // Audio Bildirishnoma
+    function playAlarmSound() {
+      try {
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        if (!AudioContext) return;
+        const ctx = new AudioContext();
+
+        const playTone = (freq, start, duration) => {
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(freq, ctx.currentTime + start);
+          gain.gain.setValueAtTime(0.3, ctx.currentTime + start);
+          gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + start + duration);
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          osc.start(ctx.currentTime + start);
+          osc.stop(ctx.currentTime + start + duration);
+        };
+
+        playTone(587.33, 0, 0.25);
+        playTone(880, 0.2, 0.4);
+        playTone(1174.66, 0.45, 0.6);
+      } catch (err) {
+        console.log("Audio xatosi:", err);
+      }
+    }
+
+    function calculateDaysBetween(startDateStr, endDateStr) {
+      if (!startDateStr || !endDateStr) return null;
+      const start = new Date(startDateStr);
+      const end = new Date(endDateStr);
+      start.setHours(0,0,0,0);
+      end.setHours(0,0,0,0);
+      const diff = end - start;
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      return days >= 0 ? days : 0;
+    }
+
+    function getDaysPassed(dateStr) {
+      if (!dateStr) return 0;
+      const orderD = new Date(dateStr);
+      const today = new Date();
+      orderD.setHours(0,0,0,0);
+      today.setHours(0,0,0,0);
+      const diffTime = today - orderD;
+      return Math.floor(diffTime / (1000 * 60 * 60 * 24));
+    }
+
+    function checkArrivalReminders(triggerSound = false) {
+      let count = 0;
+      orders.forEach(o => {
+        if (o.orderStatus === 'zakaz' || o.orderStatus === 'yolda') {
+          const days = getDaysPassed(o.orderDate);
+          if (days >= 7) count++;
+        }
+      });
+
+      const badge = document.getElementById('alarmBadge');
+      if (count > 0) {
+        badge.innerText = count;
+        badge.style.display = 'flex';
+        if (triggerSound) playAlarmSound();
+      } else {
+        badge.style.display = 'none';
+      }
+      return count;
+    }
+
+    function testOrShowAlarms() {
+      playAlarmSound();
+      const count = checkArrivalReminders(false);
+      if (count > 0) {
+        alert(`🔔 Diqqat: Zakaz urilganiga 7 va 10+ kun bo'lgan ${count} ta tovar mavjud!`);
+        document.getElementById('statusFilter').value = 'urgent';
+        renderOrders();
+      } else {
+        alert("✅ Hozircha 7 yoki 10 kundan oshgan kutilayotgan buyurtmalar yo'q.");
+      }
+    }
+
+    function handleStatusChangeInForm() {
+      const status = document.getElementById('orderStatus').value;
+      const arrivalInput = document.getElementById('arrivalDate');
+      if ((status === 'keldi' || status === 'topshirildi') && !arrivalInput.value) {
+        arrivalInput.value = new Date().toISOString().split('T')[0];
+      }
+      calcDeliveryDaysPreview();
+    }
+
+    function calcDeliveryDaysPreview() {
+      const orderDate = document.getElementById('orderDate').value;
+      const arrivalDate = document.getElementById('arrivalDate').value;
+      const infoEl = document.getElementById('arrivalDaysInfo');
+
+      if (orderDate && arrivalDate) {
+        const days = calculateDaysBetween(orderDate, arrivalDate);
+        infoEl.innerHTML = `<i class="fa-solid fa-bolt"></i> Ushbu tovar <strong>${days} kunda</strong> yetib kelgan deb hisoblanadi.`;
+        infoEl.style.display = 'block';
+      } else {
+        infoEl.style.display = 'none';
+      }
+    }
+
+    // Image Upload
+    function handleImageUpload(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const img = new Image();
+        img.src = e.target.result;
+        img.onload = function() {
+          const canvas = document.createElement('canvas');
+          const maxDim = 600;
+          let width = img.width;
+          let height = img.height;
+
+          if (width > height) {
+            if (width > maxDim) {
+              height *= maxDim / width;
+              width = maxDim;
+            }
+          } else {
+            if (height > maxDim) {
+              width *= maxDim / height;
+              height = maxDim;
+            }
+          }
+          canvas.width = width;
+          canvas.height = height;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, width, height);
+
+          const compressedData = canvas.toDataURL('image/jpeg', 0.7);
+          document.getElementById('itemImageData').value = compressedData;
+          document.getElementById('formImagePreview').src = compressedData;
+          document.getElementById('imagePreviewContainer').style.display = 'block';
+        };
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function removeImage() {
+      document.getElementById('itemImageData').value = '';
+      document.getElementById('imageInput').value = '';
+      document.getElementById('imagePreviewContainer').style.display = 'none';
+    }
+
+    function viewBigImage(src) {
+      document.getElementById('modalBigImage').src = src;
+      document.getElementById('imageModal').style.display = 'flex';
+    }
+
+    // Modal Operations
+    function openOrderModal(editId = null) {
+      const modal = document.getElementById('orderModal');
+      const form = document.getElementById('orderForm');
+      form.reset();
+      removeImage();
+      document.getElementById('arrivalDaysInfo').style.display = 'none';
+
+      if (editId) {
+        const item = orders.find(o => o.id === editId);
+        if (item) {
+          document.getElementById('modalHeading').innerText = "Buyurtmani tahrirlash";
+          document.getElementById('editOrderId').value = item.id;
+          document.getElementById('clientName').value = item.clientName;
+          document.getElementById('clientContact').value = item.clientContact || '';
+          document.getElementById('itemName').value = item.itemName;
+          document.getElementById('trackCode').value = item.trackCode || '';
+          document.getElementById('costYuan').value = item.costYuan;
+          document.getElementById('orderRate').value = item.lockedRate;
+          document.getElementById('cargoCost').value = item.cargoCost || 0;
+          document.getElementById('cargoType').value = item.cargoType || 'kargoli';
+          document.getElementById('cargoPaid').value = item.cargoPaid ? 'true' : 'false';
+          document.getElementById('sellPrice').value = item.sellPrice;
+          document.getElementById('paidAmount').value = item.paidAmount || 0;
+          document.getElementById('orderDate').value = item.orderDate;
+          document.getElementById('orderStatus').value = item.orderStatus;
+          document.getElementById('arrivalDate').value = item.arrivalDate || '';
+
+          if (item.image) {
+            document.getElementById('itemImageData').value = item.image;
+            document.getElementById('formImagePreview').src = item.image;
+            document.getElementById('imagePreviewContainer').style.display = 'block';
+          }
+          calcProfitPreview();
+          calcDeliveryDaysPreview();
+        }
+      } else {
+        document.getElementById('modalHeading').innerText = "Yangi buyurtma qo'shish";
+        document.getElementById('editOrderId').value = '';
+        document.getElementById('clientName').value = lastClientName;
+        document.getElementById('clientContact').value = lastClientContact;
+        document.getElementById('orderRate').value = currentYuanRate;
+        document.getElementById('orderDate').value = new Date().toISOString().split('T')[0];
+        document.getElementById('cargoType').value = 'kargoli';
+        document.getElementById('cargoPaid').value = 'false';
+        document.getElementById('orderStatus').value = 'zakaz';
+        document.getElementById('paidAmount').value = '';
+        calcProfitPreview();
+      }
+
+      modal.style.display = 'flex';
+    }
+
+    function closeOrderModal() {
+      document.getElementById('orderModal').style.display = 'none';
+    }
+
+    // --- TALAB: KARTOSHKANING O'ZIDAN TOVAR QO'SHISH VA JONLI HISOBLASH ---
+    function toggleInlineAddBox(orderId) {
+      const box = document.getElementById(`inlineAddBox_${orderId}`);
+      if (!box) return;
+      const isVisible = box.style.display === 'block';
+      document.querySelectorAll('.inline-add-box').forEach(b => b.style.display = 'none');
+      if (!isVisible) {
+        box.style.display = 'block';
+        calcInlineLiveFinance(orderId);
+        const nameInput = document.getElementById(`inlineItemName_${orderId}`);
+        if (nameInput) nameInput.focus();
+      }
+    }
+
+    // Yangi tovar qo'shayotganda xuddi yuqoridagi kartochka kabi jonli hisoblab turadi
+    function calcInlineLiveFinance(orderId) {
+      const baseOrder = orders.find(o => o.id === orderId);
+      if (!baseOrder) return;
+
+      const rate = baseOrder.lockedRate || currentYuanRate;
+      const costYuan = parseFloat(document.getElementById(`inlineCostYuan_${orderId}`)?.value) || 0;
+      const cargoCost = parseFloat(document.getElementById(`inlineCargoCost_${orderId}`)?.value) || 0;
+      const cargoType = document.getElementById(`inlineCargoType_${orderId}`)?.value || 'kargoli';
+      const sellPrice = parseFloat(document.getElementById(`inlineSellPrice_${orderId}`)?.value) || 0;
+      const paidAmount = parseFloat(document.getElementById(`inlinePaidAmount_${orderId}`)?.value) || 0;
+
+      const costSum = costYuan * rate;
+      let profit = 0;
+      if (cargoType === 'kargoli') {
+        profit = sellPrice - costSum;
+      } else {
+        profit = sellPrice - (costSum + cargoCost);
+      }
+
+      const debt = Math.max(0, sellPrice - paidAmount);
+
+      // Elementlarni yangilash
+      const yuanCostEl = document.getElementById(`inlineLiveYuanCost_${orderId}`);
+      const cargoEl = document.getElementById(`inlineLiveCargo_${orderId}`);
+      const profitEl = document.getElementById(`inlineLiveProfit_${orderId}`);
+      const paidEl = document.getElementById(`inlineLivePaid_${orderId}`);
+      const debtEl = document.getElementById(`inlineLiveDebt_${orderId}`);
+
+      if (yuanCostEl) yuanCostEl.innerText = `${formatMoney(costSum)} so'm`;
+      if (cargoEl) cargoEl.innerText = `${formatMoney(cargoCost)} so'm`;
+      if (profitEl) profitEl.innerText = `${formatMoney(profit)} so'm`;
+      if (paidEl) paidEl.innerText = `${formatMoney(paidAmount)} so'm`;
+      if (debtEl) {
+        debtEl.innerText = debt > 0 ? `${formatMoney(debt)} so'm` : "To'langan ✓";
+        debtEl.className = debt > 0 ? 'text-debt' : 'text-cleared';
+      }
+    }
+
+    function saveInlineItem(baseOrderId) {
+      const baseOrder = orders.find(o => o.id === baseOrderId);
+      if (!baseOrder) return;
+
+      const itemName = (document.getElementById(`inlineItemName_${baseOrderId}`).value || '').trim();
+      const costYuan = parseFloat(document.getElementById(`inlineCostYuan_${baseOrderId}`).value) || 0;
+      const cargoCost = parseFloat(document.getElementById(`inlineCargoCost_${baseOrderId}`).value) || 0;
+      const cargoType = document.getElementById(`inlineCargoType_${baseOrderId}`).value || 'kargoli';
+      const sellPrice = parseFloat(document.getElementById(`inlineSellPrice_${baseOrderId}`).value) || 0;
+      const paidAmount = parseFloat(document.getElementById(`inlinePaidAmount_${baseOrderId}`).value) || 0;
+      const trackCode = (document.getElementById(`inlineTrackCode_${baseOrderId}`).value || '').trim();
+
+      if (!itemName) {
+        alert("Tovar nomini yozing!");
+        return;
+      }
+      if (sellPrice <= 0 && costYuan <= 0) {
+        alert("Narxlarni to'liq kiriting!");
+        return;
+      }
+
+      const newOrder = {
+        id: 'ord_' + Date.now(),
+        clientName: baseOrder.clientName,
+        clientContact: baseOrder.clientContact || '',
+        itemName: itemName,
+        trackCode: trackCode,
+        costYuan: costYuan,
+        lockedRate: baseOrder.lockedRate || currentYuanRate,
+        cargoCost: cargoCost,
+        cargoType: cargoType,
+        cargoPaid: false,
+        sellPrice: sellPrice,
+        paidAmount: paidAmount,
+        orderDate: baseOrder.orderDate || new Date().toISOString().split('T')[0],
+        orderStatus: 'zakaz',
+        arrivalDate: '',
+        image: null
+      };
+
+      orders.unshift(newOrder);
+      localStorage.setItem('kargo_orders', JSON.stringify(orders));
+      renderOrders();
+      checkArrivalReminders(false);
+    }
+
+    function calcOrderProfit(item) {
+      const yuanCost = (parseFloat(item.costYuan) || 0) * (parseFloat(item.lockedRate) || currentYuanRate);
+      const cargo = parseFloat(item.cargoCost) || 0;
+      const sell = parseFloat(item.sellPrice) || 0;
+      const cargoType = item.cargoType || 'kargoli';
+
+      if (cargoType === 'kargoli') {
+        return sell - yuanCost;
+      } else {
+        return sell - (yuanCost + cargo);
+      }
+    }
+
+    function calcProfitPreview() {
+      const yuan = parseFloat(document.getElementById('costYuan').value) || 0;
+      const rate = parseFloat(document.getElementById('orderRate').value) || 0;
+      const cargo = parseFloat(document.getElementById('cargoCost').value) || 0;
+      const sell = parseFloat(document.getElementById('sellPrice').value) || 0;
+      const paid = parseFloat(document.getElementById('paidAmount').value) || 0;
+      const cargoType = document.getElementById('cargoType').value;
+
+      const yuanSum = yuan * rate;
+      let profit = 0;
+      const tipEl = document.getElementById('profitFormulaTip');
+
+      if (cargoType === 'kargoli') {
+        profit = sell - yuanSum;
+        tipEl.innerText = "Kargoli tanlangan: Kargo puli foydadan ayirilmadi.";
+      } else {
+        profit = sell - (yuanSum + cargo);
+        tipEl.innerText = "Kargosiz tanlangan: Kargo puli sof foydadan minus qilindi.";
+      }
+
+      const remaining = Math.max(0, sell - paid);
+
+      document.getElementById('previewProfit').innerText = `${formatMoney(profit)} so'm`;
+      document.getElementById('remainingPreview').value = `${formatMoney(remaining)} so'm`;
+    }
+
+    function saveOrder(e) {
+      e.preventDefault();
+
+      const editId = document.getElementById('editOrderId').value;
+      const clientName = document.getElementById('clientName').value.trim();
+      const clientContact = document.getElementById('clientContact').value.trim();
+      const itemName = document.getElementById('itemName').value.trim();
+      const trackCode = document.getElementById('trackCode').value.trim();
+      const costYuan = parseFloat(document.getElementById('costYuan').value) || 0;
+      const lockedRate = parseFloat(document.getElementById('orderRate').value) || currentYuanRate;
+      const cargoCost = parseFloat(document.getElementById('cargoCost').value) || 0;
+      const cargoType = document.getElementById('cargoType').value || 'kargoli';
+      const cargoPaid = document.getElementById('cargoPaid').value === 'true';
+      const sellPrice = parseFloat(document.getElementById('sellPrice').value) || 0;
+      const paidAmount = parseFloat(document.getElementById('paidAmount').value) || 0;
+      const orderDate = document.getElementById('orderDate').value;
+      let orderStatus = document.getElementById('orderStatus').value;
+      let arrivalDate = document.getElementById('arrivalDate').value;
+      const image = document.getElementById('itemImageData').value || null;
+
+      if ((orderStatus === 'keldi' || orderStatus === 'topshirildi') && !arrivalDate) {
+        arrivalDate = new Date().toISOString().split('T')[0];
+      }
+
+      lastClientName = clientName;
+      lastClientContact = clientContact;
+      localStorage.setItem('kargo_last_client_name', lastClientName);
+      localStorage.setItem('kargo_last_client_contact', lastClientContact);
+
+      if (editId) {
+        const index = orders.findIndex(o => o.id === editId);
+        if (index !== -1) {
+          orders[index] = {
+            ...orders[index],
+            clientName, clientContact, itemName, trackCode, costYuan, lockedRate,
+            cargoCost, cargoType, cargoPaid, sellPrice, paidAmount, orderDate, orderStatus, arrivalDate, image
+          };
+        }
+      } else {
+        const newOrder = {
+          id: 'ord_' + Date.now(),
+          clientName, clientContact, itemName, trackCode, costYuan, lockedRate,
+          cargoCost, cargoType, cargoPaid, sellPrice, paidAmount, orderDate, orderStatus, arrivalDate, image
+        };
+        orders.unshift(newOrder);
+      }
+
+      localStorage.setItem('kargo_orders', JSON.stringify(orders));
+      closeOrderModal();
+      renderOrders();
+      checkArrivalReminders(false);
+    }
+
+    function deleteOrder(id) {
+      if (confirm("Rostdan ham ushbu buyurtmani o'chirmoqchimisiz?")) {
+        orders = orders.filter(o => o.id !== id);
+        localStorage.setItem('kargo_orders', JSON.stringify(orders));
+        renderOrders();
+        checkArrivalReminders(false);
+      }
+    }
+
+    function cycleStatus(id) {
+      const order = orders.find(o => o.id === id);
+      if (!order) return;
+      const flow = ['zakaz', 'yolda', 'keldi', 'topshirildi'];
+      const nextIdx = (flow.indexOf(order.orderStatus) + 1) % flow.length;
+      order.orderStatus = flow[nextIdx];
+      
+      if ((order.orderStatus === 'keldi' || order.orderStatus === 'topshirildi') && !order.arrivalDate) {
+        order.arrivalDate = new Date().toISOString().split('T')[0];
+      }
+      
+      localStorage.setItem('kargo_orders', JSON.stringify(orders));
+      renderOrders();
+      checkArrivalReminders(false);
+    }
+
+    // --- KARTOSHKANING O'ZIDAN TEZKOR TAHRIRLASH ---
+
+    function quickEditClientName(id) {
+      const order = orders.find(o => o.id === id);
+      if (!order) return;
+      const newVal = prompt("Mijoz ismini o'zgartiring:", order.clientName);
+      if (newVal !== null && newVal.trim() !== "") {
+        order.clientName = newVal.trim();
+        localStorage.setItem('kargo_orders', JSON.stringify(orders));
+        renderOrders();
+      }
+    }
+
+    function quickEditItemName(id) {
+      const order = orders.find(o => o.id === id);
+      if (!order) return;
+      const newVal = prompt("Tovar nomini o'zgartiring:", order.itemName);
+      if (newVal !== null && newVal.trim() !== "") {
+        order.itemName = newVal.trim();
+        localStorage.setItem('kargo_orders', JSON.stringify(orders));
+        renderOrders();
+      }
+    }
+
+    function quickEditTrackCode(id) {
+      const order = orders.find(o => o.id === id);
+      if (!order) return;
+      const newVal = prompt("Trek-kodini kiriting yoki o'zgartiring:", order.trackCode || '');
+      if (newVal !== null) {
+        order.trackCode = newVal.trim();
+        localStorage.setItem('kargo_orders', JSON.stringify(orders));
+        renderOrders();
+      }
+    }
+
+    function quickEditCostYuan(id) {
+      const order = orders.find(o => o.id === id);
+      if (!order) return;
+      const newVal = prompt("Tovarning asl narxini (Yuanda ¥) kiriting:", order.costYuan);
+      if (newVal !== null && !isNaN(newVal) && parseFloat(newVal) >= 0) {
+        order.costYuan = parseFloat(newVal);
+        localStorage.setItem('kargo_orders', JSON.stringify(orders));
+        renderOrders();
+      }
+    }
+
+    function quickEditSellPrice(id) {
+      const order = orders.find(o => o.id === id);
+      if (!order) return;
+      const newVal = prompt("Sotuv narxini (so'mda) kiriting:", order.sellPrice);
+      if (newVal !== null && !isNaN(newVal) && parseFloat(newVal) >= 0) {
+        order.sellPrice = parseFloat(newVal);
+        localStorage.setItem('kargo_orders', JSON.stringify(orders));
+        renderOrders();
+      }
+    }
+
+    function quickEditCargoCost(id) {
+      const order = orders.find(o => o.id === id);
+      if (!order) return;
+      const input = prompt("Kargo pulini kiriting (so'mda):", order.cargoCost || 0);
+      if (input !== null && !isNaN(input)) {
+        order.cargoCost = parseFloat(input) || 0;
+        localStorage.setItem('kargo_orders', JSON.stringify(orders));
+        renderOrders();
+      }
+    }
+
+    function quickToggleCargoType(id) {
+      const order = orders.find(o => o.id === id);
+      if (!order) return;
+      order.cargoType = (order.cargoType === 'kargosiz') ? 'kargoli' : 'kargosiz';
+      localStorage.setItem('kargo_orders', JSON.stringify(orders));
+      renderOrders();
+    }
+
+    function quickToggleCargoPaid(id) {
+      const order = orders.find(o => o.id === id);
+      if (!order) return;
+      order.cargoPaid = !order.cargoPaid;
+      localStorage.setItem('kargo_orders', JSON.stringify(orders));
+      renderOrders();
+    }
+
+    function quickEditPaidAmount(id) {
+      const order = orders.find(o => o.id === id);
+      if (!order) return;
+      const input = prompt(`Mijoz to'lagan (olib bo'lingan) pulni kiriting:\n(Sotuv narxi: ${formatMoney(order.sellPrice)} so'm)`, order.paidAmount || 0);
+      if (input !== null && !isNaN(input)) {
+        order.paidAmount = parseFloat(input) || 0;
+        localStorage.setItem('kargo_orders', JSON.stringify(orders));
+        renderOrders();
+      }
+    }
+
+    function quickEditArrivalDate(id) {
+      const order = orders.find(o => o.id === id);
+      if (!order) return;
+      const today = new Date().toISOString().split('T')[0];
+      const input = prompt("Kelgan sanani kiriting (YYYY-MM-DD):", order.arrivalDate || today);
+      if (input !== null && input.trim() !== '') {
+        order.arrivalDate = input.trim();
+        order.orderStatus = 'keldi';
+        localStorage.setItem('kargo_orders', JSON.stringify(orders));
+        renderOrders();
+      }
+    }
+
+    function quickEditOrderDate(id) {
+      const order = orders.find(o => o.id === id);
+      if (!order) return;
+      const input = prompt("Zakaz urilgan sanani kiriting (YYYY-MM-DD):", order.orderDate);
+      if (input !== null && input.trim() !== '') {
+        order.orderDate = input.trim();
+        localStorage.setItem('kargo_orders', JSON.stringify(orders));
+        renderOrders();
+      }
+    }
+
+    function copyText(str, msg) {
+      if (!str) return;
+      navigator.clipboard.writeText(str).then(() => {
+        alert(msg || `Nusxalandi: ${str}`);
+      });
+    }
+
+    function renderOrders() {
+      const listEl = document.getElementById('ordersList');
+      const search = document.getElementById('searchInput').value.toLowerCase();
+      const statusFilter = document.getElementById('statusFilter').value;
+
+      let filtered = orders.filter(o => {
+        const contact = o.clientContact ? o.clientContact.toLowerCase() : '';
+        const matchesSearch = o.clientName.toLowerCase().includes(search) || 
+                              contact.includes(search) ||
+                              (o.trackCode && o.trackCode.toLowerCase().includes(search)) ||
+                              o.itemName.toLowerCase().includes(search);
+        
+        let matchesStatus = true;
+        if (statusFilter === 'urgent') {
+          const days = getDaysPassed(o.orderDate);
+          matchesStatus = (o.orderStatus === 'zakaz' || o.orderStatus === 'yolda') && (days >= 7);
+        } else if (statusFilter !== 'all') {
+          matchesStatus = (o.orderStatus === statusFilter);
+        }
+
+        return matchesSearch && matchesStatus;
+      });
+
+      let totalProfit = 0;
+      let totalDebt = 0;
+      let pendingCargo = 0;
+
+      const clientCargoMap = {};
+
+      orders.forEach(o => {
+        const itemCargo = (o.cargoCost || 0);
+        
+        if (!o.cargoPaid) {
+          pendingCargo += itemCargo;
+        }
+
+        const profit = calcOrderProfit(o);
+        totalProfit += profit;
+
+        const debt = Math.max(0, o.sellPrice - (o.paidAmount || 0));
+        totalDebt += debt;
+
+        const cName = o.clientName.trim();
+        if (!clientCargoMap[cName]) {
+          clientCargoMap[cName] = { total: 0, pending: 0 };
+        }
+        clientCargoMap[cName].total += itemCargo;
+        if (!o.cargoPaid) {
+          clientCargoMap[cName].pending += itemCargo;
+        }
+      });
+
+      document.getElementById('totalOrdersCount').innerText = orders.length;
+      document.getElementById('pendingCargoSum').innerText = `${formatMoney(pendingCargo)} so'm`;
+      document.getElementById('totalProfitSum').innerText = `${formatMoney(totalProfit)} so'm`;
+      document.getElementById('totalDebtSum').innerText = `${formatMoney(totalDebt)} so'm`;
+
+      if (filtered.length === 0) {
+        listEl.innerHTML = `
+          <div class="empty-state">
+            <i class="fa-solid fa-box-open"></i>
+            <p>Hozircha buyurtmalar yo'q yoki qidiruv bo'yicha topilmadi.</p>
+          </div>
+        `;
+        return;
+      }
+
+      listEl.innerHTML = filtered.map(o => {
+        const profit = calcOrderProfit(o);
+        const paid = o.paidAmount || 0;
+        const remaining = Math.max(0, o.sellPrice - paid);
+        const cargoType = o.cargoType || 'kargoli';
+        const isCargoPaid = !!o.cargoPaid;
+
+        const statusMap = {
+          'zakaz': { text: 'Urildi', class: 'status-zakaz' },
+          'yolda': { text: "Yo'lda", class: 'status-yolda' },
+          'keldi': { text: 'Keldi', class: 'status-keldi' },
+          'topshirildi': { text: 'Topshirildi', class: 'status-topshirildi' }
+        };
+
+        const currentStatus = statusMap[o.orderStatus] || { text: o.orderStatus, class: '' };
+
+        let deliveryBannerHtml = '';
+        if (o.orderStatus === 'keldi' || o.orderStatus === 'topshirildi') {
+          if (o.orderDate && o.arrivalDate) {
+            const daysTaken = calculateDaysBetween(o.orderDate, o.arrivalDate);
+            deliveryBannerHtml = `
+              <div class="delivery-success-bar">
+                <i class="fa-solid fa-circle-check"></i>
+                <span>Tovar <strong>${daysTaken} kunda</strong> yetib keldi! (Kelgan sana: ${o.arrivalDate})</span>
+              </div>
+            `;
+          }
+        } else {
+          const days = getDaysPassed(o.orderDate);
+          if (days >= 10) {
+            deliveryBannerHtml = `
+              <div class="delivery-alarm-bar delivery-alarm-10">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+                <span>Zakaz urilganiga <strong>${days} kun</strong> bo'ldi! Tovar yetib kelgan yoki kargo kechikmoqda.</span>
+              </div>
+            `;
+          } else if (days >= 7) {
+            deliveryBannerHtml = `
+              <div class="delivery-alarm-bar delivery-alarm-7">
+                <i class="fa-regular fa-bell"></i>
+                <span>Zakaz urilganiga <strong>${days} kun</strong> bo'ldi! Tovarni kargodan tekshirish vaqti keldi.</span>
+              </div>
+            `;
+          }
+        }
+
+        let contactHtml = '';
+        if (o.clientContact) {
+          const rawContact = o.clientContact.trim();
+          if (rawContact.startsWith('@')) {
+            contactHtml = `<a class="client-contact" href="https://t.me/${rawContact.replace('@', '')}" target="_blank"><i class="fa-brands fa-telegram"></i> ${escapeHtml(rawContact)}</a>`;
+          } else if (rawContact.startsWith('+') || !isNaN(rawContact.replace(/[\s-]/g, ''))) {
+            contactHtml = `<a class="client-contact" href="tel:${rawContact}"><i class="fa-solid fa-phone"></i> ${escapeHtml(rawContact)}</a>`;
+          } else {
+            contactHtml = `<span class="client-contact"><i class="fa-solid fa-user-tag"></i> ${escapeHtml(rawContact)}</span>`;
+          }
+        }
+
+        const imgBlock = o.image ? 
+          `<img src="${o.image}" class="item-thumb" onclick="viewBigImage('${o.image}')" title="Kattalashtirib ko'rish">` : 
+          `<div class="item-thumb-placeholder" onclick="openOrderModal('${o.id}')" title="Rasm yuklash"><i class="fa-solid fa-image"></i></div>`;
+
+        const cStats = clientCargoMap[o.clientName.trim()] || { total: 0, pending: 0 };
+
+        return `
+          <div class="order-card" id="card_${o.id}">
+            ${deliveryBannerHtml}
+
+            <div class="card-head">
+              <div class="card-head-left">
+                ${imgBlock}
+                <div>
+                  <div class="client-title-row">
+                    <span class="quick-chip" onclick="quickEditClientName('${o.id}')" title="Mijoz ismini o'zgartirish">
+                      ${escapeHtml(o.clientName)} <i class="fa-solid fa-pen"></i>
+                    </span>
+
+                    <button class="add-more-btn" onclick="toggleInlineAddBox('${o.id}')" title="Shu yerning o'zidan tovar qo'shish">
+                      <i class="fa-solid fa-plus"></i> Tovar qo'shish
+                    </button>
+                  </div>
+
+                  <div style="margin-top: 4px; display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+                    <span class="client-total-cargo-badge" title="Mijozning barcha tovarlari uchun umumiy kargo">
+                      <i class="fa-solid fa-truck-ramp-box"></i> Jami kargosi: ${formatMoney(cStats.total)} so'm
+                      ${cStats.pending > 0 ? `(Qoldiq: ${formatMoney(cStats.pending)})` : `(To'langan ✓)`}
+                    </span>
+                    ${contactHtml}
+                  </div>
+
+                  <div class="item-badge" style="margin-top: 4px;">
+                    <span class="quick-chip amber-chip" onclick="quickEditItemName('${o.id}')" title="Tovar nomini o'zgartirish">
+                      ${escapeHtml(o.itemName)} <i class="fa-solid fa-pen"></i>
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              <span class="status-tag ${currentStatus.class}" onclick="cycleStatus('${o.id}')" title="Statusni o'zgartirish">
+                ${currentStatus.text}
+              </span>
+            </div>
+
+            <!-- Trek-kod -->
+            <div class="track-wrapper">
+              <span class="track-code quick-chip" onclick="quickEditTrackCode('${o.id}')" title="Trek-kodni o'zgartirish">
+                <i class="fa-solid fa-barcode"></i> ${o.trackCode ? escapeHtml(o.trackCode) : '+ Trek-kod kiritish'} <i class="fa-solid fa-pen"></i>
+              </span>
+              ${o.trackCode ? `
+                <span class="copy-btn" onclick="copyText('${escapeHtml(o.trackCode)}', 'Trek nusxalandi: ${escapeHtml(o.trackCode)}')">
+                  <i class="fa-regular fa-copy"></i> Nusxalash
+                </span>
+              ` : ''}
+            </div>
+
+            <!-- Narx, Kargo va Sof Foyda -->
+            <div class="finance-grid">
+              <div class="fin-item">
+                <span>Asl narxi (${o.costYuan}¥)</span>
+                <div>
+                  <span class="quick-chip" onclick="quickEditCostYuan('${o.id}')" title="Yuan narxini o'zgartirish">
+                    <strong>${formatMoney(o.costYuan * o.lockedRate)}</strong> <i class="fa-solid fa-pen"></i>
+                  </span>
+                </div>
+                <div style="font-size: 0.65rem; color: #94a3b8; margin-top:2px;">kurs: ${formatMoney(o.lockedRate)}</div>
+              </div>
+
+              <div class="fin-item cargo-item">
+                <span>Kargo puli</span>
+                <div>
+                  <span class="quick-chip purple-chip" onclick="quickEditCargoCost('${o.id}')" title="Kargo pulini kiritish">
+                    <strong>${formatMoney(o.cargoCost || 0)}</strong> <i class="fa-solid fa-pen"></i>
+                  </span>
+                </div>
+                <div style="display: flex; gap: 4px; justify-content: center; flex-wrap: wrap;">
+                  <span class="cargo-badge ${cargoType === 'kargoli' ? 'badge-kargoli' : 'badge-kargosiz'}" 
+                        onclick="quickToggleCargoType('${o.id}')" 
+                        title="Bosing: Kargoli yoki Kargosiz qilib almashtiradi">
+                    ${cargoType === 'kargoli' ? 'Kargoli' : 'Kargosiz'}
+                  </span>
+                  <span class="cargo-paid-toggle ${isCargoPaid ? 'cargo-paid-true' : 'cargo-paid-false'}"
+                        onclick="quickToggleCargoPaid('${o.id}')"
+                        title="Bosing: Kargo to'langan yoki qoldiq holatiga o'tadi">
+                    ${isCargoPaid ? 'Kargo to\'landi ✓' : 'Kargo to\'lanmadi ⏳'}
+                  </span>
+                </div>
+              </div>
+
+              <div class="fin-item profit-item">
+                <span>Sof foyda</span>
+                <div>
+                  <span class="quick-chip green-chip" onclick="quickEditSellPrice('${o.id}')" title="Sotuv narxini o'zgartirish">
+                    <strong>${formatMoney(profit)}</strong> <i class="fa-solid fa-pen"></i>
+                  </span>
+                </div>
+                <div style="font-size: 0.65rem; color: #94a3b8; margin-top:2px;">sotuv: ${formatMoney(o.sellPrice)}</div>
+              </div>
+            </div>
+
+            <!-- Olib bo'lingan va Olinadigan pul -->
+            <div class="payment-status-grid">
+              <div class="pay-box">
+                <span>Olib bo'lingan:</span>
+                <span class="quick-chip" onclick="quickEditPaidAmount('${o.id}')" title="To'langan pulni kiritish" style="margin-top:2px;">
+                  <strong class="text-received">${formatMoney(paid)} so'm</strong> <i class="fa-solid fa-pen"></i>
+                </span>
+              </div>
+              <div class="pay-box" style="text-align: right;">
+                <span>Olinadigan (Qarz):</span>
+                <strong class="${remaining > 0 ? 'text-debt' : 'text-cleared'}" style="display:inline-block; margin-top:5px;">
+                  ${remaining > 0 ? formatMoney(remaining) + " so'm" : "To'langan ✓"}
+                </strong>
+              </div>
+            </div>
+
+            <div class="card-footer">
+              <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+                <span class="quick-chip" onclick="quickEditOrderDate('${o.id}')" title="Zakaz sanasini o'zgartirish" style="font-size:0.72rem; padding: 2px 6px;">
+                  <i class="fa-regular fa-calendar"></i> Urildi: ${o.orderDate || '-'} <i class="fa-solid fa-pen"></i>
+                </span>
+                <span class="quick-chip" onclick="quickEditArrivalDate('${o.id}')" title="Kelgan sanani kiritish" style="font-size:0.72rem; padding: 2px 6px;">
+                  Kelgan: ${o.arrivalDate ? o.arrivalDate : '<strong style="color:var(--primary);">+ Sana</strong>'} <i class="fa-solid fa-pen"></i>
+                </span>
+              </div>
+              <div class="actions">
+                <span class="action-icon status-change" onclick="cycleStatus('${o.id}')" title="Statusni o'zgartirish"><i class="fa-solid fa-arrows-rotate"></i></span>
+                <span class="action-icon" onclick="openOrderModal('${o.id}')" title="To'liq tahrirlash"><i class="fa-regular fa-pen-to-square"></i></span>
+                <span class="action-icon delete" onclick="deleteOrder('${o.id}')" title="O'chirish"><i class="fa-regular fa-trash-can"></i></span>
+              </div>
+            </div>
+
+            <!-- TALAB: KARTOSHKANING O'ZIDAN TOVAR QO'SHISH (TEPADAGI BILAN BIR XIL TUZILISHDA VA JONLI HISOBLAYDI) -->
+            <div class="inline-add-box" id="inlineAddBox_${o.id}">
+              <div class="inline-add-header">
+                <span><i class="fa-solid fa-cart-plus"></i> «${escapeHtml(o.clientName)}»ga yangi tovar qo'shish</span>
+                <span style="font-size:0.7rem; color:var(--text-muted); font-weight:normal;">kurs: ${formatMoney(o.lockedRate || currentYuanRate)} so'm</span>
+              </div>
+
+              <!-- Tovar nomi va Trek -->
+              <div class="inline-row">
+                <div class="inline-field">
+                  <label>Tovar nomi *</label>
+                  <input type="text" id="inlineItemName_${o.id}" class="inline-input" placeholder="Masalan: Sumka Dior">
+                </div>
+                <div class="inline-field">
+                  <label>Trek-kodi</label>
+                  <input type="text" id="inlineTrackCode_${o.id}" class="inline-input" placeholder="YT827364...">
+                </div>
+              </div>
+
+              <!-- Narxlar (Kiritilishi bilan pastdagi jadval jonli o'zgaradi) -->
+              <div class="inline-row">
+                <div class="inline-field">
+                  <label>Asl narxi (¥ Yuanda) *</label>
+                  <input type="number" step="0.01" id="inlineCostYuan_${o.id}" class="inline-input" placeholder="45" oninput="calcInlineLiveFinance('${o.id}')">
+                </div>
+                <div class="inline-field">
+                  <label>Kargo puli (so'mda)</label>
+                  <input type="number" id="inlineCargoCost_${o.id}" class="inline-input" placeholder="42000" oninput="calcInlineLiveFinance('${o.id}')">
+                </div>
+              </div>
+
+              <div class="inline-row">
+                <div class="inline-field">
+                  <label>Kargo kimdan? *</label>
+                  <select id="inlineCargoType_${o.id}" class="inline-input" onchange="calcInlineLiveFinance('${o.id}')">
+                    <option value="kargoli">Kargoli (Mijoz to'laydi / Foydadan ayrilmaydi)</option>
+                    <option value="kargosiz">Kargosiz (O'zim to'layman / Foydadan ayirilsin)</option>
+                  </select>
+                </div>
+                <div class="inline-field">
+                  <label>Sotilgan narxi (so'mda) *</label>
+                  <input type="number" id="inlineSellPrice_${o.id}" class="inline-input" placeholder="180000" oninput="calcInlineLiveFinance('${o.id}')">
+                </div>
+              </div>
+
+              <div class="inline-row">
+                <div class="inline-field" style="grid-column: span 2;">
+                  <label>Olib bo'lingan pul (Avans/To'lov):</label>
+                  <input type="number" id="inlinePaidAmount_${o.id}" class="inline-input" placeholder="100000" oninput="calcInlineLiveFinance('${o.id}')">
+                </div>
+              </div>
+
+              <!-- JONLI HISOBLANGAN JADVAL (ASOSIY KARTOCHKA BILAN BIR XIL) -->
+              <div class="inline-live-finance">
+                <div class="fin-item">
+                  <span>Asl narxi (so'mda)</span>
+                  <strong id="inlineLiveYuanCost_${o.id}">0 so'm</strong>
+                </div>
+                <div class="fin-item cargo-item">
+                  <span>Kargo puli</span>
+                  <strong id="inlineLiveCargo_${o.id}">0 so'm</strong>
+                </div>
+                <div class="fin-item profit-item">
+                  <span>Sof foyda</span>
+                  <strong id="inlineLiveProfit_${o.id}" style="color:var(--success);">0 so'm</strong>
+                </div>
+              </div>
+
+              <div class="inline-live-payments">
+                <div class="pay-box">
+                  <span>Olib bo'lingan:</span>
+                  <strong class="text-received" id="inlineLivePaid_${o.id}">0 so'm</strong>
+                </div>
+                <div class="pay-box" style="text-align: right;">
+                  <span>Olinadigan (Qarz):</span>
+                  <strong class="text-debt" id="inlineLiveDebt_${o.id}">0 so'm</strong>
+                </div>
+              </div>
+
+              <div class="inline-actions">
+                <button class="inline-save-btn" onclick="saveInlineItem('${o.id}')">
+                  <i class="fa-solid fa-check"></i> Saqlash va Qo'shish
+                </button>
+                <button class="inline-cancel-btn" onclick="toggleInlineAddBox('${o.id}')">
+                  Bekor qilish
+                </button>
+              </div>
+            </div>
+
+          </div>
+        `;
+      }).join('');
+    }
+
+    // Dictionary Logic with Auto-Translate
+    function renderDictionary() {
+      const container = document.getElementById('dictionaryList');
+      const search = (document.getElementById('dictSearchInput')?.value || '').toLowerCase();
+
+      const filtered = dictionary.filter(d => 
+        d.uz.toLowerCase().includes(search) || d.cn.toLowerCase().includes(search)
+      );
+
+      if (filtered.length === 0) {
+        container.innerHTML = `<div style="text-align:center; padding: 20px; color: var(--text-muted); font-size: 0.85rem;">So'z topilmadi</div>`;
+        return;
+      }
+
+      container.innerHTML = filtered.map((d) => `
+        <div class="dict-item">
+          <div>
+            <div class="dict-uz">${escapeHtml(d.uz)}</div>
+            <div class="dict-cn">${escapeHtml(d.cn)}</div>
+          </div>
+          <button class="dict-copy-btn" onclick="copyText('${escapeHtml(d.cn)}', 'Xitoycha nom nusxalandi: ${escapeHtml(d.cn)}')">
+            <i class="fa-regular fa-copy"></i> Nusxalash
+          </button>
+        </div>
+      `).join('');
+    }
+
+    async function autoTranslateToChinese() {
+      const uzText = document.getElementById('newUzWord').value.trim();
+      const btn = document.getElementById('translateBtn');
+
+      if (!uzText) {
+        alert("Avval o'zbekcha so'zni yozing!");
+        return;
+      }
+
+      btn.disabled = true;
+      btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Tarjima qilinmoqda...`;
+
+      try {
+        const url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=uz&tl=zh-CN&dt=t&q=${encodeURIComponent(uzText)}`;
+        const res = await fetch(url);
+        const data = await res.json();
+
+        if (data && data[0] && data[0][0] && data[0][0][0]) {
+          const translatedText = data[0][0][0];
+          document.getElementById('newCnWord').value = translatedText;
+        } else {
+          alert("Tarjimani yuklab bo'lmadi, iltimos qo'lda kiriting.");
+        }
+      } catch (err) {
+        console.error(err);
+        alert("Internet aloqasini tekshiring yoki xitoychasini o'zingiz yozing.");
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = `<i class="fa-solid fa-wand-magic-sparkles"></i> Xitoychaga tarjima qilish`;
+      }
+    }
+
+    function addNewWord() {
+      const uz = document.getElementById('newUzWord').value.trim();
+      const cn = document.getElementById('newCnWord').value.trim();
+
+      if (!uz || !cn) {
+        alert("O'zbekcha va Xitoycha nomini to'liq kiriting!");
+        return;
+      }
+
+      dictionary.unshift({ uz, cn });
+      localStorage.setItem('pdd_dictionary', JSON.stringify(dictionary));
+      document.getElementById('newUzWord').value = '';
+      document.getElementById('newCnWord').value = '';
+      renderDictionary();
+    }
+
+    // Tab Switching
+    function switchTab(tab) {
+      document.getElementById('ordersTab').style.display = (tab === 'orders') ? 'block' : 'none';
+      document.getElementById('refTab').style.display = (tab === 'ref') ? 'block' : 'none';
+      document.getElementById('dictTab').style.display = (tab === 'dict') ? 'block' : 'none';
+
+      document.getElementById('tabNavOrders').classList.toggle('active', tab === 'orders');
+      document.getElementById('tabNavRef').classList.toggle('active', tab === 'ref');
+      document.getElementById('tabNavDict').classList.toggle('active', tab === 'dict');
+    }
+
+    function exportToCSV() {
+      if (orders.length === 0) {
+        alert("Eksport qilish uchun hech qanday ma'lumot yo'q!");
+        return;
+      }
+
+      let csv = "\uFEFFMijoz Ismi,Telefon/Telegram,Tovar Nomi,Trek Kodi,Asl Narxi (Yuan),Urilgan Kurs,Kargo Summasi,Kargo Turi,Kargo To'lovi,Sotuv Narxi,Olingan Pul,Olinadigan Pul (Qarz),Sof Foyda,Zakaz Sanasi,Kelgan Sanasi,Necha Kunda Keldi,Status\n";
+      
+      orders.forEach(o => {
+        const profit = calcOrderProfit(o);
+        const paid = o.paidAmount || 0;
+        const remaining = Math.max(0, o.sellPrice - paid);
+        const daysTaken = (o.orderDate && o.arrivalDate) ? calculateDaysBetween(o.orderDate, o.arrivalDate) : '';
+        const cargoPaidText = o.cargoPaid ? "To'langan" : "To'lanmagan";
+
+        csv += `"${o.clientName}","${o.clientContact || ''}","${o.itemName}","${o.trackCode || ''}",${o.costYuan},${o.lockedRate},${o.cargoCost || 0},"${o.cargoType || 'kargoli'}","${cargoPaidText}",${o.sellPrice},${paid},${remaining},${profit},"${o.orderDate}","${o.arrivalDate || ''}","${daysTaken}","${o.orderStatus}"\n`;
+      });
+
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+      const link = document.createElement("a");
+      const url = URL.createObjectURL(blob);
+      link.setAttribute("href", url);
+      link.setAttribute("download", `kargo_zakazlar_${new Date().toISOString().split('T')[0]}.csv`);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+
+    function escapeHtml(text) {
+      if (!text) return '';
+      return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    }
+  </script>
+</body>
+</html>
